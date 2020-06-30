@@ -8,10 +8,10 @@
     "test": "lerna run test --no-bail",
     "lint": "lerna run lint --no-bail",
     "lint:fix": "lerna run lint --no-bail -- -- --fix",
-    "clean": "lerna clean --yes && rm -rf ./node_modules",
     "bootstrap": "lerna bootstrap",
     "reinstall": "yarn clean && yarn",
-    "postinstall": "yarn bootstrap"
+    "postinstall": "yarn bootstrap",
+    "clean": "lerna clean --yes && rm -rf ./node_modules"
   },
   "license": "MIT",
   "private": true,
