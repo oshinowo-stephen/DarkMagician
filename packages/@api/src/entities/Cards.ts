@@ -1,6 +1,5 @@
 import {
   Entity,
-  PrimaryColoumn,
 } from 'typeorm'
 
 @Entity()

@@ -1,21 +1,23 @@
 {
-  "name": "@darkmagician/core",
+  "name": "@darkmagician/magician",
   "version": "1.0.0",
   "main": "build/src/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "lint": "eslint src --ext ts",
     "start:dev": "ts-node-dev src/index.ts",
     "build": "ttsc"
   },
   "dependencies": {
     "eris": "^0.13.3",
     "eris-boiler": "^3.0.0",
+    "eris-pages": "^1.0.1",
     "got": "^11.3.0"
   },
   "devDependencies": {
+    "@darkmagician/common": "^1.0.0",
     "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.0.0-pre.49",
-    "@darkmagician/common": "^1.0.0"
+    "ts-node-dev": "^1.0.0-pre.49"
   }
 }

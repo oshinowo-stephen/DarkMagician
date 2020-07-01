@@ -80,7 +80,11 @@ const constructCard = (rawCard: any): Card => ({
   attribute: rawCard.attribute ?? undefined,
   image: rawCard['card_images'][0]['image_url'],
   allowedInDL: isInDuelLinks(rawCard['misc_info'][0].formats),
-  rarity: mapRarityToCard(rawCard['card_sets'][0]['set_rarity']),
+  rarity: mapRarityToCard(
+    rawCard['card_sets']
+      ? rawCard['card_sets'][0]['set_rarity']
+      : randRarity()
+  ),
   price: mapPriceToCard(rawCard['card_prices'][0]['amazon_price']),
 })
 
@@ -182,9 +186,20 @@ const mapTypeToCard = (rawType: string): CardTypes => {
   }
 }
 
+const randRarity = (): string => {
+  const rarities = [
+    'common',
+    'rare',
+    'super rare',
+    'ultra rare'
+  ]
+
+  return rarities[Math.floor(Math.random() * rarities.length)]
+}
+
 export enum CardTypes {
   Xyz = 'Xyz',
-  Trap = 'Tap',
+  Trap = 'Trap',
   Toon = 'Toon',
   Link = 'Link',
   Union = 'Union',

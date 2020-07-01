@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "ttsc",
-    "eslint": "eslint src",
+    "lint": "eslint src --ext ts",
     "pretest": "export TS_NODE_FILES=true",
     "start:dev": "ts-node-dev src/index.ts",
     "migration:latest": "typeorm migration:run",

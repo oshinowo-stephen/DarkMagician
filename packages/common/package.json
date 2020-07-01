@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "ttsc",
-    "eslint": "eslint src",
+    "lint": "eslint src --ext ts",
     "pretest": "export TS_NODE_FILES=true",
     "test": "yarn pretest ; nyc --reporter lcov ava"
   },

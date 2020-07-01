@@ -11,9 +11,8 @@ import {
 import { ygoApi } from '@darkmagician/common'
 
 import {
-  Pages,
   PageBuilder
-} from '../modules/utils/pageBuilder'
+} from 'eris-pages'
 
 export default new Command<Magician>({
   name: 'search',
@@ -31,17 +30,21 @@ export default new Command<Magician>({
       params.join('+').toLowerCase()
     )
 
-    const pageData: Pages = []
+    const pageData: Embed[] = []
 
     for (let i = 0; i < cards.length; i++) {
-      console.log(cards[i])
-
       pageData[i] = constructCard(cards[i])
     }
 
-    const builder = new PageBuilder(bot, pageData)
+    const builder = new PageBuilder(bot, msg, {
+      extendedButtons: true
+    })
 
-    await builder.constructMessage(msg.channel)
+    await builder
+      .addPages(pageData)
+      .construct()
+
+    builder.start()
 
     return `***${params.join(' ')}*** found! card entries shown above!`
   }
@@ -56,7 +59,7 @@ const constructCard = (card: ygoApi.Card): Embed => ({
     ? `Rank ${card.cardStats?.lvl} | ${card.name}`
     : `Level ${card.cardStats?.lvl} | ${card.name}`,
   type: 'rich',
-  color: 0xffffff, //getCardColor(card.cardType.toString()),
+  color: getCardColor(card.cardType.toString()),
   description: card.desc,
   thumbnail: {
     url: card.image
@@ -77,34 +80,32 @@ const constructCard = (card: ygoApi.Card): Embed => ({
     : undefined
 })
 
-// const getCardColor = (type: string): number => {
-//   console.log(type)
-
-//   switch (type) {
-//     case 'Normal':
-//       return 0xFFDEAD
-//     case 'Effect':
-//       console.log('number')
-//       return 0xCD853F
-//     case 'Ritual':
-//       return 0xADBCE6
-//     case 'Synchro':
-//       return 0xFFFFFF
-//     case 'Xyz':
-//       return 0x09050A
-//     case 'Fusion':
-//       return 0x703E7D
-//     case 'Link':
-//       return 0x0048BA
-//     case 'Trap':
-//       return 0x390047
-//     case 'Spell':
-//       return 0x00678C
-//     case 'Tuner':
-//       return 0x00B200
-//     case 'Pendulumn':
-//       return 0x98ff98
-//     default:
-//       return 0x00000
-//   }
-// }
+const getCardColor = (type: string): number => {
+  switch (type) {
+    case 'Normal':
+      return 0xffc482
+    case 'Effect':
+      return 0x9f5400
+    case 'Ritual':
+      return 0x0078b3
+    case 'Synchro':
+      return 0xf9f9f9
+    case 'Xyz':
+      return 0x1f1f1f
+    case 'Fusion':
+      return 0x3c005b
+    case 'Link':
+      return 0x00bae1
+    case 'Trap':
+      console.log('it\'s a trap!')
+      return 0x8a20ff
+    case 'Spell':
+      return 0x009169
+    case 'Tuner':
+      return 0x159100
+    case 'Pendulum':
+      return 0x00f096
+    default:
+      return 0x00000
+  }
+}
