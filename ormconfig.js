@@ -1,4 +1,4 @@
 module.exports = require('@darkmagician/common')
-  .CommonConfig
+  .config
   .getConfig({ targetDatabase: 'dmg_api' })
   .database

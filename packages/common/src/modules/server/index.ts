@@ -6,7 +6,12 @@ import helmet from 'helmet'
 
 import * as parser from 'body-parser'
 
+import {
+  logger,
+} from '../logger'
+
 export class DarkMagicianServer extends Server {
+
   constructor (controllers: any[]) {
     super(process.env.NODE_ENV !== 'production')
 
@@ -22,7 +27,9 @@ export class DarkMagicianServer extends Server {
     await createConnection()
 
     this.app.listen(port ?? 5560, () => {
-      console.log(`listening on port: ${port}`)
+      logger
+        .log('info', `listening on port: ${port ?? 5560}`)
     })
   }
+
 }

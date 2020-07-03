@@ -1,11 +1,11 @@
 import {
   Request,
   Response,
-  NextFunction
+  NextFunction,
 } from 'express'
 
 import {
-  logger
+  logger,
 } from '../../logger'
 
 export const endpointLogger = (
@@ -13,7 +13,11 @@ export const endpointLogger = (
   res: Response,
   n: NextFunction,
 ): void => {
-  logger.info(`${req.method.toUpperCase()} -> "${req.path}" | Code: ${res.status}`)
+  const content = `
+${req.method.toUpperCase()} -> "${req.path}" | Code: ${res.statusCode}
+`.replace(/\s/g, '')
+
+  logger.log('info', content)
 
   n()
 }

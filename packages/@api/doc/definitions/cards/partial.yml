@@ -1,0 +1,9 @@
+type: object
+properties:
+  endpoint:
+    type: string
+    example: Card's API endpoint
+  player:
+    type: string
+    example: 229651386223034368
+    description: Player's ID

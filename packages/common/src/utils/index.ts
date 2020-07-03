@@ -1,5 +1,5 @@
-export const isEmpty =(
-  input: any
+export const isEmpty = (
+  input: number | string | Map<any, any> | Record<any, any>,
 ): boolean => {
   if (typeof input === 'number') {
     return input === 0

@@ -1,0 +1,66 @@
+get:
+  summary: get a card instance from ID
+  tags:
+    - Cards
+  parameters:
+    -
+      in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: ID of the card instance to get
+  responses:
+    200:
+      description: OK
+        content:
+          application/json:
+            schema:
+              $ref: ../../index.yml#/components/schemas/CardsView
+    404:
+      $ref: ../../index.yml#/components/responses/404
+patch:
+  summary: update a card instance from ID
+  tags:
+    - Cards
+  parameters:
+    -
+      in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: ID of the card instance yo update
+  requestBody:
+    description: the data to update the card instance with
+    required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/CardsUpdate
+  responses:
+    200:
+      description: OK
+        content:
+          application/json:
+            schema:
+              $ref: ../../index.yml#/components/schemas/CardsView
+    404:
+      $ref: ../../index.yml#/components/responses/404
+  delete:
+    summary: delete a card from ID
+    tags:
+      - Decks
+    parameters:
+      -
+        in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: ID of the card instance to delete
+    responses:
+      204:
+        description: no content
+      404:
+        $ref: ../../index.yml#/components/responses/404

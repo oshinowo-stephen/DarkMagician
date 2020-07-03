@@ -1,9 +1,9 @@
 import {
-  load as loadSecs
+  load as loadSecs,
 } from 'docker-secret-env'
 
 import {
-  config as loadEnvs
+  config as loadEnvs,
 } from 'dotenv'
 
 if (process.env.NODE_ENV === 'production') {
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export const getConfig = ({
   serverConfig,
-  targetDatabase
+  targetDatabase,
 }: ConfigOptions): Config => ({
   token: process.env.DARK_MAGICIAN_TOKEN ?? 'INVALID_TOKEN',
   database: {
@@ -22,29 +22,29 @@ export const getConfig = ({
     type: 'postgres',
     host: 'localhost',
     entities: [
-      'src/entities/*.ts'
+      'src/entities/*.ts',
     ],
     migrations: [
-      'src/migrations/*.ts'
+      'src/migrations/*.ts',
     ],
     database: targetDatabase,
     cli: {
       entitiesDir: 'src/entities',
-      migrations: 'src/migrations'
+      migrations: 'src/migrations',
     },
     username: process.env.NODE_ENV === 'production'
       ? process.env.ADMIN_DB_USER ?? 'INVALID_DB_USER'
       : process.env.DMG_DATABASE_USER ?? 'INVALID_DB_USER',
     password: process.env.NODE_ENV === 'production'
       ? process.env.ADMIN_DB_PASS ?? 'INVALID_DB_PASS'
-      : process.env.DMG_DATABASE_PASS ?? 'INVALID_DB_PASS'
+      : process.env.DMG_DATABASE_PASS ?? 'INVALID_DB_PASS',
   },
-  server: serverConfig ?? undefined
+  server: serverConfig ?? undefined,
 })
 
 export interface Config {
   token: string
-  database: DatabaseConfig,
+  database: DatabaseConfig
   server?: ServerConfig
 }
 
@@ -56,7 +56,7 @@ export interface DatabaseConfig {
   password: string
   entities: string[]
   migrations: string[]
-  cli: CLIOptions,
+  cli: CLIOptions
   database: string
 }
 

@@ -1,0 +1,31 @@
+get:
+  summary: get all cards
+  tags:
+    - Cards
+  responses:
+    200:
+      description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: ../../index.yml#/components/schemas/DecksView
+post:
+  summary: create a new card
+  tags:
+    - Cards
+  requestBody:
+    description: card instance to create
+    required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/CardsPost
+  responses:
+    200:
+      description: OK
+        content:
+          application/json:
+            schema:
+              $ref: ../../index.yml#/components/schemas/CardsView

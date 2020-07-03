@@ -1,0 +1,31 @@
+get:
+  summary: Get all decks
+  tags:
+    - Decks
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../../index.yml#/components/schemas/DecksView
+post:
+  summary: create a new deck
+  tags:
+    - Decks
+  requestBody:
+    description: deck instance to create
+    required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/DecksPost
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/DecksView

@@ -1,0 +1,22 @@
+get:
+  summary: get all cards from player with their ID
+  tags:
+    - Decks
+    - Player
+  parameters:
+    -
+      in: path
+      name: player
+      schema:
+        type: string
+      required: true
+      description: ID of the player to grab the cards
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../../index.yml#/components/schemas/CardsView

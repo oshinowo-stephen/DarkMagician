@@ -1,0 +1,60 @@
+openapi: 3.0.0
+servers:
+  - url: http://localhost:8080
+info:
+  version: 0.1.0-beta
+  title: DarkMagician API
+  description: The main API for DarkMagician
+tags:
+  - name: Player
+    description: CRUD DarkMagician's players
+  - name: Decks
+    description: CRUD DarkMagician's decks
+  - name: Cards
+    description: CRUD DarkMagician's cards
+paths:
+  /players:
+    $ref: ./paths/players/index.yml
+  /players/{id}:
+    $ref: ./paths/players/:id.yml
+  /decks:
+    $ref: ./paths/decks/index.yml
+  /decks/{player}:
+    $ref: ./paths/decks/:player.yml
+  /cards:
+    $ref: ./paths/cards/index.yml
+  /cards/{player}:
+    $ref: ./paths/cards/:player.yml
+components:
+  responses:
+    400:
+      $ref: ./definitions/responses/400.yml
+    404:
+      $ref: ./definitions/responses/404.yml
+  schemas:
+    Error:
+      $ref: ./definitions/error.yml
+    DecksView:
+      $ref: ./definitions/decks/view.yml
+    DecksPost:
+      $ref: ./definitions/decks/post.yml
+    DecksUpdate:
+      $ref: ./definitions/decks/update.yml
+    DecksPartial:
+      $ref: ./definitions/decks/partial.yml
+    CardsView:
+      $ref: ./definitions/cards/view.yml
+    CardsPost:
+      $ref: ./definitions/cards/post.yml
+    CardsUpdate:
+      $ref: ./definitions/cards/update.yml
+    CardsPartial:
+      $ref: ./definitions/cards/partial.yml
+    PlayerView:
+      $ref: ./definitions/player/view.yml
+    PlayerPost:
+      $ref: ./definitions/player/post.yml
+    PlayerUpdate:
+      $ref: ./definitions/player/update.yml
+    PlayerPartial:
+      $ref: ./definitions/player/partial.yml

@@ -1,0 +1,10 @@
+allOf:
+  - $ref: ./partial.yml
+  -
+  type: object
+  required:
+    - name
+    - cards
+  properties:
+    cards:
+      $ref: ../../index.yml#/components/schemas/CardsPartial

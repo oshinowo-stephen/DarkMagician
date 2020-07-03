@@ -10,13 +10,25 @@
     "pretest": "export TS_NODE_FILES=true",
     "start:dev": "ts-node-dev src/index.ts",
     "migration:latest": "typeorm migration:run",
-    "test": "yarn pretest ; nyc --reporter lcov ava"
+    "types:generate": "ts-node src/bin/dtsgen.ts",
+    "test": "yarn pretest ; nyc --reporter lcov ava",
+    "migration:create": "typeorm migration:create -n ",
+    "swagger:validate": "swagger-cli validate doc/index.yml",
+    "swagger:bundle": "swagger-cli bundle -t yaml -o docs.yml doc/index.yml"
   },
+  "files": [
+    "index.d.ts",
+    "docs.yml"
+  ],
   "devDependencies": {
+    "@apidevtools/swagger-cli": "^4.0.3",
+    "@darkmagician/common": "^1.0.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
     "@types/helmet": "^0.0.47",
-    "@darkmagician/common": "^1.0.0"
+    "@types/js-yaml": "^3.12.5",
+    "dtsgenerator": "^3.1.1",
+    "js-yaml": "^3.14.0"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.4",

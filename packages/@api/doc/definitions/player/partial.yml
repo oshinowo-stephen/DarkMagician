@@ -1,0 +1,10 @@
+type: obeject
+properties:
+  id:
+    type: string
+    example: 229651386223034368
+    description: Discord User ID
+  currency:
+    type: number
+    example: 2250
+    description: Player's current currency

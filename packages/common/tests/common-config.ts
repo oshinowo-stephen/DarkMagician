@@ -1,10 +1,10 @@
 import test from 'ava'
 
-import { CommonConfig } from '../src'
+import { config } from '../src'
 
-const { getConfig } = CommonConfig
+const { getConfig } = config
 
-test('common | load config', async (t) => {
+test('common | load config', (t) => {
   const conf = getConfig({ targetDatabase: 'TEST_DB' })
 
   t.is(conf.database.type, 'postgres')

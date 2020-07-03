@@ -7,22 +7,22 @@ import {
 import {
   Request,
   Response,
-  NextFunction
+  NextFunction,
 } from 'express'
 
 import {
-  InputValidationError
+  InputValidationError,
 } from 'openapi-validator-middleware'
 
 import {
-  logger
+  logger,
 } from '../../logger'
 
 export const errorMiddleware = (
   error: Error | ErrorResponse,
   _req: Request,
   res: Response,
-  _n: NextFunction
+  _n: NextFunction,
 ): Response => {
   switch (error.constructor) {
     case BadRequestError:
@@ -39,7 +39,7 @@ export const errorMiddleware = (
         .status((<ErrorResponse>error).code)
         .json({
           message: error.message,
-          errors: (<InputValidationError>error).errors
+          errors: (<InputValidationError>error).errors,
         })
     default:
       logger.error(`UNHANDLED ERROR: ${(<Error>error).stack ?? ''}`)
@@ -49,7 +49,8 @@ export const errorMiddleware = (
   }
 }
 
-class ErrorResponse {
+export class ErrorResponse {
+
   public readonly code: number
   public readonly message: string
 
@@ -57,28 +58,37 @@ class ErrorResponse {
     this.code = code
     this.message = message
   }
+
 }
 
-class ServerError extends ErrorResponse {
+export class ServerError extends ErrorResponse {
+
   constructor (message?: string) {
     super(INTERNAL_SERVER_ERROR, message ?? 'Issues forming this request')
   }
+
 }
 
-class BadRequestError extends ErrorResponse {
+export class BadRequestError extends ErrorResponse {
+
   constructor (message?: string) {
     super(BAD_REQUEST, message ?? 'Bad Request')
   }
+
 }
 
-class ForbiddenError extends ErrorResponse {
+export class ForbiddenError extends ErrorResponse {
+
   constructor (message?: string) {
     super(FORBIDDEN, message ?? 'Forbidden')
   }
+
 }
 
-class NotFoundError extends ErrorResponse {
+export class NotFoundError extends ErrorResponse {
+
   constructor (message?: string) {
     super(NOT_FOUND, message ?? 'Not Found')
   }
+
 }

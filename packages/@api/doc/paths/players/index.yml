@@ -1,0 +1,31 @@
+get:
+  summary: Get all player insances
+  tags:
+    - Player
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../../index.yml#/components/schemas/PlayerView
+post:
+  summary: Create player
+  tags:
+    - Player
+  requestBody:
+    description: player instance to create
+    required: true
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/PlayerPost
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/PlayerView
