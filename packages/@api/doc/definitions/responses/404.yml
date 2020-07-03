@@ -1,5 +1,5 @@
 description: Not Found
-  content:
-    application/json:
-      schema:
-        $ref: ../../index.yml#/components/schemas/Error
+content:
+  application/json:
+    schema:
+      $ref: ../../index.yml#/components/schemas/Error

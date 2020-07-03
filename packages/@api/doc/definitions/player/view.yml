@@ -1,13 +1,14 @@
 allOf:
   - $ref: ./partial.yml
   -
-  type: object
-  required:
-    - decks
-    - cards
-    - currency
-  properties:
-    decks:
-      $ref: ../../index.yml#/components/schemas/DecksView
-    cards:
-      $ref: ../../index.yml#/components/schemas/CardsView
+    type: object
+    required:
+      - id
+      - decks
+      - cards
+      - currency
+    properties:
+      decks:
+        $ref: ../../index.yml#/components/schemas/DecksView
+      cards:
+        $ref: ../../index.yml#/components/schemas/CardsView

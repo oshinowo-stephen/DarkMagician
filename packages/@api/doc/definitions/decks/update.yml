@@ -1,6 +1,5 @@
 allOf:
   - $ref: ./partial.yml
   -
-  type:
-    $ref: ../../index.yml#/components/schemas/CardsPartial
-
+    type:
+      $ref: ../../index.yml#/components/schemas/CardsPartial

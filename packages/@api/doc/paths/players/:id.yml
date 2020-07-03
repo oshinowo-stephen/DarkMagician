@@ -41,10 +41,10 @@ patch:
   responses:
     200:
       description: OK
-        content:
-          application/json:
-            schema:
-              $ref: ../../index.yml#/components/schemas/PlayerView
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/PlayerView
     404:
       $ref: ../../index.yml#/components/responses/404
 delete:

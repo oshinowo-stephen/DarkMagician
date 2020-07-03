@@ -13,10 +13,10 @@ get:
   responses:
     200:
       description: OK
-        content:
-          application/json:
-            schema:
-              $ref: ../../index.yml#/components/schemas/DecksView
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/DecksView
     404:
       $ref: ../../index.yml#/components/responses/404
 patch:
@@ -34,17 +34,17 @@ patch:
   requestBody:
     description: the data to update the deck instance with
     required: true
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/DecksUpdate
+    content:
+      application/json:
+        schema:
+          $ref: ../../index.yml#/components/schemas/DecksUpdate
   responses:
     200:
       description: OK
-        content:
-          application/json:
-            schema:
-              $ref: ../../index.yml#/components/schemas/DecksView
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/DecksView
     404:
       $ref: ../../index.yml#/components/responses/404
   delete:

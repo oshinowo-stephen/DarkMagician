@@ -18,10 +18,10 @@ post:
   requestBody:
     description: deck instance to create
     required: true
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/DecksPost
+    content:
+      application/json:
+        schema:
+          $ref: ../../index.yml#/components/schemas/DecksPost
   responses:
     200:
       description: OK

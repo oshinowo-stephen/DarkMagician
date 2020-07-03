@@ -1,10 +1,10 @@
 allOf:
   - $ref: ./partial.yml
   -
-  type: object
-  required:
-    - decks
-    - endpoint
-  properties:
-    decks:
-      $ref: ../../index.yml#/components/DecksView
+    type: object
+    required:
+      - decks
+      - endpoint
+    properties:
+      decks:
+        $ref: ../../index.yml#/components/schemas/DecksView

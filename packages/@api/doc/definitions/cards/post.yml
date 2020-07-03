@@ -1,0 +1,8 @@
+allOf:
+  - $ref: ./partial.yml
+  -
+    type: object
+    properties:
+      id:
+        type: number
+        example: 73580471

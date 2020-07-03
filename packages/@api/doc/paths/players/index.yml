@@ -18,7 +18,7 @@ post:
   requestBody:
     description: player instance to create
     required: true
-      content:
+    content:
         application/json:
           schema:
             $ref: ../../index.yml#/components/schemas/PlayerPost

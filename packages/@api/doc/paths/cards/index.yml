@@ -5,12 +5,12 @@ get:
   responses:
     200:
       description: OK
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: ../../index.yml#/components/schemas/DecksView
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../../index.yml#/components/schemas/CardsView
 post:
   summary: create a new card
   tags:
@@ -18,14 +18,14 @@ post:
   requestBody:
     description: card instance to create
     required: true
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/CardsPost
+    content:
+      application/json:
+        schema:
+          $ref: ../../index.yml#/components/schemas/CardsPost
   responses:
     200:
       description: OK
-        content:
-          application/json:
-            schema:
-              $ref: ../../index.yml#/components/schemas/CardsView
+      content:
+        application/json:
+          schema:
+            $ref: ../../index.yml#/components/schemas/CardsView
