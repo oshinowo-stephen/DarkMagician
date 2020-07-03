@@ -5,13 +5,13 @@ import {
 } from 'eris-boiler'
 
 import {
-  Embed
+  Embed,
 } from 'eris'
 
 import { ygoApi } from '@darkmagician/common'
 
 import {
-  PageBuilder
+  PageBuilder,
 } from 'eris-pages'
 
 export default new Command<Magician>({
@@ -21,13 +21,13 @@ export default new Command<Magician>({
     deleteInvoking: true,
     deleteResponse: true,
     deleteResponseDelay: 5000,
-    aliases: ['lookup', 's', 'card']
+    aliases: [ 'lookup', 's', 'card' ],
   },
   run: async (bot, { msg, params }) => {
     if (params.length === 0) {}
 
     const cards = await ygoApi.searchCard(
-      params.join('+').toLowerCase()
+      params.join('+').toLowerCase(),
     )
 
     const pageData: Embed[] = []
@@ -37,7 +37,7 @@ export default new Command<Magician>({
     }
 
     const builder = new PageBuilder(bot, msg, {
-      extendedButtons: true
+      extendedButtons: true,
     })
 
     await builder
@@ -47,17 +47,17 @@ export default new Command<Magician>({
     builder.start()
 
     return `***${params.join(' ')}*** found! card entries shown above!`
-  }
+  },
 })
 
 const constructCard = (card: ygoApi.Card): Embed => ({
   title: card.cardType === ygoApi.CardTypes.Spell ||
     card.cardType === ygoApi.CardTypes.Trap ||
     card.cardType === ygoApi.CardTypes.Link
-  ? `${card.name}`
-  : card.cardType === ygoApi.CardTypes.Xyz
-    ? `Rank ${card.cardStats?.lvl} | ${card.name}`
-    : `Level ${card.cardStats?.lvl} | ${card.name}`,
+    ? `${card.name}`
+    : card.cardType === ygoApi.CardTypes.Xyz
+      ? `Rank ${card.cardStats?.lvl} | ${card.name}`
+      : `Level ${card.cardStats?.lvl} | ${card.name}`,
   type: 'rich',
   color: getCardColor(card.cardType.toString()),
   description: card.desc,
@@ -65,7 +65,8 @@ const constructCard = (card: ygoApi.Card): Embed => ({
     url: card.image
   },
   fields: card.cardType !== ygoApi.CardTypes.Spell && card.cardType !== ygoApi.CardTypes.Trap
-    ? [{
+    ? [
+    {
         name: card.cardType === ygoApi.CardTypes.Link
           ? `ATK / Link Value`
           : `ATK / DEF`,
@@ -77,7 +78,7 @@ const constructCard = (card: ygoApi.Card): Embed => ({
       name: 'Type / Race / Attribute',
       value: `${card.cardType.toString()} / ${card.race} / ${card.attribute}`
     }]
-    : undefined
+    : undefined,
 })
 
 const getCardColor = (type: string): number => {
@@ -97,7 +98,6 @@ const getCardColor = (type: string): number => {
     case 'Link':
       return 0x00bae1
     case 'Trap':
-      console.log('it\'s a trap!')
       return 0x8a20ff
     case 'Spell':
       return 0x009169
