@@ -3139,19 +3139,19 @@ dotenv@^8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-dtsgenerator@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/dtsgenerator/-/dtsgenerator-2.6.0.tgz#0e728af558a01a044b31faca8db143ca86b8c367"
-  integrity sha512-Pf4P/ZWcuSUmqMn2nAOguGWRERxUehTdyE/9Dq82G1Z0jFrL4cootHkCHhttANUkuNgFEc7rhbLTu/29CEdjgg==
+dtsgenerator@^2.6.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/dtsgenerator/-/dtsgenerator-2.7.0.tgz#172da811df0222ab05e9ce4bfddc425211cbcc14"
+  integrity sha512-DHlO4AiBQjc2kEtzed+mt5lZwbnpOVYSoXeDEIutLhuLMnq4sUwc1nbihU4Z1CcM2E9Dj7xF+pUSLkDoEOcNMw==
   dependencies:
     commander "^5.1.0"
     cross-fetch "^3.0.4"
     debug "^4.1.1"
     glob "^7.1.6"
     https-proxy-agent "^5.0.0"
-    js-yaml "^3.13.1"
+    js-yaml "^3.14.0"
     mkdirp "^1.0.4"
-    tslib "^1.12.0"
+    tslib "^2.0.0"
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -8327,7 +8327,7 @@ tsconfig@^7.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
-tslib@^1.12.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.8.1, tslib@^1.9.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==

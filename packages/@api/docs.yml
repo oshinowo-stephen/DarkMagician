@@ -240,10 +240,10 @@ components:
       properties:
         code:
           type: integer
-          example: 200
+          example: 404
         message:
           type: string
-          example: OK'
+          example: not found
     DecksView:
       allOf:
         - $ref: '#/components/schemas/DecksPartial'
@@ -265,8 +265,7 @@ components:
     DecksUpdate:
       allOf:
         - $ref: '#/components/schemas/DecksPartial'
-        - type:
-            $ref: '#/components/schemas/CardsPartial'
+        - $ref: '#/components/schemas/CardsPartial'
     DecksPartial:
       type: object
       properties:
@@ -298,8 +297,7 @@ components:
     CardsUpdate:
       allOf:
         - $ref: '#/components/schemas/CardsPartial'
-        - type:
-            $ref: '#/components/schemas/DecksPartial'
+        - $ref: '#/components/schemas/DecksPartial'
     CardsPartial:
       type: object
       properties:
@@ -341,7 +339,7 @@ components:
             cards:
               $ref: '#/components/schemas/CardsPartial'
     PlayerPartial:
-      type: obeject
+      type: object
       properties:
         id:
           type: string

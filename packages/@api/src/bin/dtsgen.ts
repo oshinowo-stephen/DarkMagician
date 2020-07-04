@@ -51,5 +51,5 @@ const main = async (): Promise<void> => {
 
 main()
   .then(() => logger.log('info', 'index.d.ts generated'))
-  .catch((error: string) => logger
-    .error('error', `failed to generate file: ${error}`))
+  .catch((error: Error) => logger
+    .error(`error generating file, ${error.message}`))

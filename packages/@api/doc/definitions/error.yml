@@ -5,7 +5,7 @@ required:
 properties:
   code:
     type: integer
-    example: 200
+    example: 404
   message:
     type: string
-    example: OK'
+    example: not found

@@ -1,8 +1,7 @@
 allOf:
-  - $ref: update.yml
+  - $ref: ./update.yml
   -
     type: object
     required:
       - id
       - currency
-
