@@ -4,7 +4,4 @@ properties:
     type: string
     example: Pure Cyber Angel
   player:
-    type: string
-    example: 229651386223034368
-    description: Player's ID
-
+    $ref: ../../index.yml#/components/schemas/PlayerPartial

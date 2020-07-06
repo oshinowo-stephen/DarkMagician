@@ -1,6 +1,5 @@
 import {
   Entity,
-  Column,
   ManyToOne,
   JoinTable,
   ManyToMany,
@@ -20,9 +19,6 @@ export class Cards {
 
   @PrimaryColumn()
   public id!: number
-
-  @Column()
-  public apiEp!: string
 
   @ManyToOne(() => Player, (player) => player.id)
   public player!: Player

@@ -1,9 +1,8 @@
 allOf:
-  - $ref: ./partial.yml
   -
     type: object
     properties:
-      decks:
-        $ref: ../../index.yml#/components/schemas/DecksPartial
-      cards:
-        $ref: ../../index.yml#/components/schemas/CardsPartial
+      currency:
+        type: number
+        example: 2250
+        description: Player's current currency

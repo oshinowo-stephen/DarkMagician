@@ -3,8 +3,11 @@ allOf:
   -
     type: object
     required:
+      - id
       - decks
-      - endpoint
+      - player
     properties:
       decks:
-        $ref: ../../index.yml#/components/schemas/DecksView
+        type: array
+        items:
+          $ref: ../../index.yml#/components/schemas/DecksView

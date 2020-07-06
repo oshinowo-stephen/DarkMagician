@@ -23,9 +23,5 @@ post:
         schema:
           $ref: ../../index.yml#/components/schemas/DecksPost
   responses:
-    200:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/DecksView
+    204:
+      description: No content

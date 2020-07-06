@@ -15,6 +15,14 @@ post:
   summary: create a new card
   tags:
     - Cards
+  parameters:
+    -
+      in: path
+      name: player
+      schema:
+        type: string
+      required: true
+      description: ID of the player to create the card instance
   requestBody:
     description: card instance to create
     required: true
@@ -23,9 +31,5 @@ post:
         schema:
           $ref: ../../index.yml#/components/schemas/CardsPost
   responses:
-    200:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/CardsView
+    204:
+      description: No content

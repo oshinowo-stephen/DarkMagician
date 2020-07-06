@@ -5,6 +5,9 @@ allOf:
     required:
       - name
       - cards
+      - player
     properties:
       cards:
-        $ref: ../../index.yml#/components/schemas/CardsView
+        type: array
+        items:
+          $ref: ../../index.yml#/components/schemas/CardsView

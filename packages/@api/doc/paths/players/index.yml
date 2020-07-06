@@ -23,9 +23,5 @@ post:
           schema:
             $ref: ../../index.yml#/components/schemas/PlayerPost
   responses:
-    200:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/PlayerView
+    204:
+      description: No content

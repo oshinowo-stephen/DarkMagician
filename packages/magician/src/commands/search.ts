@@ -12,6 +12,7 @@ import { ygoApi } from '@darkmagician/common'
 
 import {
   PageBuilder,
+  ActionButton,
 } from 'eris-pages'
 
 export default new Command<Magician>({
@@ -42,6 +43,9 @@ export default new Command<Magician>({
 
     await builder
       .addPages(pageData)
+      .addActionButton(new ActionButton('❤️', () => {
+        msg.channel.createMessage(`<@${msg.author.id}> you a bitch`)
+      }))
       .construct()
 
     builder.start()

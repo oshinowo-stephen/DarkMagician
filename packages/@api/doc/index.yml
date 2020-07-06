@@ -19,10 +19,14 @@ paths:
     $ref: ./paths/players/:id.yml
   /decks:
     $ref: ./paths/decks/index.yml
+  /decks/{id}:
+    $ref: ./paths/decks/:id.yml
   /decks/{player}:
     $ref: ./paths/decks/:player.yml
   /cards:
     $ref: ./paths/cards/index.yml
+  /cards/{id}:
+    $ref: ./paths/cards/:id.yml
   /cards/{player}:
     $ref: ./paths/cards/:player.yml
 components:

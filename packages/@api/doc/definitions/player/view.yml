@@ -4,11 +4,4 @@ allOf:
     type: object
     required:
       - id
-      - decks
-      - cards
       - currency
-    properties:
-      decks:
-        $ref: ../../index.yml#/components/schemas/DecksView
-      cards:
-        $ref: ../../index.yml#/components/schemas/CardsView

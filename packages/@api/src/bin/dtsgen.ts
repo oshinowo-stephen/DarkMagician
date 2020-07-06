@@ -20,8 +20,10 @@ const typeNameConvertor = (id: SchemaId): string[] => {
       names.shift()
     } else if (names[0] === 'Paths') {
       names[2] = names[2] + names[1]
-    } else if (names[1] === 'Responses') {
-      names.splice(1, 1)
+      names.splice(0, 2)
+      if (names[1] === 'Responses') {
+        names.splice(1, 1)
+      }
     }
   }
 

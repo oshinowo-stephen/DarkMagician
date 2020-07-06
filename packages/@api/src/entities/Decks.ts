@@ -25,7 +25,7 @@ export class Decks {
   public name!: string
 
   @ManyToOne(() => Player, (player) => player.id)
-  public player!: Promise<Player[]>
+  public player!: Player
 
   @ManyToMany(() => Cards, (cards) => cards.decks)
   @JoinTable()

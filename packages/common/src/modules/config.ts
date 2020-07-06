@@ -28,9 +28,10 @@ export const getConfig = ({
       'src/migrations/*.ts',
     ],
     database: targetDatabase,
+    synchronize: process.env.NODE_ENV !== 'production',
     cli: {
       entitiesDir: 'src/entities',
-      migrations: 'src/migrations',
+      migrationsDir: 'src/migrations',
     },
     username: process.env.NODE_ENV === 'production'
       ? process.env.ADMIN_DB_USER ?? 'INVALID_DB_USER'
@@ -56,13 +57,14 @@ export interface DatabaseConfig {
   password: string
   entities: string[]
   migrations: string[]
+  synchronize: boolean
   cli: CLIOptions
   database: string
 }
 
 export interface CLIOptions {
   entitiesDir: string
-  migrations: string
+  migrationsDir: string
 }
 
 export interface ConfigOptions {

@@ -39,12 +39,8 @@ patch:
         schema:
           $ref: ../../index.yml#/components/schemas/PlayerUpdate
   responses:
-    200:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/PlayerView
+    204:
+      description: No content
     404:
       $ref: ../../index.yml#/components/responses/404
 delete:
@@ -61,6 +57,6 @@ delete:
       description: ID of the pokemon instance to delete
   responses:
     204:
-      description: no content
+      description: No content
     404:
       $ref: ../../index.yml#/components/responses/404

@@ -12,7 +12,6 @@
   },
   "include": [
     "src",
-    "tests",
     "index.d.ts"
   ]
 }

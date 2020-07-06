@@ -13,9 +13,11 @@ export const endpointLogger = (
   res: Response,
   n: NextFunction,
 ): void => {
-  const content = `
-${req.method.toUpperCase()} -> "${req.path}" | Code: ${res.statusCode}
-`.replace(/\s/g, '')
+  const method = req.method.toUpperCase()
+  const code = res.statusCode
+  const path = req.path
+
+  const content = `${method} -> "${path}" | Code: ${code}`
 
   logger.log('info', content)
 

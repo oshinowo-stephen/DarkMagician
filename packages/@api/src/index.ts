@@ -9,17 +9,12 @@ import {
 } from './controllers'
 
 const { server: serverConfig } = config.getConfig({
-  serverConfig: {
-    port: 6054,
-  },
-  targetDatabase: 'dmg_api',
+  targetDatabase: 'dmgapi',
 })
 
 const server = new DarkMagicianServer([
   new RootController(),
 ])
-
-logger.debug(config)
 
 server
   .start(serverConfig?.port)

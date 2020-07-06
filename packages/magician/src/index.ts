@@ -31,5 +31,4 @@ const connectionError = (error: string) => {
 magician
   .addEvents(join(__dirname, 'events'))
   .addCommands(join(__dirname, 'commands'))
-  .connect()
-  .catch(connectionError)
+  .connect().catch(connectionError)

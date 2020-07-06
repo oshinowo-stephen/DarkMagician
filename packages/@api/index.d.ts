@@ -1,110 +1,145 @@
 declare module '@darkmagician/api' {
- namespace Paths {
-   namespace Cards {
-     namespace GetCards {
-       namespace Responses {
-         export type $200 = Schemas.CardsView[]
-       }
-     }
-     namespace PostCards {
-       export type RequestBody = Schemas.CardsPost
-       namespace Responses {
-         export type $200 = Schemas.CardsView
-       }
-     }
+ namespace DeleteCards$Id {
+   export interface $204 {
    }
-   namespace Cards$Player {
-     namespace GetCards$Player {
-       namespace Parameters {
-         export type Player = string
-       }
-       export interface PathParameters {
-         player: Parameters.Player
-       }
-       namespace Responses {
-         export type $200 = Schemas.CardsView[]
-       }
-     }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
    }
-   namespace Decks {
-     namespace GetDecks {
-       namespace Responses {
-         export type $200 = Schemas.DecksView[]
-       }
-     }
-     namespace PostDecks {
-       export type RequestBody = Schemas.DecksPost
-       namespace Responses {
-         export type $200 = Schemas.DecksView
-       }
-     }
+   export interface PathParameters {
+     id: Parameters.Id
    }
-   namespace Decks$Player {
-     namespace GetDecks$Player {
-       namespace Parameters {
-         export type Player = string
-       }
-       export interface PathParameters {
-         player: Parameters.Player
-       }
-       namespace Responses {
-         export type $200 = Schemas.DecksView[]
-       }
-     }
+ }
+ namespace DeleteDecks$Id {
+   export interface $204 {
    }
-   namespace Players {
-     namespace GetPlayers {
-       namespace Responses {
-         export type $200 = Schemas.PlayerView[]
-       }
-     }
-     namespace PostPlayers {
-       export type RequestBody = Schemas.PlayerPost
-       namespace Responses {
-         export type $200 = Schemas.PlayerView
-       }
-     }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
    }
-   namespace Players$Id {
-     namespace DeletePlayers$Id {
-       namespace Parameters {
-         export type Id = string
-       }
-       export interface PathParameters {
-         id: Parameters.Id
-       }
-       namespace Responses {
-         export interface $204 {
-         }
-         export type $404 = Responses.$404
-       }
-     }
-     namespace GetPlayers$Id {
-       namespace Parameters {
-         export type Id = string
-       }
-       export interface PathParameters {
-         id: Parameters.Id
-       }
-       namespace Responses {
-         export type $200 = Schemas.PlayerView
-         export type $404 = Responses.$404
-       }
-     }
-     namespace PatchPlayers$Id {
-       namespace Parameters {
-         export type Id = string
-       }
-       export interface PathParameters {
-         id: Parameters.Id
-       }
-       export type RequestBody = Schemas.PlayerUpdate
-       namespace Responses {
-         export type $200 = Schemas.PlayerView
-         export type $404 = Responses.$404
-       }
-     }
+   export interface PathParameters {
+     id: Parameters.Id
    }
+ }
+ namespace DeletePlayers$Id {
+   export interface $204 {
+   }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+ }
+ namespace GetCards {
+   export type $200 = Schemas.CardsView[]
+ }
+ namespace GetCards$Id {
+   export type $200 = Schemas.DecksView
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+ }
+ namespace GetCards$Player {
+   export type $200 = Schemas.CardsView[]
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
+   }
+   export type RequestBody = Schemas.CardsPartial
+ }
+ namespace GetDecks {
+   export type $200 = Schemas.DecksView[]
+ }
+ namespace GetDecks$Id {
+   export type $200 = Schemas.DecksView
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+ }
+ namespace GetDecks$Player {
+   export type $200 = Schemas.DecksView[]
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
+   }
+ }
+ namespace GetPlayers {
+   export type $200 = Schemas.PlayerView[]
+ }
+ namespace GetPlayers$Id {
+   export type $200 = Schemas.PlayerView
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+ }
+ namespace PatchCards$Id {
+   export interface $204 {
+   }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+   export type RequestBody = Schemas.CardsUpdate
+ }
+ namespace PatchDecks$Id {
+   export interface $204 {
+   }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+   export type RequestBody = Schemas.DecksUpdate
+ }
+ namespace PatchPlayers$Id {
+   export interface $204 {
+   }
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Id = string
+   }
+   export interface PathParameters {
+     id: Parameters.Id
+   }
+   export type RequestBody = Schemas.PlayerUpdate
+ }
+ namespace PostCards {
+   export interface $204 {
+   }
+   export type RequestBody = Schemas.CardsPost
+ }
+ namespace PostDecks {
+   export interface $204 {
+   }
+   export type RequestBody = Schemas.DecksPost
+ }
+ namespace PostPlayers {
+   export interface $204 {
+   }
+   export type RequestBody = Schemas.PlayerPost
  }
  namespace Responses {
    export type $400 = Schemas.Error
@@ -114,46 +149,26 @@ declare module '@darkmagician/api' {
    export interface CardsPartial {
      /**
       * example:
-      * Card's API endpoint
+      * 73580471
       */
-     endpoint?: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
+     id?: number
+     player?: PlayerPartial
    }
    export interface CardsPost {
      /**
       * example:
-      * Card's API endpoint
+      * 73580471
       */
-     endpoint?: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
+     id: number
+     player: PlayerPartial
+   }
+   export interface CardsUpdate {
      /**
       * example:
       * 73580471
       */
      id?: number
-   }
-   export interface CardsUpdate {
-     /**
-      * example:
-      * Card's API endpoint
-      */
-     endpoint?: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
+     player?: PlayerPartial
      /**
       * example:
       * Pure Cyber Angel
@@ -163,16 +178,11 @@ declare module '@darkmagician/api' {
    export interface CardsView {
      /**
       * example:
-      * Card's API endpoint
+      * 73580471
       */
-     endpoint: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
-     decks: DecksView
+     id: number
+     player: PlayerPartial
+     decks: DecksView[]
    }
    export interface DecksPartial {
      /**
@@ -180,30 +190,21 @@ declare module '@darkmagician/api' {
       * Pure Cyber Angel
       */
      name?: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
+     player?: PlayerPartial
    }
    export interface DecksPost {
      /**
       * example:
       * Pure Cyber Angel
       */
-     name?: string
+     name: string
+     player: PlayerPartial
      /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
-     /**
+      * Deck's ID
       * example:
       * 47twmXb9HWzgbIIZ
       */
-     id?: string
+     id: string
    }
    export interface DecksUpdate {
      /**
@@ -211,17 +212,12 @@ declare module '@darkmagician/api' {
       * Pure Cyber Angel
       */
      name?: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
+     player?: PlayerPartial
      /**
       * example:
-      * Card's API endpoint
+      * 73580471
       */
-     endpoint?: string
+     id?: number
    }
    export interface DecksView {
      /**
@@ -229,13 +225,8 @@ declare module '@darkmagician/api' {
       * Pure Cyber Angel
       */
      name: string
-     /**
-      * Player's ID
-      * example:
-      * 229651386223034370
-      */
-     player?: string
-     cards: CardsView
+     player: PlayerPartial
+     cards: CardsView[]
    }
    export interface Error {
      /**
@@ -276,24 +267,14 @@ declare module '@darkmagician/api' {
       * 2250
       */
      currency: number
-     decks?: DecksPartial
-     cards?: CardsPartial
    }
    export interface PlayerUpdate {
-     /**
-      * Discord User ID
-      * example:
-      * 229651386223034370
-      */
-     id?: string
      /**
       * Player's current currency
       * example:
       * 2250
       */
      currency?: number
-     decks?: DecksPartial
-     cards?: CardsPartial
    }
    export interface PlayerView {
      /**
@@ -308,8 +289,6 @@ declare module '@darkmagician/api' {
       * 2250
       */
      currency: number
-     decks: DecksView
-     cards: CardsView
    }
  }
 }

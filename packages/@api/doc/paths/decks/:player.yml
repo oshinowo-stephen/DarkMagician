@@ -20,3 +20,4 @@ get:
             type: array
             items:
               $ref: ../../index.yml#/components/schemas/DecksView
+

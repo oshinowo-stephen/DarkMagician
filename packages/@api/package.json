@@ -9,7 +9,7 @@
     "lint": "eslint src --ext ts",
     "pretest": "export TS_NODE_FILES=true",
     "start:dev": "ts-node-dev src/index.ts",
-    "migration:latest": "typeorm migration:run",
+    "migrate:latest": "typeorm migration:run",
     "types:generate": "ts-node src/bin/dtsgen.ts",
     "test": "yarn pretest ; nyc --reporter lcov ava",
     "migration:create": "typeorm migration:create -n ",

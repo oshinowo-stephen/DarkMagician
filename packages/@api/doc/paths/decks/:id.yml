@@ -39,28 +39,24 @@ patch:
         schema:
           $ref: ../../index.yml#/components/schemas/DecksUpdate
   responses:
-    200:
-      description: OK
-      content:
-        application/json:
-          schema:
-            $ref: ../../index.yml#/components/schemas/DecksView
+    204:
+      description: No content
     404:
       $ref: ../../index.yml#/components/responses/404
-  delete:
-    summary: delete a player from ID
-    tags:
-      - Decks
-    parameters:
-      -
-        in: path
-        name: id
-        schema:
-          type: string
-        required: true
-        description: ID of the deck instance to delete
-    responses:
-      204:
-        description: no content
-      404:
-        $ref: ../../index.yml#/components/responses/404
+delete:
+  summary: delete a player from ID
+  tags:
+    - Decks
+  parameters:
+    -
+      in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: ID of the deck instance to delete
+  responses:
+    204:
+      description: no content
+    404:
+      $ref: ../../index.yml#/components/responses/404

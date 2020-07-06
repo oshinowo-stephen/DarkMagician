@@ -1,9 +1,7 @@
 type: object
 properties:
-  endpoint:
-    type: string
-    example: Card's API endpoint
+  id:
+    type: number
+    example: 73580471
   player:
-    type: string
-    example: 229651386223034368
-    description: Player's ID
+    $ref: ../../index.yml#/components/schemas/PlayerPartial

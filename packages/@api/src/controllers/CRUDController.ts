@@ -4,6 +4,8 @@ import {
 } from 'express'
 
 export interface CRUDController {
-  fetch (req: Request, res: Response): Promise<typeof res>
-  store (req: Request, res: Response): Promise<typeof res>
+  del (req: Request, res: Response): Promise<typeof res>
+  read (req: Request, res: Response): Promise<typeof res>
+  create (req: Request, res: Response): Promise<typeof res>
+  update (req: Request, res: Response): Promise<typeof res>
 }
