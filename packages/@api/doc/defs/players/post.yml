@@ -1,0 +1,7 @@
+allOf:
+  - $ref: ./update.yml
+  -
+    type: object
+    required:
+      - id
+      - bal

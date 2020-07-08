@@ -1,0 +1,12 @@
+allOf:
+  - $ref: ./update.yml
+  -
+    type: object
+    required:
+      - id
+      - player
+    properties:
+      id:
+        type: number
+        example: 7889905
+        description: Card's ID

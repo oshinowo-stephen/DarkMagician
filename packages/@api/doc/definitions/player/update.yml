@@ -1,8 +1,0 @@
-allOf:
-  -
-    type: object
-    properties:
-      currency:
-        type: number
-        example: 2250
-        description: Player's current currency

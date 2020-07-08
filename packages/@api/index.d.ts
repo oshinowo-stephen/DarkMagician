@@ -1,18 +1,44 @@
 declare module '@darkmagician/api' {
+ namespace DeleteCards$Deck {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Decks = string
+   }
+   export interface PathParameters {
+     decks: Parameters.Decks
+   }
+ }
  namespace DeleteCards$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
    }
    export interface PathParameters {
      id: Parameters.Id
+   }
+ }
+ namespace DeleteCards$Player {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
    }
  }
  namespace DeleteDecks$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -21,9 +47,22 @@ declare module '@darkmagician/api' {
      id: Parameters.Id
    }
  }
+ namespace DeleteDecks$Player {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
+   }
+ }
  namespace DeletePlayers$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -35,8 +74,16 @@ declare module '@darkmagician/api' {
  namespace GetCards {
    export type $200 = Schemas.CardsView[]
  }
+ namespace GetCards$Deck {
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Decks = string
+   }
+   export interface PathParameters {
+     decks: Parameters.Decks
+   }
+ }
  namespace GetCards$Id {
-   export type $200 = Schemas.DecksView
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -46,20 +93,18 @@ declare module '@darkmagician/api' {
    }
  }
  namespace GetCards$Player {
-   export type $200 = Schemas.CardsView[]
+   export type $404 = Responses.$404
    namespace Parameters {
      export type Player = string
    }
    export interface PathParameters {
      player: Parameters.Player
    }
-   export type RequestBody = Schemas.CardsPartial
  }
  namespace GetDecks {
-   export type $200 = Schemas.DecksView[]
+   export type $404 = Responses.$404
  }
  namespace GetDecks$Id {
-   export type $200 = Schemas.DecksView
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -69,7 +114,7 @@ declare module '@darkmagician/api' {
    }
  }
  namespace GetDecks$Player {
-   export type $200 = Schemas.DecksView[]
+   export type $404 = Responses.$404
    namespace Parameters {
      export type Player = string
    }
@@ -90,9 +135,23 @@ declare module '@darkmagician/api' {
      id: Parameters.Id
    }
  }
+ namespace PatchCards$Deck {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Decks = string
+   }
+   export interface PathParameters {
+     decks: Parameters.Decks
+   }
+   export type RequestBody = Schemas.CardsUpdate
+ }
  namespace PatchCards$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -102,9 +161,23 @@ declare module '@darkmagician/api' {
    }
    export type RequestBody = Schemas.CardsUpdate
  }
+ namespace PatchCards$Player {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
+   }
+   export type RequestBody = Schemas.CardsUpdate
+ }
  namespace PatchDecks$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -114,9 +187,23 @@ declare module '@darkmagician/api' {
    }
    export type RequestBody = Schemas.DecksUpdate
  }
+ namespace PatchDecks$Player {
+   export interface $204 {
+   }
+   export type $400 = Responses.$400
+   export type $404 = Responses.$404
+   namespace Parameters {
+     export type Player = string
+   }
+   export interface PathParameters {
+     player: Parameters.Player
+   }
+   export type RequestBody = Schemas.DecksUpdate
+ }
  namespace PatchPlayers$Id {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -129,16 +216,19 @@ declare module '@darkmagician/api' {
  namespace PostCards {
    export interface $204 {
    }
+   export type $400 = Responses.$404
    export type RequestBody = Schemas.CardsPost
  }
  namespace PostDecks {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type RequestBody = Schemas.DecksPost
  }
  namespace PostPlayers {
    export interface $204 {
    }
+   export type $400 = Responses.$400
    export type RequestBody = Schemas.PlayerPost
  }
  namespace Responses {
@@ -148,147 +238,147 @@ declare module '@darkmagician/api' {
  namespace Schemas {
    export interface CardsPartial {
      /**
+      * Cards ID from YGO-API
       * example:
       * 73580471
       */
      id?: number
+     decks?: any[]
      player?: PlayerPartial
    }
    export interface CardsPost {
+     decks: any[]
+     player: PlayerPartial
      /**
+      * Card's ID
       * example:
-      * 73580471
+      * 7889905
       */
      id: number
-     player: PlayerPartial
    }
    export interface CardsUpdate {
-     /**
-      * example:
-      * 73580471
-      */
-     id?: number
-     player?: PlayerPartial
-     /**
-      * example:
-      * Pure Cyber Angel
-      */
-     name?: string
+     decks: any[]
+     player: PlayerPartial
    }
    export interface CardsView {
      /**
+      * Cards ID from YGO-API
       * example:
       * 73580471
       */
      id: number
+     decks: any[]
      player: PlayerPartial
-     decks: DecksView[]
    }
    export interface DecksPartial {
      /**
+      * Deck's ID
       * example:
-      * Pure Cyber Angel
+      * A57WQSXYsfsa
       */
-     name?: string
+     id?: string
+     cards?: any[]
      player?: PlayerPartial
    }
    export interface DecksPost {
      /**
-      * example:
-      * Pure Cyber Angel
-      */
-     name: string
-     player: PlayerPartial
-     /**
       * Deck's ID
       * example:
-      * 47twmXb9HWzgbIIZ
+      * A57WQSXYsfsa
       */
      id: string
+     cards: any[]
+     player: PlayerPartial
    }
    export interface DecksUpdate {
      /**
+      * Deck's ID
       * example:
-      * Pure Cyber Angel
+      * A57WQSXYsfsa
       */
-     name?: string
-     player?: PlayerPartial
-     /**
-      * example:
-      * 73580471
-      */
-     id?: number
+     id?: string
+     cards: any[]
+     player: PlayerPartial
    }
    export interface DecksView {
      /**
+      * Deck's ID
       * example:
-      * Pure Cyber Angel
+      * A57WQSXYsfsa
       */
-     name: string
+     id: string
+     cards: any[]
      player: PlayerPartial
-     cards: CardsView[]
    }
    export interface Error {
      /**
+      * Error status code
       * example:
       * 404
       */
      code: number
      /**
+      * Error message
       * example:
-      * not found
+      * Not Found
       */
      message: string
    }
    export interface PlayerPartial {
      /**
-      * Discord User ID
+      * Player's Discord ID
       * example:
       * 229651386223034370
       */
      id?: string
      /**
-      * Player's current currency
+      * Player's balance
       * example:
-      * 2250
+      * 506
       */
-     currency?: number
+     bal?: number
    }
    export interface PlayerPost {
      /**
-      * Discord User ID
+      * Player's Discord ID
       * example:
       * 229651386223034370
       */
      id: string
      /**
-      * Player's current currency
+      * Player's balance
       * example:
-      * 2250
+      * 506
       */
-     currency: number
+     bal: number
    }
    export interface PlayerUpdate {
      /**
-      * Player's current currency
+      * Player's Discord ID
       * example:
-      * 2250
+      * 229651386223034370
       */
-     currency?: number
+     id?: string
+     /**
+      * Player's balance
+      * example:
+      * 506
+      */
+     bal: number
    }
    export interface PlayerView {
      /**
-      * Discord User ID
+      * Player's Discord ID
       * example:
       * 229651386223034370
       */
      id: string
      /**
-      * Player's current currency
+      * Player's balance
       * example:
-      * 2250
+      * 506
       */
-     currency: number
+     bal: number
    }
  }
 }

@@ -4,4 +4,4 @@ allOf:
     type: object
     required:
       - id
-      - currency
+      - bal

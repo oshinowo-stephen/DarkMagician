@@ -1,3 +1,0 @@
-allOf:
-  - $ref: ./partial.yml
-  - $ref: ../../index.yml#/components/schemas/CardsPartial

@@ -1,0 +1,13 @@
+type: object
+properties:
+  id:
+    type: string
+    example: A57WQSXYsfsa
+    description: Deck's ID
+  cards:
+    type: array
+    elements:
+      $ref: ../../index.yml#/components/schemas/CardsPartial
+  player:
+    $ref: ../../index.yml#/components/schemas/PlayerPartial
+

@@ -3,5 +3,10 @@ properties:
   id:
     type: number
     example: 73580471
+    description: Cards ID from YGO-API
+  decks:
+    type: array
+    elements:
+      $ref: ../../index.yml#/components/schemas/DecksPartial
   player:
     $ref: ../../index.yml#/components/schemas/PlayerPartial

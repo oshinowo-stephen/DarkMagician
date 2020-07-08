@@ -1,5 +1,5 @@
 get:
-  summary: Get all decks
+  summary: get all deck instances
   tags:
     - Decks
   responses:
@@ -7,16 +7,18 @@ get:
       description: OK
       content:
         application/json:
-          schema:
-            type: array
-            items:
+          type: array
+          elements:
+            schema:
               $ref: ../../index.yml#/components/schemas/DecksView
+    404:
+      $ref: ../../index.yml#/components/responses/404
 post:
-  summary: create a new deck
+  summary: create a new deck instance
   tags:
     - Decks
   requestBody:
-    description: deck instance to create
+    description: deck instace data
     required: true
     content:
       application/json:
@@ -25,3 +27,5 @@ post:
   responses:
     204:
       description: No content
+    400:
+      $ref: ../../index.yml#/components/responses/400
