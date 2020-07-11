@@ -1,11 +1,19 @@
-type: object
-required:
-  - decks
-  - player
-properties:
-  decks:
-    type: array
-    elements:
-      $ref: ../../index.yml#/components/schemas/DecksPartial
-  player:
-    $ref: ../../index.yml#/components/schemas/PlayerPartial
+allOf:
+  - $ref: ./partial.yml
+  -
+    type: object
+    required:
+      - decks
+      - player
+
+# type: object
+# required:
+#   - decks
+#   - player
+# properties:
+#   decks:
+#     type: array
+#     elements:
+#       $ref: ../../index.yml#/components/schemas/DecksPartial
+#   player:
+#     $ref: ../../index.yml#/components/schemas/PlayerPartial

@@ -117,9 +117,9 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
+              schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/DecksView'
         '404':
           $ref: '#/components/responses/404'
@@ -156,10 +156,8 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
-                  $ref: '#/components/schemas/DecksView'
+              schema:
+                $ref: '#/components/schemas/DecksView'
         '404':
           $ref: '#/components/responses/404'
     patch:
@@ -222,9 +220,9 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
+              schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/DecksView'
         '404':
           $ref: '#/components/responses/404'
@@ -310,7 +308,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
           description: card ID
       responses:
@@ -318,10 +316,8 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
-                  $ref: '#/components/schemas/CardsView'
+              schema:
+                $ref: '#/components/schemas/CardsView'
         '404':
           $ref: '#/components/responses/404'
     patch:
@@ -332,7 +328,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
           description: card ID
       requestBody:
@@ -357,7 +353,7 @@ paths:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
           description: card ID
       responses:
@@ -385,9 +381,9 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
+              schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/CardsView'
         '404':
           $ref: '#/components/responses/404'
@@ -454,9 +450,9 @@ paths:
           description: OK
           content:
             application/json:
-              type: array
-              elements:
-                schema:
+              schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/CardsView'
         '404':
           $ref: '#/components/responses/404'
@@ -540,6 +536,7 @@ components:
         - type: object
           required:
             - id
+            - name
             - cards
             - player
     DecksPost:
@@ -549,6 +546,11 @@ components:
           required:
             - id
             - player
+          properties:
+            player:
+              type: string
+              example: 2005200
+              description: Discord User ID
     DecksUpdate:
       allOf:
         - $ref: '#/components/schemas/DecksPartial'
@@ -568,6 +570,10 @@ components:
           type: array
           elements:
             $ref: '#/components/schemas/CardsPartial'
+        name:
+          type: string
+          example: Cyber Angels
+          description: Deck name
         player:
           $ref: '#/components/schemas/PlayerPartial'
     CardsView:
@@ -577,38 +583,38 @@ components:
           required:
             - id
             - decks
+            - cardId
             - player
     CardsPost:
       allOf:
         - $ref: '#/components/schemas/CardsUpdate'
         - type: object
           required:
-            - id
+            - cardId
             - player
           properties:
-            id:
-              type: number
-              example: 7889905
-              description: Card's ID
+            player:
+              type: string
+              example: 2005200
+              description: Discord User ID
     CardsUpdate:
-      type: object
-      required:
-        - decks
-        - player
-      properties:
-        decks:
-          type: array
-          elements:
-            $ref: '#/components/schemas/DecksPartial'
-        player:
-          $ref: '#/components/schemas/PlayerPartial'
+      allOf:
+        - $ref: '#/components/schemas/CardsPartial'
+        - type: object
+          required:
+            - decks
+            - player
     CardsPartial:
       type: object
       properties:
         id:
+          type: string
+          example: as2245sad15456
+          description: Random generated string
+        cardId:
           type: number
-          example: 73580471
-          description: Cards ID from YGO-API
+          example: 7653536
+          description: Card ID fetched from the YGO API
         decks:
           type: array
           elements:

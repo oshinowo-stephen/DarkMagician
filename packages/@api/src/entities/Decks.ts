@@ -14,7 +14,7 @@ import { Player } from './Player'
 export class Decks {
 
   @PrimaryColumn()
-  public readonly id!: string
+  public id!: string
 
   @Column()
   public name!: string

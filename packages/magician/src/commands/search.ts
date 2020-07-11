@@ -12,7 +12,6 @@ import { ygoApi } from '@darkmagician/common'
 
 import {
   PageBuilder,
-  ActionButton,
 } from 'eris-pages'
 
 export default new Command<Magician>({
@@ -43,9 +42,12 @@ export default new Command<Magician>({
 
     await builder
       .addPages(pageData)
-      .addActionButton(new ActionButton('❤️', () => {
-        msg.channel.createMessage(`<@${msg.author.id}> you a bitch`)
-      }))
+      .addAction({
+        emote: '💛',
+        run: async (msg) => {
+          await msg.channel.createMessage('golden expr')
+        },
+      })
       .construct()
 
     builder.start()
@@ -66,22 +68,23 @@ const constructCard = (card: ygoApi.Card): Embed => ({
   color: getCardColor(card.cardType.toString()),
   description: card.desc,
   thumbnail: {
-    url: card.image
+    url: card.image,
   },
   fields: card.cardType !== ygoApi.CardTypes.Spell && card.cardType !== ygoApi.CardTypes.Trap
     ? [
-    {
+      {
         name: card.cardType === ygoApi.CardTypes.Link
-          ? `ATK / Link Value`
-          : `ATK / DEF`,
+          ? 'ATK / Link Value'
+          : 'ATK / DEF',
         value: card.cardType === ygoApi.CardTypes.Link
           ? `${card.cardStats?.atk} / ${card.cardStats?.linkVal}`
           : `${card.cardStats?.atk} / ${card.cardStats?.def}`,
-        inline: true
-    }, {
-      name: 'Type / Race / Attribute',
-      value: `${card.cardType.toString()} / ${card.race} / ${card.attribute}`
-    }]
+        inline: true,
+      }, {
+        name: 'Type / Race / Attribute',
+        value: `${card.cardType.toString()} / ${card.race} / ${card.attribute}`,
+        inline: true,
+      } ]
     : undefined,
 })
 

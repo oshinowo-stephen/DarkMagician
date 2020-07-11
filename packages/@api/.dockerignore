@@ -1,0 +1,17 @@
+doc
+tests
+build
+config
+coverage
+node_modules
+
+.nyc_output
+
+*.yml
+
+Dockerfile
+
+*.log
+*.lock
+
+package-lock.json

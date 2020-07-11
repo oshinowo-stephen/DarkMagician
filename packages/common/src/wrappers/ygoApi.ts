@@ -13,10 +13,13 @@ export enum CardTypes {
   Xyz = 'Xyz',
   Trap = 'Trap',
   Toon = 'Toon',
+  Flip = 'Flip',
   Link = 'Link',
+  Skill = 'Skill',
   Union = 'Union',
   Spell = 'Spell',
   Tuner = 'Tuner',
+  Token = 'Token',
   Effect = 'Effect',
   Fusion = 'Fusion',
   Ritual = 'Ritual',
@@ -64,13 +67,31 @@ export interface CardStats {
 export const randomCard = async (): Promise<Card> => {
   const { body } = await got(BASE_RCARD_URL)
 
-  const rawObject = JSON.parse(body).data
+  const rawObject = JSON.parse(body)
 
   if (isEmpty(rawObject)) {
     throw new Error('Invalid card')
   }
 
-  return constructCard(rawObject)
+  const constructedCard = await fetchCardById(rawObject.id)
+
+  return constructedCard
+}
+
+export const fetchCardById = async (id: string): Promise<Card> => {
+  const {
+    body,
+  } = await got(`${BASE_CARD_URL}&id=${id}`)
+
+  const rawObject = JSON.parse(body).data
+
+  if (isEmpty(rawObject)) {
+    throw new Error('Invalid Card')
+  }
+
+  const rawCardData = rawObject[0]
+
+  return constructCard(rawCardData)
 }
 
 export const fetchCard = async (name: string): Promise<Card> => {
@@ -119,7 +140,11 @@ const constructCard = (rawCard: any): Card => ({
   archType: rawCard.archetype ?? undefined,
   attribute: rawCard.attribute ?? undefined,
   image: rawCard.card_images[0].image_url,
-  allowedInDL: isInDuelLinks(rawCard.misc_info[0].formats),
+  allowedInDL: isInDuelLinks(
+    rawCard.misc_info !== undefined
+      ? rawCard.misc_info[0].formats
+      : [],
+  ),
   rarity: mapRarityToCard(
     rawCard.card_sets
       ? rawCard.card_sets[0].set_rarity
@@ -181,7 +206,7 @@ const mapRarityToCard = (rawRarity: string): CardRarity => {
 }
 
 const mapPriceToCard = (priceStr: string): number => {
-  const price: number = parseInt(priceStr)
+  const price: number = parseFloat(priceStr)
 
   if (!isNaN(price)) {
     return price * 100000
@@ -199,6 +224,8 @@ const mapTypeToCard = (rawType: string): CardTypes => {
       return CardTypes.Xyz
     case 'trap':
       return CardTypes.Trap
+    case 'flip':
+      return CardTypes.Flip
     case 'toon':
       return CardTypes.Toon
     case 'link':
@@ -207,10 +234,14 @@ const mapTypeToCard = (rawType: string): CardTypes => {
       return CardTypes.Union
     case 'spell':
       return CardTypes.Spell
+    case 'skill':
+      return CardTypes.Skill
     case 'tuner':
       return CardTypes.Tuner
     case 'effect':
       return CardTypes.Effect
+    case 'token':
+      return CardTypes.Token
     case 'fusion':
       return CardTypes.Fusion
     case 'ritual':
@@ -222,7 +253,7 @@ const mapTypeToCard = (rawType: string): CardTypes => {
     case 'pendulum':
       return CardTypes.Pendulum
     default:
-      throw new Error('Unhandled CardType')
+      throw new Error(`Unhandled CardType: ${rawType}`)
   }
 }
 

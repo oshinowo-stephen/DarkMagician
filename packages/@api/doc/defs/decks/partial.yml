@@ -8,6 +8,10 @@ properties:
     type: array
     elements:
       $ref: ../../index.yml#/components/schemas/CardsPartial
+  name:
+    type: string
+    example: Cyber Angels
+    description: Deck name
   player:
     $ref: ../../index.yml#/components/schemas/PlayerPartial
 

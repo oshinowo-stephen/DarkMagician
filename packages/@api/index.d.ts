@@ -17,7 +17,7 @@ declare module '@darkmagician/api' {
    export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
-     export type Id = string
+     export type Id = number
    }
    export interface PathParameters {
      id: Parameters.Id
@@ -75,6 +75,7 @@ declare module '@darkmagician/api' {
    export type $200 = Schemas.CardsView[]
  }
  namespace GetCards$Deck {
+   export type $200 = Schemas.CardsView[]
    export type $404 = Responses.$404
    namespace Parameters {
      export type Decks = string
@@ -84,15 +85,17 @@ declare module '@darkmagician/api' {
    }
  }
  namespace GetCards$Id {
+   export type $200 = Schemas.CardsView
    export type $404 = Responses.$404
    namespace Parameters {
-     export type Id = string
+     export type Id = number
    }
    export interface PathParameters {
      id: Parameters.Id
    }
  }
  namespace GetCards$Player {
+   export type $200 = Schemas.CardsView[]
    export type $404 = Responses.$404
    namespace Parameters {
      export type Player = string
@@ -102,9 +105,11 @@ declare module '@darkmagician/api' {
    }
  }
  namespace GetDecks {
+   export type $200 = Schemas.DecksView[]
    export type $404 = Responses.$404
  }
  namespace GetDecks$Id {
+   export type $200 = Schemas.DecksView
    export type $404 = Responses.$404
    namespace Parameters {
      export type Id = string
@@ -114,6 +119,7 @@ declare module '@darkmagician/api' {
    }
  }
  namespace GetDecks$Player {
+   export type $200 = Schemas.DecksView[]
    export type $404 = Responses.$404
    namespace Parameters {
      export type Player = string
@@ -154,7 +160,7 @@ declare module '@darkmagician/api' {
    export type $400 = Responses.$400
    export type $404 = Responses.$404
    namespace Parameters {
-     export type Id = string
+     export type Id = number
    }
    export interface PathParameters {
      id: Parameters.Id
@@ -238,35 +244,70 @@ declare module '@darkmagician/api' {
  namespace Schemas {
    export interface CardsPartial {
      /**
-      * Cards ID from YGO-API
+      * Random generated string
       * example:
-      * 73580471
+      * as2245sad15456
       */
-     id?: number
+     id?: string
+     /**
+      * Card ID fetched from the YGO API
+      * example:
+      * 7653536
+      */
+     cardId?: number
      decks?: any[]
      player?: PlayerPartial
    }
    export interface CardsPost {
-     decks: any[]
-     player: PlayerPartial
      /**
-      * Card's ID
+      * Random generated string
       * example:
-      * 7889905
+      * as2245sad15456
       */
-     id: number
+     id?: string
+     /**
+      * Card ID fetched from the YGO API
+      * example:
+      * 7653536
+      */
+     cardId: number
+     decks: any[]
+     /**
+      * Discord User ID
+      * example:
+      * 2005200
+      */
+     player: string
    }
    export interface CardsUpdate {
+     /**
+      * Random generated string
+      * example:
+      * as2245sad15456
+      */
+     id?: string
+     /**
+      * Card ID fetched from the YGO API
+      * example:
+      * 7653536
+      */
+     cardId?: number
      decks: any[]
      player: PlayerPartial
    }
    export interface CardsView {
      /**
-      * Cards ID from YGO-API
+      * Random generated string
       * example:
-      * 73580471
+      * as2245sad15456
       */
-     id: number
+     id: string
+     /**
+      * Card ID fetched from the YGO API
+      * example:
+      * 7653536
+      */
+     cardId: number
      decks: any[]
      player: PlayerPartial
    }
@@ -278,6 +319,12 @@ declare module '@darkmagician/api' {
       */
      id?: string
      cards?: any[]
+     /**
+      * Deck name
+      * example:
+      * Cyber Angels
+      */
+     name?: string
      player?: PlayerPartial
    }
    export interface DecksPost {
@@ -288,7 +335,18 @@ declare module '@darkmagician/api' {
       */
      id: string
      cards: any[]
-     player: PlayerPartial
+     /**
+      * Deck name
+      * example:
+      * Cyber Angels
+      */
+     name: string
+     /**
+      * Discord User ID
+      * example:
+      * 2005200
+      */
+     player: string
    }
    export interface DecksUpdate {
      /**
@@ -298,6 +356,12 @@ declare module '@darkmagician/api' {
       */
      id?: string
      cards: any[]
+     /**
+      * Deck name
+      * example:
+      * Cyber Angels
+      */
+     name: string
      player: PlayerPartial
    }
    export interface DecksView {
@@ -308,6 +372,12 @@ declare module '@darkmagician/api' {
       */
      id: string
      cards: any[]
+     /**
+      * Deck name
+      * example:
+      * Cyber Angels
+      */
+     name: string
      player: PlayerPartial
    }
    export interface Error {

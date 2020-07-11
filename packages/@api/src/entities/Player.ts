@@ -12,7 +12,7 @@ import { Decks } from './Decks'
 export class Player {
 
   @PrimaryColumn()
-  public readonly id!: string
+  public id!: string
 
   @Column()
   public bal!: number

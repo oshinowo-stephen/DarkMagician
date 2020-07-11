@@ -3,10 +3,10 @@ allOf:
   -
     type: object
     required:
-      - id
+      - cardId
       - player
     properties:
-      id:
-        type: number
-        example: 7889905
-        description: Card's ID
+      player:
+        type: string
+        example: 2005200
+        description: Discord User ID

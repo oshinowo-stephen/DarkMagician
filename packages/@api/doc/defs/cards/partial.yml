@@ -1,9 +1,13 @@
 type: object
 properties:
   id:
+    type: string
+    example: as2245sad15456
+    description: Random generated string
+  cardId:
     type: number
-    example: 73580471
-    description: Cards ID from YGO-API
+    example: 7653536
+    description: Card ID fetched from the YGO API
   decks:
     type: array
     elements:

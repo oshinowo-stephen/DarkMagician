@@ -5,4 +5,5 @@ allOf:
     required:
       - id
       - decks
+      - cardId
       - player

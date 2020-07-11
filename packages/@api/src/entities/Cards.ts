@@ -1,5 +1,6 @@
 import {
   Entity,
+  Column,
   JoinTable,
   ManyToOne,
   ManyToMany,
@@ -13,7 +14,10 @@ import { Player } from './Player'
 export class Cards {
 
   @PrimaryColumn()
-  public readonly id!: number
+  public id!: string
+
+  @Column()
+  public cardId!: number
 
   @ManyToMany(() => Decks, (decks) => decks.cards)
   @JoinTable()

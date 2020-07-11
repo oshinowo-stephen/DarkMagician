@@ -7,7 +7,7 @@ get:
       in: path
       name: id
       schema:
-        type: string
+        type: number
       required: true
       description: card ID
   responses:
@@ -15,10 +15,8 @@ get:
       description: OK
       content:
         application/json:
-          type: array
-          elements:
-            schema:
-              $ref: ../../index.yml#/components/schemas/CardsView
+          schema:
+            $ref: ../../index.yml#/components/schemas/CardsView
     404:
       $ref: ../../index.yml#/components/responses/404
 patch:
@@ -30,7 +28,7 @@ patch:
       in: path
       name: id
       schema:
-        type: string
+        type: number
       required: true
       description: card ID
   requestBody:
@@ -56,7 +54,7 @@ delete:
       in: path
       name: id
       schema:
-        type: string
+        type: number
       required: true
       description: card ID
   responses:

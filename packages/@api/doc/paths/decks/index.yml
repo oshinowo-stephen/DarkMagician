@@ -7,9 +7,9 @@ get:
       description: OK
       content:
         application/json:
-          type: array
-          elements:
-            schema:
+          schema:
+            type: array
+            items:
               $ref: ../../index.yml#/components/schemas/DecksView
     404:
       $ref: ../../index.yml#/components/responses/404
