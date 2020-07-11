@@ -25,3 +25,5 @@ post:
   responses:
     204:
       description: No content
+    400:
+      $ref: ../../index.yml#/components/responses/400

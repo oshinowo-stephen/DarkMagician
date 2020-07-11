@@ -27,7 +27,7 @@ export const getConfig = ({
     migrations: [
       'src/migrations/*.ts',
     ],
-    database: targetDatabase,
+    database: process.env.DMG_DATABASE_NAME ?? targetDatabase ?? 'INVALID_DB',
     synchronize: process.env.NODE_ENV !== 'production',
     cli: {
       entitiesDir: 'src/entities',
@@ -68,7 +68,7 @@ export interface CLIOptions {
 }
 
 export interface ConfigOptions {
-  targetDatabase: string
+  targetDatabase?: string
   serverConfig?: ServerConfig
 }
 

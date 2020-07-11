@@ -4,4 +4,6 @@ allOf:
     type: object
     required:
       - id
-      - currency
+      - decks
+      - cardId
+      - player

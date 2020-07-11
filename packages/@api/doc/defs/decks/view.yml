@@ -5,9 +5,5 @@ allOf:
     required:
       - id
       - name
+      - cards
       - player
-    properties:
-     id:
-      type: string
-      example: 47twmXb9HWzgbIIZ
-      description: Deck's ID

@@ -4,8 +4,10 @@ required:
   - message
 properties:
   code:
-    type: integer
+    type: number
     example: 404
+    description: Error status code
   message:
     type: string
-    example: not found
+    example: Not Found
+    description: Error message

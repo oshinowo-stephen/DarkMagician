@@ -5,7 +5,7 @@ import {
 } from '@darkmagician/common'
 
 import {
-  RootController,
+  RootController as Root,
 } from './controllers'
 
 const { server: serverConfig } = config.getConfig({
@@ -13,7 +13,7 @@ const { server: serverConfig } = config.getConfig({
 })
 
 const server = new DarkMagicianServer([
-  new RootController(),
+  new Root(),
 ])
 
 server

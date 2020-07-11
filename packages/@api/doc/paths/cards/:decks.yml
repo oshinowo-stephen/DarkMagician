@@ -1,36 +1,40 @@
 get:
-  summary: get card with their ID
+  summary: get cards from a deck with its ID
   tags:
     - Cards
+    - Decks
   parameters:
     -
       in: path
-      name: id
+      name: decks
       schema:
-        type: number
+        type: string
       required: true
-      description: card ID
+      description: ID of the deck
   responses:
     200:
       description: OK
       content:
         application/json:
           schema:
-            $ref: ../../index.yml#/components/schemas/CardsView
+            type: array
+            items:
+              $ref: ../../index.yml#/components/schemas/CardsView
     404:
       $ref: ../../index.yml#/components/responses/404
 patch:
-  summary: update a card
+  summary: update a card instance via deck ID
   tags:
     - Cards
+    - Decks
   parameters:
     -
       in: path
-      name: id
+      name: decks
       schema:
-        type: number
+        type: string
       required: true
-      description: card ID
+      description: ID of the deck
   requestBody:
     description: the data to update card instance with
     required: true
@@ -49,14 +53,15 @@ delete:
   summary: delete a card instance
   tags:
     - Cards
+    - Decks
   parameters:
     -
       in: path
-      name: id
+      name: decks
       schema:
-        type: number
+        type: string
       required: true
-      description: card ID
+      description: ID of the decks
   responses:
     204:
       description: No content

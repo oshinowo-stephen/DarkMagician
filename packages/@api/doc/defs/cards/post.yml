@@ -1,0 +1,12 @@
+allOf:
+  - $ref: ./update.yml
+  -
+    type: object
+    required:
+      - cardId
+      - player
+    properties:
+      player:
+        type: string
+        example: 2005200
+        description: Discord User ID

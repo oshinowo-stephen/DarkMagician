@@ -1,17 +1,17 @@
 openapi: 3.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:3480
 info:
-  version: 0.1.0-beta
-  title: DarkMagician API
-  description: The main API for DarkMagician
+  version: 0.1.1-beta
+  title: DarkMagician CRUD API
+  description: The core CRUD services for DarkMagician
 tags:
   - name: Player
-    description: CRUD DarkMagician's players
+    description: CRUD DarkMagician's player
   - name: Decks
-    description: CRUD DarkMagician's decks
+    description: decks linked with the player
   - name: Cards
-    description: CRUD DarkMagician's cards
+    description: cards linked with decks
 paths:
   /players:
     $ref: ./paths/players/index.yml
@@ -27,38 +27,40 @@ paths:
     $ref: ./paths/cards/index.yml
   /cards/{id}:
     $ref: ./paths/cards/:id.yml
+  /cards/{deck}:
+    $ref: ./paths/cards/:decks.yml
   /cards/{player}:
     $ref: ./paths/cards/:player.yml
 components:
   responses:
     400:
-      $ref: ./definitions/responses/400.yml
+      $ref: ./defs/resps/400.yml
     404:
-      $ref: ./definitions/responses/404.yml
+      $ref: ./defs/resps/404.yml
   schemas:
     Error:
-      $ref: ./definitions/error.yml
+      $ref: ./defs/error.yml
     DecksView:
-      $ref: ./definitions/decks/view.yml
+      $ref: ./defs/decks/view.yml
     DecksPost:
-      $ref: ./definitions/decks/post.yml
+      $ref: ./defs/decks/post.yml
     DecksUpdate:
-      $ref: ./definitions/decks/update.yml
+      $ref: ./defs/decks/update.yml
     DecksPartial:
-      $ref: ./definitions/decks/partial.yml
+      $ref: ./defs/decks/partial.yml
     CardsView:
-      $ref: ./definitions/cards/view.yml
+      $ref: ./defs/cards/view.yml
     CardsPost:
-      $ref: ./definitions/cards/post.yml
+      $ref: ./defs/cards/post.yml
     CardsUpdate:
-      $ref: ./definitions/cards/update.yml
+      $ref: ./defs/cards/update.yml
     CardsPartial:
-      $ref: ./definitions/cards/partial.yml
+      $ref: ./defs/cards/partial.yml
     PlayerView:
-      $ref: ./definitions/player/view.yml
+      $ref: ./defs/players/view.yml
     PlayerPost:
-      $ref: ./definitions/player/post.yml
+      $ref: ./defs/players/post.yml
     PlayerUpdate:
-      $ref: ./definitions/player/update.yml
+      $ref: ./defs/players/update.yml
     PlayerPartial:
-      $ref: ./definitions/player/partial.yml
+      $ref: ./defs/players/partial.yml

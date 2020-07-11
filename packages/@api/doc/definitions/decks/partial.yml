@@ -1,7 +1,0 @@
-type: object
-properties:
-  name:
-    type: string
-    example: Pure Cyber Angel
-  player:
-    $ref: ../../index.yml#/components/schemas/PlayerPartial

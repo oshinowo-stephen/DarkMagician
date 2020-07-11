@@ -5,18 +5,18 @@ import {
   ClassErrorMiddleware,
 } from '@overnightjs/core'
 
-import { CardController } from './CardController'
-// import { DeckController } from './DeckController'
-import { PlayerController } from './PlayerController'
+import { Cards as CardController } from './Cards'
+import { Decks as DeckController } from './Decks'
+import { Player as PlayerController } from './Players'
 
 import {
   serverMiddleware,
 } from '@darkmagician/common'
 
-@Controller('api')
+@Controller('v1')
 @ChildControllers([
   new CardController(),
-  // new DeckController(),
+  new DeckController(),
   new PlayerController(),
 ])
 @ClassMiddleware(serverMiddleware.endpointLogger)

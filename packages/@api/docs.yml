@@ -1,17 +1,17 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://localhost:8080'
+  - url: 'http://localhost:3480'
 info:
-  version: 0.1.0-beta
-  title: DarkMagician API
-  description: The main API for DarkMagician
+  version: 0.1.1-beta
+  title: DarkMagician CRUD API
+  description: The core CRUD services for DarkMagician
 tags:
   - name: Player
-    description: CRUD DarkMagician's players
+    description: CRUD DarkMagician's player
   - name: Decks
-    description: CRUD DarkMagician's decks
+    description: decks linked with the player
   - name: Cards
-    description: CRUD DarkMagician's cards
+    description: cards linked with decks
 paths:
   /players:
     get:
@@ -41,9 +41,11 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
   '/players/{id}':
     get:
-      summary: Get a single player instance from ID
+      summary: Get a player instance with Player's ID
       tags:
         - Player
       parameters:
@@ -52,7 +54,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the player instance to get
+          description: ID of player instance to get
       responses:
         '200':
           description: OK
@@ -63,7 +65,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
     patch:
-      summary: update a player instance from ID
+      summary: update a player
       tags:
         - Player
       parameters:
@@ -83,10 +85,12 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
     delete:
-      summary: delete a player from ID
+      summary: update a player
       tags:
         - Player
       parameters:
@@ -95,15 +99,17 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the pokemon instance to delete
+          description: ID of the player instance to update
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
   /decks:
     get:
-      summary: Get all decks
+      summary: get all deck instances
       tags:
         - Decks
       responses:
@@ -115,12 +121,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DecksView'
+        '404':
+          $ref: '#/components/responses/404'
     post:
-      summary: create a new deck
+      summary: create a new deck instance
       tags:
         - Decks
       requestBody:
-        description: deck instance to create
+        description: deck instace data
         required: true
         content:
           application/json:
@@ -129,9 +137,11 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
   '/decks/{id}':
     get:
-      summary: get a deck instance from ID
+      summary: get deck from ID
       tags:
         - Decks
       parameters:
@@ -140,7 +150,7 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the deck instance to get
+          description: card ID
       responses:
         '200':
           description: OK
@@ -151,7 +161,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
     patch:
-      summary: update a deck instance from ID
+      summary: null
       tags:
         - Decks
       parameters:
@@ -160,9 +170,9 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the deck instance yo update
+          description: deck ID
       requestBody:
-        description: the data to update the deck instance with
+        description: the data to update deck instance with
         required: true
         content:
           application/json:
@@ -171,10 +181,12 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
     delete:
-      summary: delete a player from ID
+      summary: delete a deck instance
       tags:
         - Decks
       parameters:
@@ -183,25 +195,26 @@ paths:
           schema:
             type: string
           required: true
-          description: ID of the deck instance to delete
+          description: deck ID
       responses:
         '204':
-          description: no content
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
   '/decks/{player}':
     get:
-      summary: get all decks from player with their ID
+      summary: get deck from ID
       tags:
         - Decks
-        - Player
       parameters:
         - in: path
           name: player
           schema:
             type: string
           required: true
-          description: ID of the player to grab the decks
+          description: card ID
       responses:
         '200':
           description: OK
@@ -211,9 +224,54 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DecksView'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      summary: null
+      tags:
+        - Decks
+      parameters:
+        - in: path
+          name: player
+          schema:
+            type: string
+          required: true
+          description: deck ID
+      requestBody:
+        description: the data to update deck instance with
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecksUpdate'
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: delete a deck instance
+      tags:
+        - Decks
+      parameters:
+        - in: path
+          name: player
+          schema:
+            type: string
+          required: true
+          description: deck ID
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
   /cards:
     get:
-      summary: get all cards
+      summary: get all card instances
       tags:
         - Cards
       responses:
@@ -226,7 +284,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CardsView'
     post:
-      summary: create a new card
+      summary: create a card instance
       tags:
         - Cards
       requestBody:
@@ -239,40 +297,42 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/404'
   '/cards/{id}':
     get:
-      summary: get a card instance from ID
+      summary: get card with their ID
       tags:
         - Cards
       parameters:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
-          description: ID of the card instance to get
+          description: card ID
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DecksView'
+                $ref: '#/components/schemas/CardsView'
         '404':
           $ref: '#/components/responses/404'
     patch:
-      summary: update a card instance from ID
+      summary: update a card
       tags:
         - Cards
       parameters:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
-          description: ID of the card instance yo update
+          description: card ID
       requestBody:
-        description: the data to update the card instance with
+        description: the data to update card instance with
         required: true
         content:
           application/json:
@@ -281,44 +341,41 @@ paths:
       responses:
         '204':
           description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
     delete:
-      summary: delete a card from ID
+      summary: delete a card instance
       tags:
-        - Decks
+        - Cards
       parameters:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
-          description: ID of the card instance to delete
+          description: card ID
       responses:
         '204':
-          description: no content
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
-  '/cards/{player}':
+  '/cards/{deck}':
     get:
-      summary: get all cards from player with their ID
+      summary: get cards from a deck with its ID
       tags:
+        - Cards
         - Decks
-        - Player
       parameters:
         - in: path
-          name: player
+          name: decks
           schema:
             type: string
           required: true
-          description: ID of the player to grab the cards
-      requestBody:
-        description: partial card instance
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CardsPartial'
+          description: ID of the deck
       responses:
         '200':
           description: OK
@@ -328,6 +385,122 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CardsView'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      summary: update a card instance via deck ID
+      tags:
+        - Cards
+        - Decks
+      parameters:
+        - in: path
+          name: decks
+          schema:
+            type: string
+          required: true
+          description: ID of the deck
+      requestBody:
+        description: the data to update card instance with
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardsUpdate'
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: delete a card instance
+      tags:
+        - Cards
+        - Decks
+      parameters:
+        - in: path
+          name: decks
+          schema:
+            type: string
+          required: true
+          description: ID of the decks
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+  '/cards/{player}':
+    get:
+      summary: get players cards with their ID
+      tags:
+        - Cards
+        - Player
+      parameters:
+        - in: path
+          name: player
+          schema:
+            type: string
+          required: true
+          description: ID of the player
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CardsView'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      summary: update a card
+      tags:
+        - Cards
+        - Player
+      parameters:
+        - in: path
+          name: player
+          schema:
+            type: string
+          required: true
+          description: ID of the player
+      requestBody:
+        description: the data to update card instance with
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardsUpdate'
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: delete a card instance
+      tags:
+        - Cards
+        - Player
+      parameters:
+        - in: path
+          name: player
+          schema:
+            type: string
+          required: true
+          description: ID of the player
+      responses:
+        '204':
+          description: No content
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   responses:
     '400':
@@ -350,12 +523,35 @@ components:
         - message
       properties:
         code:
-          type: integer
+          type: number
           example: 404
+          description: Error status code
         message:
           type: string
-          example: not found
+          example: Not Found
+          description: Error message
     DecksView:
+      allOf:
+        - $ref: '#/components/schemas/DecksPartial'
+        - type: object
+          required:
+            - id
+            - name
+            - cards
+            - player
+    DecksPost:
+      allOf:
+        - $ref: '#/components/schemas/DecksUpdate'
+        - type: object
+          required:
+            - id
+            - player
+          properties:
+            player:
+              type: string
+              example: 2005200
+              description: Discord User ID
+    DecksUpdate:
       allOf:
         - $ref: '#/components/schemas/DecksPartial'
         - type: object
@@ -363,34 +559,21 @@ components:
             - name
             - cards
             - player
-          properties:
-            cards:
-              type: array
-              items:
-                $ref: '#/components/schemas/CardsView'
-    DecksPost:
-      allOf:
-        - $ref: '#/components/schemas/DecksPartial'
-        - type: object
-          required:
-            - id
-            - name
-            - player
-          properties:
-            id:
-              type: string
-              example: 47twmXb9HWzgbIIZ
-              description: Deck's ID
-    DecksUpdate:
-      allOf:
-        - $ref: '#/components/schemas/DecksPartial'
-        - $ref: '#/components/schemas/CardsPartial'
     DecksPartial:
       type: object
       properties:
+        id:
+          type: string
+          example: A57WQSXYsfsa
+          description: Deck's ID
+        cards:
+          type: array
+          elements:
+            $ref: '#/components/schemas/CardsPartial'
         name:
           type: string
-          example: Pure Cyber Angel
+          example: Cyber Angels
+          description: Deck name
         player:
           $ref: '#/components/schemas/PlayerPartial'
     CardsView:
@@ -400,29 +583,42 @@ components:
           required:
             - id
             - decks
+            - cardId
+            - player
+    CardsPost:
+      allOf:
+        - $ref: '#/components/schemas/CardsUpdate'
+        - type: object
+          required:
+            - cardId
             - player
           properties:
-            decks:
-              type: array
-              items:
-                $ref: '#/components/schemas/DecksView'
-    CardsPost:
+            player:
+              type: string
+              example: 2005200
+              description: Discord User ID
+    CardsUpdate:
       allOf:
         - $ref: '#/components/schemas/CardsPartial'
         - type: object
           required:
-            - id
+            - decks
             - player
-    CardsUpdate:
-      allOf:
-        - $ref: '#/components/schemas/CardsPartial'
-        - $ref: '#/components/schemas/DecksPartial'
     CardsPartial:
       type: object
       properties:
         id:
+          type: string
+          example: as2245sad15456
+          description: Random generated string
+        cardId:
           type: number
-          example: 73580471
+          example: 7653536
+          description: Card ID fetched from the YGO API
+        decks:
+          type: array
+          elements:
+            $ref: '#/components/schemas/DecksPartial'
         player:
           $ref: '#/components/schemas/PlayerPartial'
     PlayerView:
@@ -431,30 +627,28 @@ components:
         - type: object
           required:
             - id
-            - currency
+            - bal
     PlayerPost:
+      allOf:
+        - $ref: '#/components/schemas/PlayerUpdate'
+        - type: object
+          required:
+            - id
+            - bal
+    PlayerUpdate:
       allOf:
         - $ref: '#/components/schemas/PlayerPartial'
         - type: object
           required:
-            - id
-            - currency
-    PlayerUpdate:
-      allOf:
-        - type: object
-          properties:
-            currency:
-              type: number
-              example: 2250
-              description: Player's current currency
+            - bal
     PlayerPartial:
       type: object
       properties:
         id:
           type: string
           example: 229651386223034370
-          description: Discord User ID
-        currency:
+          description: Player's Discord ID
+        bal:
           type: number
-          example: 2250
-          description: Player's current currency
+          example: 506
+          description: Player's balance

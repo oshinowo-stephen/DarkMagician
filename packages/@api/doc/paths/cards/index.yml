@@ -1,5 +1,5 @@
 get:
-  summary: get all cards
+  summary: get all card instances
   tags:
     - Cards
   responses:
@@ -12,17 +12,9 @@ get:
             items:
               $ref: ../../index.yml#/components/schemas/CardsView
 post:
-  summary: create a new card
+  summary: create a card instance
   tags:
     - Cards
-  parameters:
-    -
-      in: path
-      name: player
-      schema:
-        type: string
-      required: true
-      description: ID of the player to create the card instance
   requestBody:
     description: card instance to create
     required: true
@@ -33,3 +25,5 @@ post:
   responses:
     204:
       description: No content
+    400:
+      $ref: ../../index.yml#/components/responses/404

@@ -5,13 +5,8 @@ import {
   PrimaryColumn,
 } from 'typeorm'
 
-import {
-  Cards,
-} from './Cards'
-
-import {
-  Decks,
-} from './Decks'
+import { Cards } from './Cards'
+import { Decks } from './Decks'
 
 @Entity()
 export class Player {
@@ -20,7 +15,7 @@ export class Player {
   public id!: string
 
   @Column()
-  public currency!: number
+  public bal!: number
 
   @OneToMany(() => Cards, (cards) => cards.player)
   public cards!: Promise<Cards[]>

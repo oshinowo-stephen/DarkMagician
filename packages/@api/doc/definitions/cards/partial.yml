@@ -1,7 +1,0 @@
-type: object
-properties:
-  id:
-    type: number
-    example: 73580471
-  player:
-    $ref: ../../index.yml#/components/schemas/PlayerPartial

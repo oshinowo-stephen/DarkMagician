@@ -7,13 +7,8 @@ import {
   PrimaryColumn,
 } from 'typeorm'
 
-import {
-  Player,
-} from './Player'
-
-import {
-  Cards,
-} from './Cards'
+import { Cards } from './Cards'
+import { Player } from './Player'
 
 @Entity()
 export class Decks {
@@ -24,11 +19,11 @@ export class Decks {
   @Column()
   public name!: string
 
-  @ManyToOne(() => Player, (player) => player.id)
-  public player!: Player
-
   @ManyToMany(() => Cards, (cards) => cards.decks)
   @JoinTable()
   public cards!: Promise<Cards[]>
+
+  @ManyToOne(() => Player, (player) => player.decks)
+  public player!: Player
 
 }

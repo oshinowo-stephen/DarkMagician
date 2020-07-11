@@ -1,30 +1,29 @@
 import {
   Entity,
-  ManyToOne,
+  Column,
   JoinTable,
+  ManyToOne,
   ManyToMany,
   PrimaryColumn,
 } from 'typeorm'
 
-import {
-  Player,
-} from './Player'
-
-import {
-  Decks,
-} from './Decks'
+import { Decks } from './Decks'
+import { Player } from './Player'
 
 @Entity()
 export class Cards {
 
   @PrimaryColumn()
-  public id!: number
+  public id!: string
 
-  @ManyToOne(() => Player, (player) => player.id)
-  public player!: Player
+  @Column()
+  public cardId!: number
 
   @ManyToMany(() => Decks, (decks) => decks.cards)
   @JoinTable()
   public decks!: Promise<Decks[]>
+
+  @ManyToOne(() => Player, (player) => player.cards)
+  public player!: Player
 
 }

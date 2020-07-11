@@ -1,0 +1,7 @@
+allOf:
+  - $ref: ./partial.yml
+  -
+    type: object
+    required:
+      - id
+      - bal

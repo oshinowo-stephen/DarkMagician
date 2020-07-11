@@ -3,5 +3,6 @@ allOf:
   -
     type: object
     required:
-      - id
+      - name
+      - cards
       - player
