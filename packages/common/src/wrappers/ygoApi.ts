@@ -20,6 +20,7 @@ export enum CardTypes {
   Spell = 'Spell',
   Tuner = 'Tuner',
   Token = 'Token',
+  Gemini = 'Gemini',
   Effect = 'Effect',
   Fusion = 'Fusion',
   Ritual = 'Ritual',

@@ -3268,10 +3268,10 @@ eris-boiler@^3.0.0:
     dateformat "^3.0.3"
     eris "github:abalabahaha/eris#dev"
 
-eris-pages@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/eris-pages/-/eris-pages-1.0.4.tgz#490a22d31aa827160dbaa11635e352c07909303d"
-  integrity sha512-daVs80dOxkFAqmb7ps+I23KRt9+CsGKNjQd5xwthou841PlsumgzwTfkRpfzXAACCajDjRoFW5Cx35hk5uvPsg==
+eris-pages@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/eris-pages/-/eris-pages-1.0.6.tgz#e8c6cba0a37c5283339ecb4b6e46d80798eb3d5b"
+  integrity sha512-yUVAs/ByYI+7RwRlnbqdBv7veLR6ue1gX7fRg1fbO1jAUXKVbL2fun4yCaLQ396PmHJzP/o5kBTOCWOyCttlYg==
   dependencies:
     eris "^0.13.3"
     eris-reactions "https://github.com/whoastonic/eris-reactions.git"
