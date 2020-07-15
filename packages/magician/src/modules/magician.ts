@@ -9,9 +9,9 @@ import {
 
 export class Magician extends DataClient {
 
-  public readonly decksWrapper = new DMGDecks()
-  public readonly cardsWrapper = new DMGCards()
-  public readonly playerWrapper = new DMGPlayer()
+  public readonly decks = new DMGDecks()
+  public readonly cards = new DMGCards()
+  public readonly players = new DMGPlayer()
   public readonly constructCardEmbed = cardsEmbed
 
 }

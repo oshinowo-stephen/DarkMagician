@@ -12,41 +12,10 @@ if (process.env.NODE_ENV === 'production') {
   loadEnvs({ path: '../../.env' })
 }
 
-export const getConfig = ({
-  serverConfig,
-  targetDatabase,
-}: ConfigOptions): Config => ({
-  token: process.env.DARK_MAGICIAN_TOKEN ?? 'INVALID_TOKEN',
-  database: {
-    port: 5432,
-    type: 'postgres',
-    host: 'localhost',
-    entities: [
-      'src/entities/*.ts',
-    ],
-    migrations: [
-      'src/migrations/*.ts',
-    ],
-    database: process.env.DMG_DATABASE_NAME ?? targetDatabase ?? 'INVALID_DB',
-    synchronize: process.env.NODE_ENV !== 'production',
-    cli: {
-      entitiesDir: 'src/entities',
-      migrationsDir: 'src/migrations',
-    },
-    username: process.env.NODE_ENV === 'production'
-      ? process.env.ADMIN_DB_USER ?? 'INVALID_DB_USER'
-      : process.env.DMG_DATABASE_USER ?? 'INVALID_DB_USER',
-    password: process.env.NODE_ENV === 'production'
-      ? process.env.ADMIN_DB_PASS ?? 'INVALID_DB_PASS'
-      : process.env.DMG_DATABASE_PASS ?? 'INVALID_DB_PASS',
-  },
-  server: serverConfig ?? undefined,
-})
-
 export interface Config {
   token: string
   database: DatabaseConfig
-  server?: ServerConfig
+  serverPort: number
 }
 
 export interface DatabaseConfig {
@@ -67,11 +36,36 @@ export interface CLIOptions {
   migrationsDir: string
 }
 
-export interface ConfigOptions {
-  targetDatabase?: string
-  serverConfig?: ServerConfig
-}
-
-export interface ServerConfig {
-  port: number
-}
+export const getConfig = (): Config => ({
+  token: process.env.DARK_MAGICIAN_TOKEN ?? 'INVALID_TOKEN',
+  database: {
+    port: 5432,
+    type: 'postgres',
+    host: 'localhost',
+    entities: [
+      'src/entities/*.ts',
+    ],
+    migrations: [
+      'src/migrations/*.ts',
+    ],
+    synchronize: process.env.NODE_ENV !== 'production',
+    cli: {
+      entitiesDir: 'src/entities',
+      migrationsDir: 'src/migrations',
+    },
+    username: process.env.NODE_ENV === 'production'
+      ? process.env.ADMIN_DB_USER ?? 'INVALID_DB_USER'
+      : process.env.DMG_DATABASE_USER ?? 'INVALID_DB_USER',
+    password: process.env.NODE_ENV === 'production'
+      ? process.env.ADMIN_DB_PASS ?? 'INVALID_DB_PASS'
+      : process.env.DMG_DATABASE_PASS ?? 'INVALID_DB_PASS',
+    database: process.env.DMG_DATABASE_NAME ?? 'INVALID_DB_NAME',
+  },
+  serverPort: process.env.NODE_ENV !== 'production'
+    ? process.env.DMG_SERVER_PORT
+      ? parseInt(process.env.DMG_SERVER_PORT)
+      : parseInt('5560')
+    : process.env.ADMIN_SERV_PORT
+      ? parseInt(process.env.ADMIN_SERV_PORT)
+      : parseInt('5560'),
+})

@@ -12,7 +12,7 @@ export default new Command<Magician>({
   run: async (bot, { msg, params }) => {
     try {
       const playerInfo = await bot
-        .playerWrapper
+        .players
         .fetch(
           params[0] === undefined
             ? msg.author.id

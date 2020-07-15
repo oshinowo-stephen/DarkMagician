@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "eris": "^0.13.3",
-    "eris-boiler": "^3.0.0",
+    "eris-boiler": "alex-taxiera/eris-boiler#additional-testing",
     "eris-pages": "^1.0.6",
     "got": "^11.5.0"
   },

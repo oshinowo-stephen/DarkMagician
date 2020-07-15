@@ -3259,10 +3259,9 @@ equal-length@^1.0.0:
   resolved "https://registry.yarnpkg.com/equal-length/-/equal-length-1.0.1.tgz#21ca112d48ab24b4e1e7ffc0e5339d31fdfc274c"
   integrity sha1-IcoRLUirJLTh5//A5TOdMf38J0w=
 
-eris-boiler@^3.0.0:
+eris-boiler@alex-taxiera/eris-boiler#additional-testing:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/eris-boiler/-/eris-boiler-3.0.0.tgz#5980e26f56097e93af14f944713b2fde5cd3de46"
-  integrity sha512-IAEbtNtlnSxEcgQGKuCBUhxip9ZcxgzCseZ3HogMKyDBbPwS0zqHbCFjLyOmbqC5rl581XssifTUqfUgaRe54g==
+  resolved "https://codeload.github.com/alex-taxiera/eris-boiler/tar.gz/10e2e178b14bb95352e4421da828ecdc2a4c4921"
   dependencies:
     chalk "^2.4.2"
     dateformat "^3.0.3"

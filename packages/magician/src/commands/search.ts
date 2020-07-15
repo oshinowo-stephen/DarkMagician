@@ -6,30 +6,37 @@ import {
 
 import {
   Embed,
+  Message,
 } from 'eris'
 
 import { ygoApi } from '@darkmagician/common'
 
 import {
   PageBuilder,
+  ActionButton,
 } from 'eris-pages'
+import { logger } from 'eris-boiler/util'
 
 export default new Command<Magician>({
   name: 'search',
   description: 'Search\'s for a card',
   options: {
     deleteInvoking: true,
-    deleteResponse: true,
-    deleteResponseDelay: 5000,
+    parameters: [ 'Card Name' ],
     aliases: [ 'lookup', 's', 'card' ],
   },
-  run: async (bot, { msg, params }) => {
-    if (params.length === 0) {}
+  run: async (bot, { msg, params }): Promise<void> => {
+    await sendPageEmbed(bot, msg, params.join('+'))
+  },
+})
 
-    const cards = await ygoApi.searchCard(
-      params.join('+').toLowerCase(),
-    )
-
+const sendPageEmbed = async (
+  bot: Magician,
+  msg: Message,
+  card: string,
+): Promise<string | Embed | void> => {
+  try {
+    const cards = await ygoApi.searchCard(card)
     const pageData: Embed[] = []
 
     for (const card of cards) {
@@ -42,12 +49,61 @@ export default new Command<Magician>({
       extendedButtons: true,
     })
 
-    await builder
-      .addPages(pageData)
-      .construct()
+    const actions: ActionButton[] = [
+      {
+        emote: '💰',
+        run: async (_msg, _bot, _caller): Promise<void> => {
+          const {
+            price,
+            id: cardId,
+          } = cards[builder.currentPage]
 
-    builder.start()
+          const player = await _bot
+            .players.get(_caller)
 
-    return `***${params.join(' ')}*** found! card entries shown above!`
-  },
-})
+          if (player !== undefined) {
+            if (player.bal > price) {
+              const newBal = player.bal - price
+
+              await _bot.players.update(_caller, newBal)
+
+              await _bot.cards.create(cardId, _caller)
+            }
+          }
+        }
+      }
+    ]
+
+    try {
+      await builder
+        .addActions(actions)
+        .addPages(pageData)
+        .construct()
+
+      builder.start()
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.warn('cannot construct builder,', error)
+
+        switch (error.message) {
+          case 'Must contain more at least 2 pages':
+            logger.warn('only got one card')
+            return bot.constructCardEmbed(cards[0])
+        }
+
+        return error.message
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.warn('cannot fetch card, ', error)
+
+      switch (error.message) {
+        case 'Response code 400 (Bad Request)':
+          return `***${card}*** not found...`
+      }
+
+      return error.message
+    }
+  }
+}

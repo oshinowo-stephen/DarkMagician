@@ -30,25 +30,7 @@ const cardFields = (
   const fields: EmbedField[] = []
 
   if (isMonsterCard(card.cardType)) {
-    if (card.cardType === ygoApi.CardTypes.Link) {
-      fields.push({
-        inline: true,
-        name: 'ATK / LINK',
-        value: `${card.cardStats?.atk} / ${card.cardStats?.linkVal}`,
-      })
-    } else {
-      fields.push({
-        inline: true,
-        name: 'ATK / DEF',
-        value: `${card.cardStats?.atk} / ${card.cardStats?.def}`
-      })
-    }
-
-    fields.push({
-      inline: true,
-      name: 'RACE / TYPE / ATTRIBUTE',
-      value: `${card.race} / ${card.cardType.toString()} / ${card.attribute}`
-    })
+    addMonsterStats(card, fields)
   }
 
   return fields.length === 0
@@ -66,10 +48,48 @@ const cardTitle = (
     cType === ygoApi.CardTypes.Token ||
     cType === ygoApi.CardTypes.Trap ||
     cType === ygoApi.CardTypes.Link
-    ? `${name}`
+      ? `${name}`
     : cType === ygoApi.CardTypes.Xyz
       ? `Rank ${lvl ?? 0} | ${name}`
       : `Level ${lvl ?? 0} | ${name}`
+}
+
+const addBaseStats = (
+  card: ygoApi.Card,
+  fields: EmbedField[],
+): void => {
+
+}
+
+const addMonsterStats = (
+  card: ygoApi.Card,
+  fields: EmbedField[],
+): void => {
+  if (card.cardStats !== undefined) {
+    if (card.cardType === ygoApi.CardTypes.Link) {
+      fields.push({
+        inline: true,
+        name: 'ATK / LINK',
+        value: `${card.cardStats.atk ?? 0} / ${card.cardStats.linkVal ?? 0}`,
+      })
+    } else {
+      fields.push({
+        inline: true,
+        name: 'ATK / DEF',
+        value: `${card.cardStats.atk ?? 0} / ${card.cardStats.def ?? 0}`,
+      })
+    }
+
+    const cType = card
+      .cardType
+      .toString()
+
+    fields.push({
+      inline: true,
+      name: 'RACE / TYPE / ATTRIBUTE',
+      value: `${card.race ?? ''} / ${cType} / ${card.attribute ?? ''}`,
+    })
+  }
 }
 
 const getCardColor = (type: string): number => {
