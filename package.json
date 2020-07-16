@@ -5,8 +5,9 @@
   "author": "whoastonic <kingstonicthe1@gmail.com>",
   "scripts": {
     "build": "lerna run build --no-bail",
-    "test": "lerna run test --no-bail",
+    "test": "yarn pretest && lerna run test --no-bail",
     "lint": "lerna run lint --no-bail",
+    "pretest": "rm -rf packages/**/build",
     "lint:fix": "lerna run lint --no-bail -- -- --fix",
     "bootstrap": "lerna bootstrap",
     "reinstall": "yarn clean && yarn",
