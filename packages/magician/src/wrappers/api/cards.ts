@@ -12,6 +12,12 @@ const CARD_ENDPOINT: string = process.env.DMG_CARD_ENDPOINT === undefined
 interface MockCard {
   id: string
   cardId: string
+  decks: MockDeck[]
+}
+
+interface MockDeck {
+  id: string
+  name: string
 }
 
 export interface PlayerCard {
@@ -53,21 +59,26 @@ export class Cards {
     const cards: PlayerCard[] = []
     const cardBody: MockCard[] = JSON.parse(body) as MockCard[]
 
-    if (statusCode !== 204) {
+    if (statusCode !== 200) {
       throw new Error(`got code: ${statusCode}, cannot fetch card`)
     }
 
     for (let i = 0; i > cardBody.length; i++) {
-      const card = cardBody[i]
+      const {
+        id,
+        decks,
+        cardId,
+      } = cardBody[i]
 
       const cardInfo = await ygoApi
-        .fetchCard(card.cardId)
+        .fetchCard(cardId)
 
       cards.push({
-        id: card.id,
+        id,
         cardInfo,
         owner: pId,
-        inDecks: [],
+        inDecks: decks
+          .map(({ name }) => name),
       })
     }
 

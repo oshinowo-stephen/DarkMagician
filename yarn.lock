@@ -3267,10 +3267,10 @@ eris-boiler@alex-taxiera/eris-boiler#additional-testing:
     dateformat "^3.0.3"
     eris "github:abalabahaha/eris#dev"
 
-eris-pages@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/eris-pages/-/eris-pages-1.0.6.tgz#e8c6cba0a37c5283339ecb4b6e46d80798eb3d5b"
-  integrity sha512-yUVAs/ByYI+7RwRlnbqdBv7veLR6ue1gX7fRg1fbO1jAUXKVbL2fun4yCaLQ396PmHJzP/o5kBTOCWOyCttlYg==
+eris-pages@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/eris-pages/-/eris-pages-1.0.8.tgz#aff5d23b68067805bdae1bdff717a3511c8ef715"
+  integrity sha512-KrLo1+LxF1+ysL6DJryVvSUj4W9HwKR7SwIulyBA8q/dWhflWfimw9riZVralgzRPEPM6RY4t4PlDHJYrc06GA==
   dependencies:
     eris "^0.13.3"
     eris-reactions "https://github.com/whoastonic/eris-reactions.git"
@@ -5907,6 +5907,11 @@ modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
+
+moment@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"

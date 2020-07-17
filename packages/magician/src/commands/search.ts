@@ -41,37 +41,53 @@ const sendPageEmbed = async (
 
     for (const card of cards) {
       pageData.push(
-        bot.constructCardEmbed(card),
+        bot.constructCardEmbed(bot, msg.author.id, card),
       )
     }
 
-    const builder = new PageBuilder(bot, msg, {
+    const builder = new PageBuilder<Magician>(bot, msg, {
       extendedButtons: true,
     })
 
-    const actions: ActionButton[] = [
+    const actions: ActionButton<Magician>[] = [
       {
         emote: '💰',
-        run: async (_msg, _bot, _caller): Promise<void> => {
+        run: async (
+          _msg: Message,
+          bot: Magician,
+          caller: string,
+        ): Promise<void> => {
           const {
             price,
             id: cardId,
           } = cards[builder.currentPage]
 
-          const player = await _bot
-            .players.get(_caller)
+          try {
+            const player = await bot.players.fetch(caller)
 
-          if (player !== undefined) {
-            if (player.bal > price) {
-              const newBal = player.bal - price
+            if (player !== undefined) {
+              if (player.bal > price) {
+                const newBal = player.bal - price
 
-              await _bot.players.update(_caller, newBal)
+                await bot.players.update(caller, newBal)
 
-              await _bot.cards.create(cardId, _caller)
+                const id = cardId.toString()
+                await bot.cards.create(id, caller)
+              } else {
+                _msg.channel
+                  .createMessage(`<@${caller}>, inefficient balance, card price: ${price}`)
+                  .catch((error: string) => logger.error(error))
+              }
             }
+          } catch (error) {
+            const notFoundMsg = `
+<@${caller}>, you need to run, command: \`start\` before collecting cards!`
+
+            _msg.channel.createMessage(notFoundMsg)
+              .catch((error: string) => logger.error(error))
           }
-        }
-      }
+        },
+      },
     ]
 
     try {
@@ -88,7 +104,6 @@ const sendPageEmbed = async (
         switch (error.message) {
           case 'Must contain more at least 2 pages':
             logger.warn('only got one card')
-            return bot.constructCardEmbed(cards[0])
         }
 
         return error.message

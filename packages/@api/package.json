@@ -30,7 +30,8 @@
     "@types/js-yaml": "^3.12.5",
     "@types/uuid": "^8.0.0",
     "dtsgenerator": "^2.6.0",
-    "js-yaml": "^3.14.0"
+    "js-yaml": "^3.14.0",
+    "moment": "^2.27.0"
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.4",

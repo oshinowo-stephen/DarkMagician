@@ -4,10 +4,21 @@ import {
 } from 'eris'
 
 import {
+  Magician,
+} from '../../modules/magician'
+
+import {
+  getPlayerInfo,
+} from './playerCardInfo'
+
+import {
+  logger,
   ygoApi,
 } from '@darkmagician/common'
 
 export const construct = (
+  bot: Magician,
+  player: string,
   card: ygoApi.Card,
 ): Embed => ({
   type: 'rich',
@@ -20,11 +31,13 @@ export const construct = (
   thumbnail: {
     url: card.image,
   },
-  fields: cardFields(card),
+  fields: cardFields(bot, player, card),
   color: getCardColor(card.cardType.toString()),
 })
 
 const cardFields = (
+  bot: Magician,
+  player: string,
   card: ygoApi.Card,
 ): EmbedField[] | undefined => {
   const fields: EmbedField[] = []
@@ -32,6 +45,9 @@ const cardFields = (
   if (isMonsterCard(card.cardType)) {
     addMonsterStats(card, fields)
   }
+
+  addBaseStats(fields, card, bot, player)
+    .catch((error: string) => logger.warn(error))
 
   return fields.length === 0
     ? undefined
@@ -48,17 +64,84 @@ const cardTitle = (
     cType === ygoApi.CardTypes.Token ||
     cType === ygoApi.CardTypes.Trap ||
     cType === ygoApi.CardTypes.Link
-      ? `${name}`
+    ? name
     : cType === ygoApi.CardTypes.Xyz
       ? `Rank ${lvl ?? 0} | ${name}`
       : `Level ${lvl ?? 0} | ${name}`
 }
 
-const addBaseStats = (
-  card: ygoApi.Card,
+const addBaseStats = async (
   fields: EmbedField[],
-): void => {
+  card: ygoApi.Card,
+  client: Magician,
+  player: string,
+): Promise<void> => {
+  const {
+    cardsOwned,
+  } = await getPlayerInfo(client, player)
 
+  fields.push({
+    inline: true,
+    name: 'PRICE / OWNED',
+    value: `${card.price} / ${ownedAmount(card.name, cardsOwned)}`,
+  })
+
+  for (const format of card.formats) {
+    fields.push({
+      inline: true,
+      name: 'FORMAT : LIMIT',
+      value: `${format} : ${getLimit(format, card)}`,
+    })
+  }
+}
+
+const ownedAmount = (
+  name: string,
+  names: string[],
+): number =>
+  names
+    .filter((value) => value === name)
+    .length
+
+const getLimit = (
+  format: string,
+  card: ygoApi.Card,
+): string => {
+  switch (format) {
+    case 'tcg':
+      return card.cardLimits !== undefined
+        ? cardLimitToString(
+          parseInt(card.cardLimits.tcg ?? '0'),
+        )
+        : 'Approved'
+    case 'goat':
+      return card.cardLimits !== undefined
+        ? cardLimitToString(
+          parseInt(card.cardLimits.goat ?? '0'),
+        )
+        : 'Approved'
+    default:
+      return card.cardLimits !== undefined
+        ? cardLimitToString(
+          parseInt(card.cardLimits.ocg ?? '0'),
+        )
+        : 'Approved'
+  }
+}
+
+const cardLimitToString = (
+  limit: number,
+): string => {
+  switch (limit) {
+    case 1:
+      return 'Semi-Limited'
+    case 2:
+      return 'Limited'
+    case 3:
+      return 'Banned'
+    default:
+      return 'Approved'
+  }
 }
 
 const addMonsterStats = (

@@ -43,11 +43,11 @@ export interface Card {
   race: string
   image: string
   price: number
+  formats: string[]
   archType?: string
   attribute?: string
   rarity: CardRarity
   cardType: CardTypes
-  allowedInDL: boolean
   cardStats?: CardStats
   cardLimits?: CardLimits
 }
@@ -141,11 +141,7 @@ const constructCard = (rawCard: any): Card => ({
   archType: rawCard.archetype ?? undefined,
   attribute: rawCard.attribute ?? undefined,
   image: rawCard.card_images[0].image_url,
-  allowedInDL: isInDuelLinks(
-    rawCard.misc_info !== undefined
-      ? rawCard.misc_info[0].formats
-      : [],
-  ),
+  formats: rawCard.misc_info[0].formats || [],
   rarity: mapRarityToCard(
     rawCard.card_sets
       ? rawCard.card_sets[0].set_rarity
@@ -154,7 +150,7 @@ const constructCard = (rawCard: any): Card => ({
   price: mapPriceToCard(rawCard.card_prices[0].amazon_price),
 })
 
-const getLimits = (rawCard: any): CardLimits | undefined => {
+const getLimits = (rawCard: any): undefined | CardLimits => {
   if (rawCard.banlist_info !== undefined) {
     const TCGLimit = rawCard.banlist_info.ban_tcg
     const OCGLimit = rawCard.banlist_info.ban_ocg
@@ -170,7 +166,7 @@ const getLimits = (rawCard: any): CardLimits | undefined => {
   }
 }
 
-const pullStats = (object: any): CardStats | undefined => {
+const pullStats = (object: any): undefined | CardStats => {
   if (object.atk !== undefined) {
     return {
       atk: object.atk,
@@ -215,9 +211,6 @@ const mapPriceToCard = (priceStr: string): number => {
 
   return 100000
 }
-
-const isInDuelLinks = (formats: string[]): boolean =>
-  formats.indexOf('Duel Links') !== -1
 
 const mapTypeToCard = (rawType: string): CardTypes => {
   switch (rawType.split(' ')[0].toLocaleLowerCase()) {

@@ -35,7 +35,9 @@ const updateBal = async (bot: Magician, player: string): Promise<void> => {
     const newBal = (p.bal + Math.floor(Math.random() * 10) * 1000)
 
     await bot.players.update(player, newBal)
-  } catch (error) {
-    logger.log('warn', `cannot update balance, player: ${player} doesn't exist`)
+  } catch (_) {
+    logger.warn(`${player}, doesn't exist database, creating instance`)
+
+    await bot.players.create(player, Math.floor(Math.random() * 10) * 1000)
   }
 }
