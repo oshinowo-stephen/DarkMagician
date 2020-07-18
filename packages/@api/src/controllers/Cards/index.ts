@@ -100,7 +100,7 @@ export class Cards implements CRUDController {
     await service.create(cardId, player)
 
     return res
-      .status(200)
+      .status(204)
       .send()
   }
 

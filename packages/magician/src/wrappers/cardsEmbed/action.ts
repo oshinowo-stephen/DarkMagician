@@ -14,12 +14,10 @@ export const generate = (
       bot,
       caller,
     ): Promise<void> => {
-      const {
-        bal,
-      } = await bot.players.fetch(caller)
+      const p = await bot.players.fetch(caller)
 
-      if (bal > card.price) {
-        const newBal = bal - card.price
+      if (p.bal > card.price) {
+        const newBal = p.bal - card.price
 
         await bot.players.update(caller, newBal)
 

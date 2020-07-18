@@ -1,7 +1,7 @@
 import {
-  //logger,
   config,
   DarkMagicianServer,
+  logger,
 } from '@darkmagician/common'
 
 import {
@@ -10,11 +10,11 @@ import {
 
 const conf = config.getConfig()
 
-const server = new DarkMagicianServer([
+export const server = new DarkMagicianServer([
   new Root(),
 ])
 
 server
   .start(conf.serverPort)
-  .catch((error: Error) =>
-    console.log(error))
+  .catch((error: string) =>
+    logger.error('An issue running server:', error))

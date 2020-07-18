@@ -16,12 +16,8 @@ export const getPlayerInfo = async (
   const decks: string[] = []
   const { bal } = await bot.players.fetch(player)
 
-  console.log(player)
-
   try {
     const pCards = await bot.cards.fetchAllFromPlayer(player)
-    console.log(pCards)
-
     const cardIds = pCards.map(({ cardInfo }) => cardInfo.id.toString())
 
     cards.push(...cardIds)
@@ -31,9 +27,9 @@ export const getPlayerInfo = async (
 
   try {
     const pDecks = await bot.decks.fetchAllFromPlayer(player)
-    const deckNames = pDecks.map(({ name }) => name)
+    const deckIds = pDecks.map(({ id }) => id)
 
-    decks.push(...deckNames)
+    decks.push(...deckIds)
   } catch (_) {
     // empty block...
   }

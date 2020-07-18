@@ -88,8 +88,6 @@ export class Decks implements CRUDController {
   ): Promise<typeof res> {
     const { player } = req.params
 
-    console.log(player)
-
     const playerDecks = await service.fetchAllByPlayer(player)
 
     const views = await decks.array(playerDecks)

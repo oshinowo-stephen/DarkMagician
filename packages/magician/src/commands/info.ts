@@ -6,8 +6,6 @@ import {
   Magician,
 } from '../modules/magician'
 
-import { PlayerResponse } from '@wrappers/api/player'
-
 export default new Command<Magician>({
   name: 'pinfo',
   options: {
@@ -21,9 +19,11 @@ export default new Command<Magician>({
 
     const user = bot.users.get(player)
 
-    const { bal }: PlayerResponse = await bot
+    const playerInfo = await bot
       .players
       .fetch(player)
+
+    const playerBal: number = playerInfo.bal
 
     return {
       embed: {
@@ -35,7 +35,7 @@ export default new Command<Magician>({
           {
             inline: true,
             name: 'Balance 💵',
-            value: `$${bal}`,
+            value: `$${playerBal}`,
           },
         ],
         author: {

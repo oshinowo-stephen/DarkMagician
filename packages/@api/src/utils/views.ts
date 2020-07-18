@@ -83,8 +83,6 @@ export const decks = {
   ): Promise<Schemas.DecksView[]> => {
     const allDecks: Schemas.DecksView[] = []
 
-    console.log(decks)
-
     for (const d of decks) {
       const cards = await d.cards
 

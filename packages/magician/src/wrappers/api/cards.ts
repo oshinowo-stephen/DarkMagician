@@ -1,9 +1,7 @@
 import got from 'got'
 
-import {
-} from '@darkmagician/api'
-
 import { ygoApi } from '@darkmagician/common'
+import { logger } from 'eris-boiler/util'
 
 const CARD_ENDPOINT: string = process.env.DMG_CARD_ENDPOINT === undefined
   ? 'http://localhost:5560/v1/cards'
@@ -70,9 +68,6 @@ export class Cards {
         cardId,
       } = card
 
-      console.log('in loop')
-      console.log(card)
-
       try {
         const cardInfo = await ygoApi.fetchCardById(cardId)
 
@@ -85,10 +80,8 @@ export class Cards {
             : [],
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
       }
-
-      console.log(cards)
     }
 
     return cards

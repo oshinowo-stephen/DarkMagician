@@ -13,7 +13,7 @@
     }
   },
   "include": [
-    "src",
-    "test"
+		"src",
+		"index.d.ts"
   ]
 }
