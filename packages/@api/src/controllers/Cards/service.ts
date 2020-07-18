@@ -119,10 +119,3 @@ export const transferPlayer = async (
     id: cId,
   }, card)
 }
-
-// export const addToDeck = async (
-// cId: number,
-// dId: number,
-// ): Promise<void> => {
-// const cardsRepo = CONN.getRepository(Cards)
-// }

@@ -37,13 +37,13 @@ export class Cards {
       statusCode,
     } = await got.post(CARD_ENDPOINT, {
       json: {
-        id,
+        cardId: id,
         player: pId,
       },
       responseType: 'json',
     })
 
-    if (statusCode !== 204) {
+    if (statusCode !== 200) {
       throw new Error(`got code: ${statusCode}, card not created`)
     }
   }
@@ -63,23 +63,32 @@ export class Cards {
       throw new Error(`got code: ${statusCode}, cannot fetch card`)
     }
 
-    for (let i = 0; i > cardBody.length; i++) {
+    for (const card of cardBody) {
       const {
         id,
         decks,
         cardId,
-      } = cardBody[i]
+      } = card
 
-      const cardInfo = await ygoApi
-        .fetchCard(cardId)
+      console.log('in loop')
+      console.log(card)
 
-      cards.push({
-        id,
-        cardInfo,
-        owner: pId,
-        inDecks: decks
-          .map(({ name }) => name),
-      })
+      try {
+        const cardInfo = await ygoApi.fetchCardById(cardId)
+
+        cards.push({
+          id,
+          cardInfo,
+          owner: pId,
+          inDecks: decks.length !== 0
+            ? decks.map(({ name }) => name)
+            : [],
+        })
+      } catch (error) {
+        console.log(error)
+      }
+
+      console.log(cards)
     }
 
     return cards

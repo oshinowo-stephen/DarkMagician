@@ -1,10 +1,6 @@
 import {
   Magician,
-} from '../../modules/magician'
-
-import {
-  PlayerCard,
-} from '../api/cards'
+} from '../modules/magician'
 
 export interface PlayerInfo {
   balance: number
@@ -20,11 +16,15 @@ export const getPlayerInfo = async (
   const decks: string[] = []
   const { bal } = await bot.players.fetch(player)
 
+  console.log(player)
+
   try {
     const pCards = await bot.cards.fetchAllFromPlayer(player)
-    const cardNames = pCards.map((card) => getCardName(card))
+    console.log(pCards)
 
-    cards.push(...cardNames)
+    const cardIds = pCards.map(({ cardInfo }) => cardInfo.id.toString())
+
+    cards.push(...cardIds)
   } catch (_) {
     // empty block...
   }
@@ -44,7 +44,3 @@ export const getPlayerInfo = async (
     cardsOwned: cards,
   }
 }
-
-const getCardName = (
-  { cardInfo }: PlayerCard,
-): string => cardInfo.name

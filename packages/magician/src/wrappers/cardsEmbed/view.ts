@@ -9,45 +9,51 @@ import {
 
 import {
   getPlayerInfo,
-} from './playerCardInfo'
+} from '../../utils/playerCardInfo'
 
 import {
-  logger,
   ygoApi,
 } from '@darkmagician/common'
 
-export const construct = (
+export const construct = async (
   bot: Magician,
   player: string,
   card: ygoApi.Card,
-): Embed => ({
-  type: 'rich',
-  title: cardTitle(
-    card.name,
-    card.cardType,
-    card.cardStats?.lvl,
-  ),
-  description: card.desc,
-  thumbnail: {
-    url: card.image,
-  },
-  fields: cardFields(bot, player, card),
-  color: getCardColor(card.cardType.toString()),
-})
+): Promise<Embed> => {
+  const fields = await cardFields(
+    bot,
+    player,
+    card,
+  )
 
-const cardFields = (
+  return {
+    fields,
+    type: 'rich',
+    title: cardTitle(
+      card.name,
+      card.cardType,
+      card.cardStats?.lvl,
+    ),
+    description: card.desc,
+    thumbnail: {
+      url: card.image,
+    },
+    color: getCardColor(card.cardType.toString()),
+  }
+}
+
+const cardFields = async (
   bot: Magician,
   player: string,
   card: ygoApi.Card,
-): EmbedField[] | undefined => {
+): Promise<EmbedField[] | undefined> => {
   const fields: EmbedField[] = []
 
   if (isMonsterCard(card.cardType)) {
     addMonsterStats(card, fields)
   }
 
-  addBaseStats(fields, card, bot, player)
-    .catch((error: string) => logger.warn(error))
+  await addBaseStats(fields, card, bot, player)
 
   return fields.length === 0
     ? undefined
@@ -80,65 +86,54 @@ const addBaseStats = async (
     cardsOwned,
   } = await getPlayerInfo(client, player)
 
+  console.log(cardsOwned)
+
   fields.push({
     inline: true,
     name: 'PRICE / OWNED',
-    value: `${card.price} / ${ownedAmount(card.name, cardsOwned)}`,
+    value: `${card.price} / ${ownedAmount(card.id.toString(), cardsOwned)}`,
   })
 
+  const formatValue: string[] = []
+
   for (const format of card.formats) {
-    fields.push({
-      inline: true,
-      name: 'FORMAT : LIMIT',
-      value: `${format} : ${getLimit(format, card)}`,
-    })
+    formatValue.push(`${format} : ${getLimit(format, card)}`)
   }
+
+  fields.push({
+    inline: true,
+    name: 'FORMAT : LIMIT',
+    value: formatValue.join('\n'),
+  })
 }
 
 const ownedAmount = (
-  name: string,
-  names: string[],
+  id: string,
+  ids: string[],
 ): number =>
-  names
-    .filter((value) => value === name)
+  ids
+    .filter((pId) => pId === id)
     .length
 
 const getLimit = (
   format: string,
   card: ygoApi.Card,
 ): string => {
-  switch (format) {
+  const f = format.toLowerCase()
+
+  switch (f) {
     case 'tcg':
       return card.cardLimits !== undefined
-        ? cardLimitToString(
-          parseInt(card.cardLimits.tcg ?? '0'),
-        )
+        ? card.cardLimits.tcg ?? 'Approved'
+        : 'Approved'
+    case 'ocg':
+      return card.cardLimits !== undefined
+        ? card.cardLimits.ocg ?? 'Approved'
         : 'Approved'
     case 'goat':
       return card.cardLimits !== undefined
-        ? cardLimitToString(
-          parseInt(card.cardLimits.goat ?? '0'),
-        )
+        ? card.cardLimits.goat ?? 'Approved'
         : 'Approved'
-    default:
-      return card.cardLimits !== undefined
-        ? cardLimitToString(
-          parseInt(card.cardLimits.ocg ?? '0'),
-        )
-        : 'Approved'
-  }
-}
-
-const cardLimitToString = (
-  limit: number,
-): string => {
-  switch (limit) {
-    case 1:
-      return 'Semi-Limited'
-    case 2:
-      return 'Limited'
-    case 3:
-      return 'Banned'
     default:
       return 'Approved'
   }
@@ -180,6 +175,9 @@ const getCardColor = (type: string): number => {
     case 'Normal':
       return 0xffc482
     case 'Effect':
+    case 'Gemini':
+    case 'Union':
+    case 'Flip':
       return 0x9f5400
     case 'Ritual':
       return 0x0078b3

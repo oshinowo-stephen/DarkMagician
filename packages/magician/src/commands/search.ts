@@ -13,8 +13,8 @@ import { ygoApi } from '@darkmagician/common'
 
 import {
   PageBuilder,
-  ActionButton,
 } from 'eris-pages'
+
 import { logger } from 'eris-boiler/util'
 
 export default new Command<Magician>({
@@ -41,7 +41,7 @@ const sendPageEmbed = async (
 
     for (const card of cards) {
       pageData.push(
-        bot.constructCardEmbed(bot, msg.author.id, card),
+        await bot.constructCardEmbed(bot, msg.author.id, card),
       )
     }
 
@@ -49,50 +49,11 @@ const sendPageEmbed = async (
       extendedButtons: true,
     })
 
-    const actions: ActionButton<Magician>[] = [
-      {
-        emote: '💰',
-        run: async (
-          _msg: Message,
-          bot: Magician,
-          caller: string,
-        ): Promise<void> => {
-          const {
-            price,
-            id: cardId,
-          } = cards[builder.currentPage]
-
-          try {
-            const player = await bot.players.fetch(caller)
-
-            if (player !== undefined) {
-              if (player.bal > price) {
-                const newBal = player.bal - price
-
-                await bot.players.update(caller, newBal)
-
-                const id = cardId.toString()
-                await bot.cards.create(id, caller)
-              } else {
-                _msg.channel
-                  .createMessage(`<@${caller}>, inefficient balance, card price: ${price}`)
-                  .catch((error: string) => logger.error(error))
-              }
-            }
-          } catch (error) {
-            const notFoundMsg = `
-<@${caller}>, you need to run, command: \`start\` before collecting cards!`
-
-            _msg.channel.createMessage(notFoundMsg)
-              .catch((error: string) => logger.error(error))
-          }
-        },
-      },
-    ]
-
     try {
+      const currCard = cards[builder.currentPage - 1]
+
       await builder
-        .addActions(actions)
+        .addActions(bot.generateActions(currCard))
         .addPages(pageData)
         .construct()
 
