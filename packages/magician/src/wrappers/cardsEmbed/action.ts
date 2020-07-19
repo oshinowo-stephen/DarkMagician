@@ -1,65 +1,57 @@
-import { ActionButton } from 'eris-pages'
 import { Magician } from '@modules/magician'
 import { ygoApi } from '@darkmagician/common'
 import { logger } from 'eris-boiler/util'
-import { Message } from 'eris'
 
-export const generate = (
-  card: ygoApi.Card,
-): ActionButton<Magician>[] => [
-  {
-    emote: '💸',
-    run: async (
-      msg,
-      bot,
-      caller,
-    ): Promise<void> => {
-      const p = await bot.players.fetch(caller)
-
-      if (p.bal > card.price) {
-        const newBal = p.bal - card.price
-
-        await bot.players.update(caller, newBal)
-
-        await bot.cards.create(card.id.toString(), caller)
-
-        msg.channel.createMessage(purchaseMsg(caller, card.name))
-          .then((msg) => deleteAfter(5000, msg))
-          .catch((error: string) => logger.error(error))
-      }
-    },
-  },
-  {
-    emote: '💰',
-    run: async (
-      _msg,
-      bot,
-      caller,
-    ): Promise<void> => {
-      const cards = await bot.cards.fetchAllFromPlayer(caller)
-      const targetCards = cards
-        .filter(({ cardInfo }) => cardInfo.id === card.id)
-
-      if (targetCards.length !== 0) {
-        const cardToRemove = targetCards[0]
-
-        console.log(cardToRemove)
-      }
-    },
-  },
-]
-
-const purchaseMsg = (
+export const purchaseCard = async (
+  bot: Magician,
   player: string,
-  cardName: string,
-): string => `<@${player}>, card ***${cardName}***, is now in your binder!`
+  card: ygoApi.Card,
+): Promise<void> => {
+  try {
+    const {
+      bal,
+    } = await bot.players.fetch(player)
 
-const deleteAfter = (
-  time: number,
-  msg: Message,
-): void => {
-  setTimeout(() => {
-    msg.delete()
-      .catch((error: string) => logger.error(error))
-  }, time)
+    console.log(bal)
+    console.log(card)
+
+    if (bal > card.price) {
+      const newBal = bal - card.price
+
+      await bot.players.update(player, newBal)
+
+      await bot.cards.create(card.id.toString(), player)
+    } else {
+      throw new Error(`invalid balance`)
+    }
+  } catch (error) {
+    logger.error(`An error creating card: ${error}`)
+
+    throw error
+  }
+}
+
+export const sellCard = async (
+  bot: Magician,
+  player: string,
+  card: ygoApi.Card,
+): Promise<void> => {
+  const { bal } = await bot.players.fetch(player)
+  const cards = await bot.cards.fetchAllFromPlayer(player)
+
+  const ownedCards = cards.filter(({ cardInfo }) => cardInfo.id === card.id)
+
+  if (ownedCards.length !== 0) {
+    const sellCard = ownedCards[0]
+
+    const { price } = sellCard.cardInfo
+
+    const newBal = bal + price
+
+    await bot.players.update(player, newBal)
+
+    await bot.cards.deleteCardById(sellCard.id)
+  } else {
+    throw new Error(`invalid cards`)
+  }
 }

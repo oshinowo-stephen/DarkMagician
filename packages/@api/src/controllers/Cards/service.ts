@@ -119,3 +119,13 @@ export const transferPlayer = async (
     id: cId,
   }, card)
 }
+
+export const deleteById = async (
+  id: string,
+): Promise<void> => {
+  const CONN: Connection = getConnection()
+
+  const cardsRepo = CONN.getRepository(Cards)
+
+  await cardsRepo.delete({ id })
+}

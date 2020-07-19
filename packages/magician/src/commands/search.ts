@@ -50,10 +50,43 @@ const sendPageEmbed = async (
     })
 
     try {
-      const currCard = cards[builder.currentPage - 1]
-
       await builder
-        .addActions(bot.generateActions(currCard))
+        .addActions([
+          {
+            emote: '💸',
+            run: async (): Promise<void> => {
+              try {
+                await bot.generateActions.purchaseCard(
+                  bot,
+                  msg.author.id,
+                  cards[builder.currentPage - 1],
+                )
+              } catch (error) {
+                if (error instanceof Error) {
+                   switch (error.message) {
+                    case 'invalid balance':
+                      msg
+                        .channel
+                        .createMessage(
+`<@${msg.author.id}>, ${cards[builder.currentPage -1].name} is too high...`,
+                        ).catch((error: string) => logger.error(error))
+                      break
+                  }
+                }
+              }
+            },
+          },
+          {
+            emote: '💰',
+            run: async (): Promise<void> => {
+              await bot.generateActions.sellCard(
+                bot,
+                msg.author.id,
+                cards[builder.currentPage - 1],
+              )
+            },
+          },
+        ])
         .addPages(pageData)
         .construct()
 

@@ -41,7 +41,7 @@ export class Cards {
       responseType: 'json',
     })
 
-    if (statusCode !== 200) {
+    if (statusCode !== 204) {
       throw new Error(`got code: ${statusCode}, card not created`)
     }
   }
@@ -85,6 +85,16 @@ export class Cards {
     }
 
     return cards
+  }
+
+  public async deleteCardById (id: string): Promise<void> {
+    const {
+      statusCode,
+    } = await got.delete(`${CARD_ENDPOINT}/${id}`)
+
+    if (statusCode !== 204) {
+      throw new Error(`got code: ${statusCode}, cannot fetch card`)
+    }
   }
 
 }

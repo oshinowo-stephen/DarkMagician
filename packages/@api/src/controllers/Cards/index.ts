@@ -121,13 +121,18 @@ export class Cards implements CRUDController {
 
   @Delete(':id')
   public async del (
-    _req: Request<
+    req: Request<
       Params<DeleteCards$Id.PathParameters>,
       DeleteCards$Id.$204
     >,
     res: Response<DeleteCards$Id.$204>,
   ): Promise<typeof res> {
-    await service.fetchAll()
+    const {
+      id,
+    } = req.params
+
+    await service
+      .deleteById(id.toString())
 
     return res
       .status(204)
