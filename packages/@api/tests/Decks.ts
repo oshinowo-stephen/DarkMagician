@@ -1,7 +1,7 @@
 import test from 'ava'
 
-test('is working', (t) => {
-  const exp = 'hello'
+test.failing('fetch all decks', (t) => {
+  const status = 500
 
-  t.is('HElLo'.toLowerCase(), exp)
+  t.is(status, 200)
 })

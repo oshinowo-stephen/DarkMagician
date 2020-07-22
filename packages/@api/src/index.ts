@@ -10,7 +10,7 @@ import {
 
 const conf = config.getConfig()
 
-export const server = new DarkMagicianServer([
+const server = new DarkMagicianServer([
   new Root(),
 ])
 
