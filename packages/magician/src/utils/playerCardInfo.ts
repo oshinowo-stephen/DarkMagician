@@ -2,12 +2,6 @@ import {
   Magician,
 } from '../modules/magician'
 
-export interface PlayerInfo {
-  balance: number
-  cardsOwned: string[]
-  decksOwned: string[]
-}
-
 export const getPlayerInfo = async (
   bot: Magician,
   player: string,
@@ -39,4 +33,10 @@ export const getPlayerInfo = async (
     decksOwned: decks,
     cardsOwned: cards,
   }
+}
+
+export interface PlayerInfo {
+  balance: number
+  cardsOwned: string[]
+  decksOwned: string[]
 }

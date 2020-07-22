@@ -23,7 +23,18 @@ export default new Command<Magician>({
       .players
       .fetch(player)
 
+    const decks = await bot
+      .decks
+      .fetchAllFromPlayer(msg.author.id)
+
     const playerBal: number = playerInfo.bal
+
+    const deckNames = decks.length > 5
+      ? decks.map(({ name }) => name)
+        .slice(0, 5)
+        .join(', ') + '...'
+      : decks.map(({ name }) => name)
+        .join('\n')
 
     return {
       embed: {
@@ -36,6 +47,11 @@ export default new Command<Magician>({
             inline: true,
             name: 'Balance 💵',
             value: `$${playerBal}`,
+          },
+          {
+            inline: true,
+            name: 'Decks 🎴',
+            value: `${deckNames}`,
           },
         ],
         author: {

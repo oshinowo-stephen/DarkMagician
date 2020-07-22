@@ -12,9 +12,6 @@ export const purchaseCard = async (
       bal,
     } = await bot.players.fetch(player)
 
-    console.log(bal)
-    console.log(card)
-
     if (bal > card.price) {
       const newBal = bal - card.price
 
@@ -22,12 +19,14 @@ export const purchaseCard = async (
 
       await bot.cards.create(card.id.toString(), player)
     } else {
-      throw new Error(`invalid balance`)
+      throw new Error('invalid balance')
     }
   } catch (error) {
-    logger.error(`An error creating card: ${error}`)
+    if (error instanceof Error) {
+      logger.error(`An error creating card: ${error.message}`)
 
-    throw error
+      throw error
+    }
   }
 }
 
@@ -52,6 +51,6 @@ export const sellCard = async (
 
     await bot.cards.deleteCardById(sellCard.id)
   } else {
-    throw new Error(`invalid cards`)
+    throw new Error('invalid cards')
   }
 }

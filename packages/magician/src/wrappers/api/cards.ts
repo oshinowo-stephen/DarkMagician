@@ -52,7 +52,7 @@ export class Cards {
     const {
       body,
       statusCode,
-    } = await got(`${CARD_ENDPOINT}/${pId}`)
+    } = await got(`${CARD_ENDPOINT}/players/${pId}`)
 
     const cards: PlayerCard[] = []
     const cardBody: MockCard[] = JSON.parse(body) as MockCard[]

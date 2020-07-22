@@ -29,7 +29,7 @@ export class Decks {
   ): Promise<void> {
     const {
       statusCode,
-    } = await got(DECKS_ENDPOINT, {
+    } = await got.post(DECKS_ENDPOINT, {
       json: {
         name,
         player: pId,
@@ -37,7 +37,7 @@ export class Decks {
       responseType: 'text',
     })
 
-    if (statusCode !== 200) {
+    if (statusCode !== 204) {
       throw new Error(`An error creating deck: ${statusCode}`)
     }
   }
@@ -48,7 +48,7 @@ export class Decks {
     const {
       body,
       statusCode,
-    } = await got(`${DECKS_ENDPOINT}/${owner}`)
+    } = await got(`${DECKS_ENDPOINT}/players/${owner}`)
 
     const decks: PlayerDeck[] = []
     const deckBody: MockDeck[] = JSON.parse(body) as MockDeck[]
@@ -57,13 +57,11 @@ export class Decks {
       throw new Error(`An error fetching decks: ${statusCode}`)
     }
 
-    for (let i = 0; i > deckBody.length; i++) {
-      const {
-        id,
-        name,
-        cards,
-      } = deckBody[i]
-
+    for (const {
+      id,
+      name,
+      cards,
+    } of deckBody) {
       decks.push({
         id,
         name,

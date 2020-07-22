@@ -10,7 +10,7 @@ import {
 import {
   GetDecks,
   PostDecks,
-  // GetDecks$Id,
+  GetDecks$Id,
   GetDecks$Player,
   PatchDecks$Id,
   DeleteDecks$Id,
@@ -60,42 +60,42 @@ export class Decks implements CRUDController {
       .json(views)
   }
 
-  /*  @Get(':id') */
-  // public async read (
-  // req: Request<
-  // Params<GetDecks$Id.PathParameters>,
-  // GetDecks$Id.$200
-  // >,
-  // res: Response<GetDecks$Id.$200>,
-  // ): Promise<typeof res> {
-  // const { id } = req.params
-
-  // const deck = await service.fetch(id)
-  // const view = await decks.single(deck)
-
-  // return res
-  // .status(200)
-  // .json(view)
-  // }
-
-  @Get(':player')
+   @Get(':id')
   public async read (
     req: Request<
-      Params<GetDecks$Player.PathParameters>,
-      GetDecks$Player.$200
-    >,
-    res: Response<GetDecks$Player.$200>,
+  Params<GetDecks$Id.PathParameters>,
+   GetDecks$Id.$200
+   >,
+    res: Response<GetDecks$Id.$200>,
   ): Promise<typeof res> {
-    const { player } = req.params
+    const { id } = req.params
 
-    const playerDecks = await service.fetchAllByPlayer(player)
-
-    const views = await decks.array(playerDecks)
+    const deck = await service.fetch(id)
+    const view = await decks.single(deck)
 
     return res
       .status(200)
-      .json(views)
+      .json(view)
   }
+
+  @Get('players/:player')
+   public async readFromPlayer (
+     req: Request<
+      Params<GetDecks$Player.PathParameters>,
+      GetDecks$Player.$200
+    >,
+     res: Response<GetDecks$Player.$200>,
+   ): Promise<typeof res> {
+     const { player } = req.params
+
+     const playerDecks = await service.fetchAllByPlayer(player)
+
+     const views = await decks.array(playerDecks)
+
+     return res
+       .status(200)
+       .json(views)
+   }
 
   @Post('')
   public async create (

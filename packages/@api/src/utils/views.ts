@@ -50,14 +50,19 @@ export const cards = {
   ): Promise<Schemas.CardsView[]> => {
     const allCards: Schemas.CardsView[] = []
 
-    for (const c of cards) {
-      const decks = await c.decks
+    for (const {
+      id,
+      cardId,
+      player,
+      decks: allDecks,
+    } of cards) {
+      const decks = await allDecks
 
       allCards.push({
+        id,
         decks,
-        id: c.id,
-        cardId: c.cardId,
-        player: c.player,
+        cardId,
+        player,
       })
     }
 
@@ -83,14 +88,19 @@ export const decks = {
   ): Promise<Schemas.DecksView[]> => {
     const allDecks: Schemas.DecksView[] = []
 
-    for (const d of decks) {
-      const cards = await d.cards
+    for (const {
+      id,
+      name,
+      cards,
+      player,
+    } of decks) {
+      const allCards = await cards
 
       allDecks.push({
-        cards,
-        id: d.id,
-        name: d.name,
-        player: d.player,
+        id,
+        name,
+        player,
+        cards: allCards,
       })
     }
 

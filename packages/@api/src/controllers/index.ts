@@ -14,13 +14,18 @@ import {
   serverMiddleware,
 } from '@darkmagician/common'
 
-@Controller('v1')
-@ChildControllers([
+const controllers: any[] = [
   new CardController(),
   new DeckController(),
-  new DebugController(),
   new PlayerController(),
-])
+]
+
+if (process.env.NODE_ENV !== 'production') {
+  controllers.push(new DebugController())
+}
+
+@Controller('v1')
+@ChildControllers(controllers)
 @ClassMiddleware(serverMiddleware.endpointLogger)
 @ClassErrorMiddleware(serverMiddleware.errorMiddleware)
 export class RootController {}

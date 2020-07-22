@@ -63,12 +63,12 @@ const sendPageEmbed = async (
                 )
               } catch (error) {
                 if (error instanceof Error) {
-                   switch (error.message) {
+                  switch (error.message) {
                     case 'invalid balance':
                       msg
                         .channel
                         .createMessage(
-`<@${msg.author.id}>, ${cards[builder.currentPage -1].name} is too high...`,
+`<@${msg.author.id}>, ${cards[builder.currentPage - 1].name} is too high...`,
                         ).catch((error: string) => logger.error(error))
                       break
                   }
