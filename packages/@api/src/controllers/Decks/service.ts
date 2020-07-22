@@ -17,6 +17,7 @@ import {
 import {
   fetch as fetchPlayer,
 } from '../Players/service'
+import { Cards } from '@entities/Cards'
 
 const {
   NotFoundError,
@@ -105,14 +106,28 @@ export const create = async (
 export const update = async (
   dId: string,
   name: string,
+  cards: string[],
 ): Promise<void> => {
   const connection = getConnection()
 
   const decksRepo = connection
     .getRepository(Decks)
 
+  const cardsRepo = connection
+    .getRepository(Cards)
+
+  const allCards = []
+
+  for (const card of cards) {
+    const c = await cardsRepo
+      .findOne({ id: card })
+
+    allCards.push(c)
+  }
+
   await decksRepo.update({ id: dId }, {
     name,
+    cards: Promise.all(allCards),
   })
 }
 

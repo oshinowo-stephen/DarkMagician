@@ -126,9 +126,16 @@ export class Decks implements CRUDController {
     res: Response<PatchDecks$Id.$204>,
   ): Promise<typeof res> {
     const { id } = req.params
-    const { name } = req.body
+    const {
+      name,
+      cards,
+    } = req.body
 
-    await service.update(id, name)
+    await service.update(
+      id,
+      name,
+      cards,
+    )
 
     return res.status(204).send()
   }
