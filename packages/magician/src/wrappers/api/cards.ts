@@ -1,9 +1,7 @@
 import got from 'got'
 
-import {
-} from '@darkmagician/api'
-
 import { ygoApi } from '@darkmagician/common'
+import { logger } from 'eris-boiler/util'
 
 const CARD_ENDPOINT: string = process.env.DMG_CARD_ENDPOINT === undefined
   ? 'http://localhost:5560/v1/cards'
@@ -43,7 +41,7 @@ export class Cards {
       responseType: 'json',
     })
 
-    if (statusCode !== 200) {
+    if (statusCode !== 204) {
       throw new Error(`got code: ${statusCode}, card not created`)
     }
   }
@@ -54,7 +52,7 @@ export class Cards {
     const {
       body,
       statusCode,
-    } = await got(`${CARD_ENDPOINT}/${pId}`)
+    } = await got(`${CARD_ENDPOINT}/players/${pId}`)
 
     const cards: PlayerCard[] = []
     const cardBody: MockCard[] = JSON.parse(body) as MockCard[]
@@ -70,9 +68,6 @@ export class Cards {
         cardId,
       } = card
 
-      console.log('in loop')
-      console.log(card)
-
       try {
         const cardInfo = await ygoApi.fetchCardById(cardId)
 
@@ -85,13 +80,21 @@ export class Cards {
             : [],
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
       }
-
-      console.log(cards)
     }
 
     return cards
+  }
+
+  public async deleteCardById (id: string): Promise<void> {
+    const {
+      statusCode,
+    } = await got.delete(`${CARD_ENDPOINT}/${id}`)
+
+    if (statusCode !== 204) {
+      throw new Error(`got code: ${statusCode}, cannot fetch card`)
+    }
   }
 
 }

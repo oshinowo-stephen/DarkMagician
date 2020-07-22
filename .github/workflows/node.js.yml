@@ -52,4 +52,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: linting dark magician
-        run: npm i && npm run lint
+        run: npm i && npm run lint -- -- --quiet

@@ -1,13 +1,19 @@
 import test from 'ava'
-import sinon from 'sinon'
-import supertest from 'supertest'
 
-const ENDPOINT: string = process.env.API_CARD_ENDPOINT === undefined
-  ? 'http://localhost:5560/v1/cards'
-  : process.env.API_CARD_ENDPOINT
+test.failing('get all cards', (t) => {
+  const status = 500
 
-test('is working', (t) => {
-  const exp = 'hello'
+  t.is(status, 200)
+})
 
-  t.is('HElLo'.toLowerCase(), exp)
+test.failing('create a new card', (t) => {
+  const status = 500
+
+  t.is(status, 204)
+})
+
+test.failing('fetch all cards from player', (t) => {
+  const status = 500
+
+  t.is(status, 204)
 })

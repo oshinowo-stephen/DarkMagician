@@ -6,8 +6,6 @@ import {
   Magician,
 } from '../modules/magician'
 
-import { PlayerResponse } from '@wrappers/api/player'
-
 export default new Command<Magician>({
   name: 'pinfo',
   options: {
@@ -21,9 +19,22 @@ export default new Command<Magician>({
 
     const user = bot.users.get(player)
 
-    const { bal }: PlayerResponse = await bot
+    const playerInfo = await bot
       .players
       .fetch(player)
+
+    const decks = await bot
+      .decks
+      .fetchAllFromPlayer(msg.author.id)
+
+    const playerBal: number = playerInfo.bal
+
+    const deckNames = decks.length > 5
+      ? decks.map(({ name }) => name)
+        .slice(0, 5)
+        .join(', ') + '...'
+      : decks.map(({ name }) => name)
+        .join('\n')
 
     return {
       embed: {
@@ -35,7 +46,12 @@ export default new Command<Magician>({
           {
             inline: true,
             name: 'Balance 💵',
-            value: `$${bal}`,
+            value: `$${playerBal}`,
+          },
+          {
+            inline: true,
+            name: 'Decks 🎴',
+            value: `${deckNames}`,
           },
         ],
         author: {

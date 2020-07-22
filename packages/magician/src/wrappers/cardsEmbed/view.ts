@@ -86,8 +86,6 @@ const addBaseStats = async (
     cardsOwned,
   } = await getPlayerInfo(client, player)
 
-  console.log(cardsOwned)
-
   fields.push({
     inline: true,
     name: 'PRICE / OWNED',
