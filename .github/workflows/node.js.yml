@@ -47,9 +47,3 @@ jobs:
         run: npm i && npm run test
         env:
           DARK_MAGICIAN_TOKEN: 'TEST_TOKEN'
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: linting dark magician
-        run: npm i && npm run lint -- -- --quiet
