@@ -120,9 +120,12 @@ export const transferPlayer = async (
   }, card)
 }
 
-// export const addToDeck = async (
-// cId: number,
-// dId: number,
-// ): Promise<void> => {
-// const cardsRepo = CONN.getRepository(Cards)
-// }
+export const deleteById = async (
+  id: string,
+): Promise<void> => {
+  const CONN: Connection = getConnection()
+
+  const cardsRepo = CONN.getRepository(Cards)
+
+  await cardsRepo.delete({ id })
+}

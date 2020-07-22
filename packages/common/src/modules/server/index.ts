@@ -23,12 +23,12 @@ export class DarkMagicianServer extends Server {
     super.addControllers(controllers)
   }
 
-  public async start (port?: number): Promise<void> {
+  public async start (port: number): Promise<void> {
     await createConnection()
 
-    this.app.listen(port ?? 5560, () => {
+    this.app.listen(port, () => {
       logger
-        .log('info', `listening on port: ${port ?? 5560}`)
+        .log('info', `listening on port: ${port}`)
     })
   }
 

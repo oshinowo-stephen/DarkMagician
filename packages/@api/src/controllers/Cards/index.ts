@@ -19,19 +19,14 @@ import {
 import {
   GetCards,
   PostCards,
-  // GetCards$Id,
+  GetCards$Id,
   PatchCards$Id,
   DeleteCards$Id,
-  // GetCards$Decks,
-  // PatchCards$Decks,
-  // DeleteCards$Decks,
   GetCards$Player,
-  // PatchCards$Player,
-  // DeleteCards$Player,
 } from '@darkmagician/api'
 
 import {
-  cards as view,
+  cards as cardView,
 } from '../../utils/views'
 
 import {
@@ -56,15 +51,35 @@ export class Cards implements CRUDController {
   ): Promise<typeof res> {
     const cards = await service.fetchAll()
 
-    const views = await view.array(cards)
+    const views = await cardView.array(cards)
 
     return res
       .status(200)
       .json(views)
   }
 
-  @Get(':player')
+  @Get(':id')
   public async read (
+    req: Request<
+      Params<GetCards$Id.PathParameters>,
+      GetCards.$200
+    >,
+    res: Response<GetCards.$200>,
+  ): Promise<typeof res> {
+    const { id } = req.params
+
+    const cards = await service
+      .fetch(id.toString())
+
+    const views = await cardView.single(cards)
+
+    return res
+      .status(200)
+      .json([ views ])
+  }
+
+  @Get('players/:player')
+  public async readFromPlayer (
     req: Request<
       Params<GetCards$Player.PathParameters>,
       GetCards.$200
@@ -76,7 +91,7 @@ export class Cards implements CRUDController {
     const cards = await service
       .fetchAllFromPlayer(player)
 
-    const views = await view.array(cards)
+    const views = await cardView.array(cards)
 
     return res
       .status(200)
@@ -100,7 +115,7 @@ export class Cards implements CRUDController {
     await service.create(cardId, player)
 
     return res
-      .status(200)
+      .status(204)
       .send()
   }
 
@@ -108,7 +123,8 @@ export class Cards implements CRUDController {
   public async update (
     _req: Request<
       Params<PatchCards$Id.PathParameters>,
-      PatchCards$Id.$204
+      PatchCards$Id.$204,
+      PatchCards$Id.RequestBody
     >,
     res: Response<PatchCards$Id.$204>,
   ): Promise<typeof res> {
@@ -121,13 +137,18 @@ export class Cards implements CRUDController {
 
   @Delete(':id')
   public async del (
-    _req: Request<
+    req: Request<
       Params<DeleteCards$Id.PathParameters>,
       DeleteCards$Id.$204
     >,
     res: Response<DeleteCards$Id.$204>,
   ): Promise<typeof res> {
-    await service.fetchAll()
+    const {
+      id,
+    } = req.params
+
+    await service
+      .deleteById(id.toString())
 
     return res
       .status(204)

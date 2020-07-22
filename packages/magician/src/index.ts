@@ -9,7 +9,7 @@ import { Magician } from './modules/magician'
 
 const {
   token: TOKEN,
-} = config.getConfig({ targetDatabase: 'dmg_core' })
+} = config.getConfig()
 
 const magician = new Magician(TOKEN, {
   oratorOptions: {

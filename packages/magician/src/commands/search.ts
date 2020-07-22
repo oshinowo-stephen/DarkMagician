@@ -6,6 +6,7 @@ import {
 
 import {
   Embed,
+  Message,
 } from 'eris'
 
 import { ygoApi } from '@darkmagician/common'
@@ -14,105 +15,104 @@ import {
   PageBuilder,
 } from 'eris-pages'
 
+import { logger } from 'eris-boiler/util'
+
 export default new Command<Magician>({
   name: 'search',
   description: 'Search\'s for a card',
   options: {
     deleteInvoking: true,
-    deleteResponse: true,
-    deleteResponseDelay: 5000,
+    parameters: [ 'Card Name' ],
     aliases: [ 'lookup', 's', 'card' ],
   },
-  run: async (bot, { msg, params }) => {
-    if (params.length === 0) {}
+  run: async (bot, { msg, params }): Promise<void> => {
+    await sendPageEmbed(bot, msg, params.join('+'))
+  },
+})
 
-    const cards = await ygoApi.searchCard(
-      params.join('+').toLowerCase(),
-    )
-
+const sendPageEmbed = async (
+  bot: Magician,
+  msg: Message,
+  card: string,
+): Promise<string | Embed | void> => {
+  try {
+    const cards = await ygoApi.searchCard(card)
     const pageData: Embed[] = []
 
-    for (let i = 0; i < cards.length; i++) {
-      pageData[i] = constructCard(cards[i])
+    for (const card of cards) {
+      pageData.push(
+        await bot.constructCardEmbed(bot, msg.author.id, card),
+      )
     }
 
-    const builder = new PageBuilder(bot, msg, {
+    const builder = new PageBuilder<Magician>(bot, msg, {
       extendedButtons: true,
     })
 
-    await builder
-      .addPages(pageData)
-      .addAction({
-        emote: '💛',
-        run: async (msg) => {
-          await msg.channel.createMessage('golden expr')
-        },
-      })
-      .construct()
+    try {
+      await builder
+        .addActions([
+          {
+            emote: '💸',
+            run: async (): Promise<void> => {
+              try {
+                await bot.generateActions.purchaseCard(
+                  bot,
+                  msg.author.id,
+                  cards[builder.currentPage - 1],
+                )
+              } catch (error) {
+                if (error instanceof Error) {
+                  switch (error.message) {
+                    case 'invalid balance':
+                      msg
+                        .channel
+                        .createMessage(
+`<@${msg.author.id}>, ${cards[builder.currentPage - 1].name} is too high...`,
+                        ).catch((error: string) => logger.error(error))
+                      break
+                  }
+                }
+              }
+            },
+          },
+          {
+            emote: '💰',
+            run: async (): Promise<void> => {
+              await bot.generateActions.sellCard(
+                bot,
+                msg.author.id,
+                cards[builder.currentPage - 1],
+              )
+            },
+          },
+        ])
+        .addPages(pageData)
+        .construct()
 
-    builder.start()
+      builder.start()
+    } catch (error) {
+      if (error instanceof Error) {
+        logger.warn('cannot construct builder,', error)
 
-    return `***${params.join(' ')}*** found! card entries shown above!`
-  },
-})
+        switch (error.message) {
+          case 'Must contain more at least 2 pages':
+            logger.warn('only got one card')
+        }
 
-const constructCard = (card: ygoApi.Card): Embed => ({
-  title: card.cardType === ygoApi.CardTypes.Spell ||
-    card.cardType === ygoApi.CardTypes.Trap ||
-    card.cardType === ygoApi.CardTypes.Link
-    ? `${card.name}`
-    : card.cardType === ygoApi.CardTypes.Xyz
-      ? `Rank ${card.cardStats?.lvl} | ${card.name}`
-      : `Level ${card.cardStats?.lvl} | ${card.name}`,
-  type: 'rich',
-  color: getCardColor(card.cardType.toString()),
-  description: card.desc,
-  thumbnail: {
-    url: card.image,
-  },
-  fields: card.cardType !== ygoApi.CardTypes.Spell && card.cardType !== ygoApi.CardTypes.Trap
-    ? [
-      {
-        name: card.cardType === ygoApi.CardTypes.Link
-          ? 'ATK / Link Value'
-          : 'ATK / DEF',
-        value: card.cardType === ygoApi.CardTypes.Link
-          ? `${card.cardStats?.atk} / ${card.cardStats?.linkVal}`
-          : `${card.cardStats?.atk} / ${card.cardStats?.def}`,
-        inline: true,
-      }, {
-        name: 'Type / Race / Attribute',
-        value: `${card.cardType.toString()} / ${card.race} / ${card.attribute}`,
-        inline: true,
-      } ]
-    : undefined,
-})
+        return error.message
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.warn('cannot fetch card, ', error)
 
-const getCardColor = (type: string): number => {
-  switch (type) {
-    case 'Normal':
-      return 0xffc482
-    case 'Effect':
-      return 0x9f5400
-    case 'Ritual':
-      return 0x0078b3
-    case 'Synchro':
-      return 0xf9f9f9
-    case 'Xyz':
-      return 0x1f1f1f
-    case 'Fusion':
-      return 0x3c005b
-    case 'Link':
-      return 0x00bae1
-    case 'Trap':
-      return 0x8a20ff
-    case 'Spell':
-      return 0x009169
-    case 'Tuner':
-      return 0x159100
-    case 'Pendulum':
-      return 0x00f096
-    default:
-      return 0x00000
+      switch (error.message) {
+        case 'Response code 400 (Bad Request)':
+          return `***${card}*** not found...`
+      }
+
+      return error.message
+    }
   }
 }

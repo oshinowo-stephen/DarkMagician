@@ -1,22 +1,20 @@
 import {
-  logger,
   config,
   DarkMagicianServer,
+  logger,
 } from '@darkmagician/common'
 
 import {
   RootController as Root,
 } from './controllers'
 
-const { server: serverConfig } = config.getConfig({
-  targetDatabase: 'dmgapi',
-})
+const conf = config.getConfig()
 
 const server = new DarkMagicianServer([
   new Root(),
 ])
 
 server
-  .start(serverConfig?.port)
+  .start(conf.serverPort)
   .catch((error: string) =>
-    logger.log('error', `issues running the server: ${error}`))
+    logger.error('An issue running server:', error))
