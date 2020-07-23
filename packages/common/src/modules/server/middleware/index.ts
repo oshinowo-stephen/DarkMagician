@@ -14,4 +14,5 @@ export {
   asyncWrap,
 } from './async-wrapper'
 
+export { apiValidator } from './validator'
 export { endpointLogger } from './endpointLogger'

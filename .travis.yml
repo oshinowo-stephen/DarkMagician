@@ -3,11 +3,9 @@ node: 13
 
 install: npm i --prod
 
-env:
-	- DARK_MAGICIAN_TOKEN=TEST_TOKEN
-
 script:
-	- npm build
-	- npm test
-	- npm lint:fix -- -- --quiet
-	- npm lint -- -- --quiet
+	- npm run lint:fix -- -- --quiet
+	- npm run lint -- -- --quiet
+
+after_script:
+  - npm run clean

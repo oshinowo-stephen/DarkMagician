@@ -4,7 +4,8 @@
   "description": "A Yu-Gi-Oh! Card Trading Bot",
   "author": "whoastonic <kingstonicthe1@gmail.com>",
   "scripts": {
-    "build": "lerna run build --no-bail",
+    "prebuild": "rm -rf packages/**/build",
+    "build": "npm run prebuild && lerna run build --no-bail",
     "test": "lerna run test --no-bail",
     "lint": "lerna run lint --no-bail",
     "lint:fix": "lerna run lint --no-bail -- -- --fix",

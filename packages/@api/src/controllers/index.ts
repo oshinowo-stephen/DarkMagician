@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 @Controller('v1')
 @ChildControllers(controllers)
+@ClassMiddleware(serverMiddleware.apiValidator)
 @ClassMiddleware(serverMiddleware.endpointLogger)
 @ClassErrorMiddleware(serverMiddleware.errorMiddleware)
 export class RootController {}
