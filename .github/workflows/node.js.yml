@@ -16,6 +16,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: pre-installing
         run: npm i
       - name: testing dark magician & publishing coverage
