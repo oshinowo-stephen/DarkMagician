@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master ]]
 
 jobs:
   build:
@@ -16,8 +16,8 @@ jobs:
   test:
     runs-n: ubuntu-latest
     steps:
+      - uses: paambaati/codeclimate-action@v2.6.0
       - name: testing dark magician & publishing coverage
-        uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: 6492e6fb81b922fed81a5589c24fa0bcef61ade9769a6fe22cdad6f8a4c6a60c
         with:
