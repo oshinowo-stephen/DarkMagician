@@ -2,9 +2,9 @@ name: '[Node Port] Dark Magician (Github Actions)'
 
 on:
   push:
-    [ master ]
+    branches: [ master ]
   pull_request:
-    [ master ]
+    branches: [ master ]
 
 jobs:
   build:
