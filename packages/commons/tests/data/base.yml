@@ -1,0 +1,19 @@
+server:
+  port: 5000
+database:
+  port: 6060
+  type: postgres
+  host: localhost
+  migrations:
+    - path/to/migrations
+  entities:
+    - path/to/entity
+  subscribers:
+    - path/to/sub
+  password: somepass
+  username: someuser
+  database: somename
+  cli:
+    entitiesDir: entityDir
+    migrationsDir: migrationDir
+    subscribersDir: subscribersDir
