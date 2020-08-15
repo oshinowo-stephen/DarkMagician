@@ -16,15 +16,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: pre-installing
+        run: npm i
       - name: testing dark magician & publishing coverage
         uses: paambaati/codeclimate-action@v2.6.0
         env:
           CC_TEST_REPORTER_ID: 6492e6fb81b922fed81a5589c24fa0bcef61ade9769a6fe22cdad6f8a4c6a60c
         with:
+          coverageCommand: npm run test
           coverageLocations: |
             ${{github.workspace}}/packages/commons/coverage/lcov.info:lcov
             ${{github.workspace}}/packages/players/coverage/lcov.info:lcov
-        run: npm i && npm run test
   lint:
     runs-on: ubuntu-latest
     steps:
