@@ -1,0 +1,1 @@
+/home/whoastonic/DarkMagician/services/ygo-cardy/target/debug/libcardy_fetch.rlib: /home/whoastonic/DarkMagician/services/ygo-cardy/cardy-fetch/src/lib.rs /home/whoastonic/DarkMagician/services/ygo-cardy/cardy-fetch/src/ygopro.rs

@@ -1,0 +1,7 @@
+[workspace]
+members = [
+  "cardy",
+  "cardy-logg",
+  "cardy-fetch",
+  "cardy-parser",
+]
