@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import { join } from 'path'
 import yaml from 'yaml'
 
 interface ServerConfig {
@@ -31,8 +32,12 @@ export interface Config {
   database: ORMConfig
 }
 
-export const getConfig = async (path: string): Promise<Config> => {
-  const contents = (await fs.readFile(path, 'utf-8'))
+export const getConfig = async (path?: string): Promise<Config> => {
+  const p = path === undefined
+    ? join('..', 'config', 'default.yml')
+    : path
+
+  const contents = (await fs.readFile(p, 'utf-8'))
     .toString()
 
   const config = yaml.parse(contents.trim()) as Config

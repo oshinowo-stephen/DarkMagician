@@ -8,7 +8,14 @@ import {
 import { log as logger } from '../../logger'
 import responseTime from 'response-time'
 
-export { errorMiddleware } from './error'
+export {
+  ServerError,
+  ErrorResponse,
+  NotFoundError,
+  ForbiddenError,
+  BadRequestError,
+  errorMiddleware,
+} from './error'
 
 export const loggerEndpoint = (
   req: Request,

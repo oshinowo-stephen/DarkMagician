@@ -1,5 +1,7 @@
 import { Server } from '@overnightjs/core'
-import { createConnection } from 'typeorm'
+import {
+  createConnection,
+} from 'typeorm'
 import {
   json,
   urlencoded,

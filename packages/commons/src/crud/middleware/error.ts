@@ -13,7 +13,7 @@ import {
 import { log as logger } from '../../logger'
 import { InputValidationError } from 'openapi-validator-middleware'
 
-class ErrorResponse {
+export class ErrorResponse {
 
   public readonly code: number
   public readonly message: string
@@ -25,7 +25,7 @@ class ErrorResponse {
 
 }
 
-class ServerError extends ErrorResponse {
+export class ServerError extends ErrorResponse {
 
   constructor (message?: string) {
     super(INTERNAL_SERVER_ERROR, message ?? 'Issues forming this request')
@@ -33,7 +33,7 @@ class ServerError extends ErrorResponse {
 
 }
 
-class BadRequestError extends ErrorResponse {
+export class BadRequestError extends ErrorResponse {
 
   constructor (message?: string) {
     super(BAD_REQUEST, message ?? 'Bad Request')
@@ -41,7 +41,7 @@ class BadRequestError extends ErrorResponse {
 
 }
 
-class ForbiddenError extends ErrorResponse {
+export class ForbiddenError extends ErrorResponse {
 
   constructor (message?: string) {
     super(FORBIDDEN, message ?? 'Forbidden')
@@ -49,7 +49,7 @@ class ForbiddenError extends ErrorResponse {
 
 }
 
-class NotFoundError extends ErrorResponse {
+export class NotFoundError extends ErrorResponse {
 
   constructor (message?: string) {
     super(NOT_FOUND, message ?? 'Not Found')

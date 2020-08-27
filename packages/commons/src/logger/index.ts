@@ -1,11 +1,9 @@
 import {
   format,
-  // transports,
   createLogger,
 } from 'winston'
 
 import {
-  // FileLogger,
   ConsoleLogger,
 } from './modules'
 
@@ -23,8 +21,6 @@ export const log = createLogger({
     format.splat(),
   ),
   transports: [
-    // new FileLogger(),
-    // new transports.Console(),
     new ConsoleLogger(),
   ],
 })

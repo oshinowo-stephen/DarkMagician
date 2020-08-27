@@ -34,7 +34,3 @@ export class ConsoleLogger extends TransportStream {
   }
 
 }
-
-export class FileLogger extends TransportStream {
-
-}

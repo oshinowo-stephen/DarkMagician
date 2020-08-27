@@ -4,6 +4,6 @@ export {
   asyncWrap,
 } from './middleware'
 
-export { InputValidationError } from 'openapi-validator-middleware'
-
 export { CommonServer } from './server'
+
+export { InputValidationError } from 'openapi-validator-middleware'
