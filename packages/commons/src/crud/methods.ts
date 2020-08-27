@@ -10,6 +10,11 @@ import {
   NotFoundError,
 } from './middleware'
 
+interface QueryParams<T> {
+  partial: DeepPartial<T>
+  conditions: FindConditions<T>
+}
+
 export class CRUDMethods<E> {
 
   private readonly repository: Repository<E>
@@ -21,25 +26,22 @@ export class CRUDMethods<E> {
     )
   }
 
-  public async del (
-    conditions: FindConditions<E>,
-  ): Promise<void> {
-    await this
-      .repository
-      .delete(conditions)
+  public async updateOrDelete ({
+    partial,
+    conditions,
+  }: QueryParams<E>): Promise<void> {
+    if (partial !== undefined) {
+      await this.repository.save(partial)
+    } else if (conditions !== undefined) {
+      await this.repository.delete(conditions)
+    } else {
+      throw new Error('invalid input')
+    }
   }
 
-  public async update (
-    partial: DeepPartial<E>,
-  ): Promise<void> {
-    await this
-      .repository
-      .save(partial)
-  }
-
-  public async create (
-    partial: DeepPartial<E>,
-  ): Promise<void> {
+  public async create ({
+    partial,
+  }: QueryParams<E>): Promise<void> {
     const entry = this
       .repository
       .create(partial)
@@ -49,9 +51,9 @@ export class CRUDMethods<E> {
       .save(entry)
   }
 
-  public async fetch (
-    conditions: FindConditions<E>,
-  ): Promise<E> {
+  public async fetch ({
+    conditions,
+  }: QueryParams<E>): Promise<E> {
     const entry = await this
       .repository
       .findOne(conditions)
