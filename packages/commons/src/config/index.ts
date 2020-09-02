@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import { readFileSync } from 'fs'
 import { join } from 'path'
 import yaml from 'yaml'
 
@@ -7,7 +7,7 @@ interface ServerConfig {
   host?: string
 }
 
-interface ORMConfig {
+export interface ORMConfig {
   cli: ORMCLI
   host: string
   port: number
@@ -22,9 +22,9 @@ interface ORMConfig {
 }
 
 interface ORMCLI {
-  entitiesDir: string
-  migrationsDir: string
-  subscribersDir: string
+  entitiesDir?: string
+  migrationsDir?: string
+  subscribersDir?: string
 }
 
 export interface Config {
@@ -32,12 +32,12 @@ export interface Config {
   database: ORMConfig
 }
 
-export const getConfig = async (path?: string): Promise<Config> => {
+export const getConfig = (path?: string): Config => {
   const p = path === undefined
-    ? join('..', 'config', 'default.yml')
+    ? join(process.cwd(), 'config/default.yml')
     : path
 
-  const contents = (await fs.readFile(p, 'utf-8'))
+  const contents = readFileSync(p, 'utf-8')
     .toString()
 
   const config = yaml.parse(contents.trim()) as Config

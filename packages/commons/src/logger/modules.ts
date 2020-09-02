@@ -1,5 +1,5 @@
 import TransportStream from 'winston-transport'
-import 'chalk'
+import color from 'chalk'
 
 type Callback = () => void
 
@@ -24,9 +24,28 @@ export class ConsoleLogger extends TransportStream {
     message,
     timestamp,
   }: LoggerFormat) {
-    const msg = `${level.toUpperCase()} | ${this.formatMsg(message, timestamp)}`
+    let coloredLevel = ''
 
-    return process.stdout.write(msg)
+    switch (level.toLowerCase()) {
+      case 'info':
+        coloredLevel += color.cyan('INFO')
+        break
+      case 'warn':
+        coloredLevel += color.yellow('WARN')
+        break
+      case 'error':
+        coloredLevel += color.red('ERROR')
+        break
+      case 'debug':
+        coloredLevel += color.magenta('DEBUG')
+        break
+      default:
+        coloredLevel += 'TRACE'
+    }
+
+    const msg = `${coloredLevel} | ${this.formatMsg(message, timestamp)}`
+
+    return process.stdout.write(`${msg}\n`)
   }
 
   private formatMsg (msg: string, time: string): string {

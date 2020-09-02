@@ -3,8 +3,8 @@ import { join } from 'path'
 
 import { getConfig } from '../src'
 
-test('commons/config | valid config', async (t) => {
-  const conf = await getConfig(join(__dirname, 'data', 'base.yml'))
+test('commons/config | valid config', (t) => {
+  const conf = getConfig(join(__dirname, 'data', 'base.yml'))
 
   t.deepEqual(conf.server, {
     host: 'localhost',
@@ -14,23 +14,20 @@ test('commons/config | valid config', async (t) => {
     port: 6060,
     type: 'postgres',
     host: 'localhost',
-    password: 'somepass',
-    username: 'someuser',
-    database: 'somename',
+    password: 'testpass12',
+    username: 'testuser',
+    database: 'testdb',
     migrations: [
-      'path/to/migrations',
+      'data/migrations',
     ],
-    subscribers: [
-      'path/to/sub',
-    ],
+    subscribers: [],
     entities: [
-      'path/to/entity',
+      'data/entities',
     ],
     synchronize: false,
     cli: {
-      entitiesDir: 'entityDir',
-      migrationsDir: 'migrationDir',
-      subscribersDir: 'subscribersDir',
+      entitiesDir: 'data/entities',
+      migrationsDir: 'data/entries',
     },
   })
 })

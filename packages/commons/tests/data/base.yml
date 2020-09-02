@@ -5,15 +5,12 @@ database:
   type: postgres
   host: localhost
   migrations:
-    - path/to/migrations
+    - data/migrations
   entities:
-    - path/to/entity
-  subscribers:
-    - path/to/sub
-  password: somepass
-  username: someuser
-  database: somename
+    - data/entities
+  database: testdb
+  username: testuser
+  password: testpass12
   cli:
-    entitiesDir: entityDir
-    migrationsDir: migrationDir
-    subscribersDir: subscribersDir
+    entitiesDir: data/entities
+    migrationsDir: data/migrations

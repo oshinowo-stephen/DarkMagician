@@ -2,4 +2,4 @@ import {
   ParamsDictionary as ExpressParams,
 } from 'express-serve-static-core'
 
-export type Param<T = Record<string, unknown>> = ExpressParams & T
+export type Params<T = Record<string, unknown>> = ExpressParams & T
