@@ -1,4 +1,5 @@
 import TransportStream from 'winston-transport'
+import { inspect } from 'util'
 import color from 'chalk'
 
 type Callback = () => void
@@ -38,6 +39,8 @@ export class ConsoleLogger extends TransportStream {
         break
       case 'debug':
         coloredLevel += color.magenta('DEBUG')
+
+        message = inspect(message)
         break
       default:
         coloredLevel += 'TRACE'
@@ -53,3 +56,5 @@ export class ConsoleLogger extends TransportStream {
   }
 
 }
+
+export class FileLogger extends TransportStream {}

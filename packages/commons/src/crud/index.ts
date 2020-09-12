@@ -1,4 +1,8 @@
 export {
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+  ServerError,
   errorMiddleware,
   loggerEndpoint,
   asyncWrap,

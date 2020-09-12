@@ -1,7 +1,5 @@
 import { Server } from '@overnightjs/core'
-import {
-  createConnection,
-} from 'typeorm'
+import { createConnection } from 'typeorm'
 import {
   json,
   urlencoded,
@@ -10,6 +8,7 @@ import {
 import cors from 'cors'
 import helmet from 'helmet'
 import { log as logger } from '../logger'
+import { getConfig } from '../config'
 
 export class CommonServer extends Server {
 
@@ -26,7 +25,8 @@ export class CommonServer extends Server {
 
   public start (port: number): void {
     this.app.listen(port, () => {
-      createConnection()
+      createConnection(getConfig().database)
+        .then(() => logger.info('Database connection established'))
         .catch((e: string) => {
           logger.error(`Issue creating a database connection, reason: ${e}`)
         })
