@@ -1,0 +1,58 @@
+get:
+  summary: get a player instance with their ID
+  tags:
+    - Player
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: player/user's ID
+  responses:
+    200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: ../index.yml#/components/schemas/PlayersView
+    404:
+      $ref: ../index.yml#/components/responses/404
+    500:
+      $ref: ../index.yml#/components/responses/500
+patch:
+  summary: update a player instance with their ID
+  tags:
+    - Player
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: player/user's ID
+  responses:
+    204:
+      description: no content
+    400:
+      $ref: ../index.yml#/components/responses/400
+    500:
+      $ref: ../index.yml#/components/responses/500
+delete:
+  summary: delete a player isntance with their ID
+  tags:
+    - Player
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: player/user's ID
+  responses:
+    204:
+      description: no content
+    400:
+      $ref: ../index.yml#/components/responses/400
+    500:
+      $ref: ../index.yml#/components/responses/500
