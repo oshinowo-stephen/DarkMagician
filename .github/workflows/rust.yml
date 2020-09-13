@@ -5,3 +5,13 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: building [dmg-services] cards
+        run: cargo build --manifest-path="services/cards/Cargo.toml"
+      - name: building [dmg-services] imgm
+        run: cargo build --manifest-path="services/imgm/Cargo.toml"
