@@ -172,8 +172,6 @@ fn add_weights (
   query: &mut String,
   weight: &SearchWeight,
 ) -> String {
-  dbg!(&query);
-
   match weight {
     SearchWeight::Atk(v) =>
       query.push_str(
