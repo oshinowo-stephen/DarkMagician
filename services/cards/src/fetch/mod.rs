@@ -37,7 +37,7 @@ pub struct ApiResponse {
   pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct RawCard {
   pub id: usize,
   pub name: String,
@@ -53,14 +53,14 @@ pub struct RawCard {
   pub card_prices: Vec<RawCardPrice>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct RawCardImg {
   pub id: usize,
   pub image_url: String,
   pub image_url_small: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct RawCardSet {
   pub set_name: String,
   pub set_code: String,
@@ -69,7 +69,7 @@ pub struct RawCardSet {
   pub set_rarity_code: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct RawCardPrice {
   pub ebay_price: String,
   pub amazon_price: String,
@@ -81,7 +81,7 @@ pub struct RawCardPrice {
 impl Error for FetchError {}
 
 impl Display for FetchError {
-  fn display(&self, f: &mut fmt::Formatter) -> fmt::Result {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
       FetchError::InvalidParams =>
         write!(f, "the params inserted are invalid."),
@@ -95,9 +95,9 @@ impl Display for FetchError {
   }
 }
 
-pub type FetchResult<T> = Result<T, FetchError>;
-
 pub type RawCards = Vec<RawCard>;
+
+pub type FetchResult<T> = Result<T, FetchError>;
 
 pub fn get (
   card: &str,
@@ -105,11 +105,11 @@ pub fn get (
   match forge_request(
     &format!(
       "https://db.ygoprodeck.com/api/v7/cardinfo.php?name={}",
-      parse_card_name(&mut card),
+      &parse_card_name(card),
     ),
     vec![])
   {
-    Ok(cards) => Ok(cards[0]),
+    Ok(cards) => Ok(cards[0].clone()),
     Err(error) => Err(error),
   }
 }
@@ -122,7 +122,7 @@ pub fn search (
   forge_request(
     &format!(
       "https://db.ygoprodeck.com/api/v7/cardinfo.php?fname={}",
-      parse_card_name(&mut card),
+      &parse_card_name(card),
     ),
     weights,
   )
@@ -132,13 +132,13 @@ fn forge_request (
   url: &str,
   wgts: Vec<SearchWeight>,
 ) -> FetchResult<RawCards> {
-  let mut uri = url;
+  let mut uri = String::from(url);
 
-  wgts
-    .iter()
-    .for_each(move |w| add_weights(&mut uri, w))
+  for w in wgts {
+    add_weights(&mut uri, &w);
+  }
 
-  match ureq::get(&uri)
+  match ureq::get(&uri).call()
     .into_json_deserialize::<ApiResponse>()
   {
     Ok(resp) => {
@@ -149,22 +149,31 @@ fn forge_request (
       }
     },
     Err(error) => match error {
-      _ => Err(FetchError::InvalidQuery)
+      _ => {
+        dbg!(&error);
+
+        Err(FetchError::InvalidQuery)
+      }
     },
   }
 }
 
-fn parse_card_name (mut card: &str) -> String {
-  card
+fn parse_card_name (card: &str) -> String {
+  let new_card = card
     .to_lowercase()
     .split(" ")
-    .join::<String>("+")
+    .collect::<Vec<&str>>()
+    .join("+").to_owned();
+
+  new_card
 }
 
 fn add_weights (
-  mut query: &str,
-  weight: SearchWeight,
-) {
+  query: &mut String,
+  weight: &SearchWeight,
+) -> String {
+  dbg!(&query);
+
   match weight {
     SearchWeight::Atk(v) =>
       query.push_str(
@@ -188,11 +197,11 @@ fn add_weights (
       ),
     SearchWeight::LinkMarker(v) => {
       query.push_str(
-        &format(
+        &format!(
           "linkmarkers={}",
           v.join(", "),
         ),
-      ),
+      )
     },
     SearchWeight::Scale(v) =>
       query.push_str(
@@ -208,7 +217,17 @@ fn add_weights (
       ),
     SearchWeight::Format(v) =>
       query.push_str(
-        &format!("&format={}", v)
+        &format!("&format={}", v),
+      ),
+    SearchWeight::CardSet(v) =>
+      query.push_str(
+        &format!("&cardset={}", v),
+      ),
+    SearchWeight::Archetype(v) =>
+      query.push_str(
+        &format!("&archetype={}", v),
       ),
   }
+
+  query.to_owned()
 }

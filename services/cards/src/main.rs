@@ -12,7 +12,7 @@ pub mod parser;
 mod server;
 
 fn main() {
-  knil::constructor().expect("cannot construct logger");
+  knil::construct().expect("cannot construct logger");
 
   if let Err(error) = server::process() {
     error!("An error occurred: {:#?}", error);
