@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: paambaati/codeclimate-action@v2.7.1
-      - name: testing dark magician | publish code coverage
+        name: testing dark magician | publish code coverage
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
         with: |
