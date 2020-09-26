@@ -8,6 +8,8 @@ database:
     - data/migrations
   entities:
     - data/entities
+  subscribers:
+    - data/subscribers
   database: testdb
   username: testuser
   password: testpass12

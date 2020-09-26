@@ -20,14 +20,16 @@ test('commons/config | valid config', (t) => {
     migrations: [
       'data/migrations',
     ],
-    subscribers: [],
     entities: [
       'data/entities',
+    ],
+    subscribers: [
+      'data/subscribers'
     ],
     synchronize: false,
     cli: {
       entitiesDir: 'data/entities',
-      migrationsDir: 'data/entries',
+      migrationsDir: 'data/migrations',
     },
   })
 })
