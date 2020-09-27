@@ -12,10 +12,21 @@ pub mod parser;
 mod server;
 
 fn main() {
+  let context = zmq::Context::new();
+
   knil::construct().expect("cannot construct logger");
 
-  if let Err(error) = server::process() {
-    error!("An error occurred: {:#?}", error);
+  let socket = context.socket(zmq::REP)
+    .expect("cannot");
+
+  assert!(socket.bind("tcp://*:4560").is_ok());
+
+  let mut message = zmq::Message::new();
+
+  loop {
+    if let Err(error) = server::process(&socket, &mut message) {
+      error!("The server ran into an error: {:#?}", error);
+    }
   }
 }
 

@@ -37,7 +37,7 @@ pub struct ApiResponse {
   pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawCard {
   pub id: usize,
   pub name: String,
@@ -53,14 +53,14 @@ pub struct RawCard {
   pub card_prices: Vec<RawCardPrice>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawCardImg {
   pub id: usize,
   pub image_url: String,
   pub image_url_small: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawCardSet {
   pub set_name: String,
   pub set_code: String,
@@ -69,7 +69,7 @@ pub struct RawCardSet {
   pub set_rarity_code: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawCardPrice {
   pub ebay_price: String,
   pub amazon_price: String,
