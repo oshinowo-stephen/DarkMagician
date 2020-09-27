@@ -15,8 +15,8 @@
     "migrate:gen": "lerna run migrate:gen --no-bail",
     "migrate:make": "lerna run migrate:create --no-bail",
     "bootstrap": "lerna bootstrap",
-    "reinstall": "yarn clean && yarn",
-    "postinstall": "yarn bootstrap",
+    "reinstall": "npm run clean && npm i",
+    "postinstall": "npm run bootstrap",
     "clean": "lerna clean --yes && rm -rf ./node_modules"
   },
   "license": "MIT",

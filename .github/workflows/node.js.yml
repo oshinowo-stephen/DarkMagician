@@ -20,12 +20,12 @@ jobs:
       - name: testing dark magician
         run: npm i && npm run test
       - uses: paambaati/codeclimate-action@v2.7.1
-        name: testing dark magician | publish code coverage
+        name: publish code coverage
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
         with: |
-          ${{github.workspace}}/packages/players/coverage/lcov.info
-          ${{github.workspace}}/packages/commons/coverage/lcov.info
+          :/packages/players/coverage/lcov.info
+          :/packages/commons/coverage/lcov.info
   lint:
     runs-on: ubuntu-latest
     steps:
