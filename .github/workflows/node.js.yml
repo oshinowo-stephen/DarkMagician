@@ -24,8 +24,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
         with: |
-          /packages/players/coverage/lcov.info
-          /packages/commons/coverage/lcov.info
+          packages/players/coverage/lcov.info
+          packages/commons/coverage/lcov.info
   lint:
     runs-on: ubuntu-latest
     steps:
