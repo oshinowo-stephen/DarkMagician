@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    type: string
+    example: 137217868436733952
+    description: Player's Discord ID
+  bal:
+    type: number
+    example: 5625
+    description: Player's Balance

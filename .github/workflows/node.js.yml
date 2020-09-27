@@ -1,38 +1,12 @@
-name: Dark Magician (Github Actions)
+name: '[Node Port] Dark Magician (Github Actions)'
 
 on:
   push:
-    types:
-      - labled
-      - ready_for_review
+    branches: [ master ]
   pull_request:
-    types:
-      - labeled
-      - ready_for_review
-      - review_request_removed
-      - review_requested
-      - synchronize
-      - unlabeled
-  pull_request_review:
-    types:
-      - dismissed
-      - submitted
+    branches: [ master ]
 
 jobs:
-  merge:
-    runs-on: ubuntu-latest
-    name: MergeBot
-    steps:
-      - name: integration
-        uses: squalrus/merge-bot@v0.1.0
-        with:
-          test: true
-          method: squash
-          reviewers: true
-          labels: ready, merge
-          checks_enabled: true
-          blocking_labels: do not merge
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     runs-on: ubuntu-latest
     steps:
@@ -45,8 +19,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: testing dark magician
         run: npm i && npm run test
+      - uses: paambaati/codeclimate-action@v2.7.1
+        name: publish code coverage
         env:
-          DARK_MAGICIAN_TOKEN: 'TEST_TOKEN'
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
+        with: |
+          ${{github.workspace}}/../packages/players/coverage/lcov.info
+          ${{github.workspace}}/../packages/commons/coverage/lcov.info
   lint:
     runs-on: ubuntu-latest
     steps:

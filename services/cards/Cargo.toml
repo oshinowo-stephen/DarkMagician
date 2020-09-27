@@ -1,0 +1,15 @@
+[package]
+name = "cards"
+version = "0.1.0"
+edition = "2018"
+authors = ["whoastonic <kingstonicthe1@gmail.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = "0.4.11"
+zmq = "0.9.2"
+serde_json = "1.0.57"
+ureq = { version = "1.4.1", features = ["json"] }
+serde = { version = "1.0.116", features = ["derive"] }
+knil = { git = "https://github.com/whoastonic/knil.git" }
