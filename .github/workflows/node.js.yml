@@ -23,7 +23,8 @@ jobs:
         name: publish code coverage
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
-        with: |
+        with:
+          coverageLocations: |
           ${{github.workspace}}/packages/players/coverage/lcov.info:lcov
           ${{github.workspace}}/packages/commons/coverage/lcov.info:lcov
   lint:
