@@ -11,8 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: building dark magician
-        run: npm i && npm run build
+      - name: installing deps
+        run: npm run reinstall
+      - nmae: building dmg
+        run: npm run build
   test:
     runs-on: ubuntu-latest
     steps:
