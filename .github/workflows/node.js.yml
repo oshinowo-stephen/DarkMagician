@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: installing deps
-        run: npm run reinstall
+        run: npm install
       - name: building dmg
         run: npm run build
   test:

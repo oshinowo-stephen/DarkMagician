@@ -2,9 +2,19 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import yaml from 'yaml'
 
-interface ServerConfig {
+export interface ServerConfig {
   port: number
   host?: string
+}
+
+export interface Services {
+  [service: string]: ServiceInfo
+}
+
+export interface ServiceInfo {
+  port: number
+  protocol: 'tcp' | 'udp'
+  host: '127.0.0.1' | '*'
 }
 
 export interface ORMConfig {
@@ -21,15 +31,16 @@ export interface ORMConfig {
   type: 'postgres' | 'mysql' | 'sqlite'
 }
 
-interface ORMCLI {
+export interface ORMCLI {
   entitiesDir?: string
   migrationsDir?: string
   subscribersDir?: string
 }
 
 export interface Config {
-  server: ServerConfig
   database: ORMConfig
+  server: ServerConfig
+  services?: Services
 }
 
 export const getConfig = (path?: string): Config => {
@@ -51,5 +62,6 @@ export const getConfig = (path?: string): Config => {
       synchronize: false,
       ...config.database,
     },
+    services: config.services,
   }
 }

@@ -16,3 +16,8 @@ database:
   cli:
     entitiesDir: data/entities
     migrationsDir: data/migrations
+services:
+  test:
+    port: 7000
+    protocol: tcp
+    host: 127.0.0.1
