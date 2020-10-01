@@ -11,16 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: installing deps
-        run: npm install
       - name: building dmg
-        run: npm run build
+        run: yarn && yarn build
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: testing dark magician
-        run: npm i && npm run test
+        run: yarn && yarn test
       - uses: paambaati/codeclimate-action@v2.7.1
         name: publish code coverage
         env:
@@ -34,4 +32,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: linting dark magician
-        run: npm i && npm run lint -- -- --quiet
+        run: yarn && yarn lint -- -- --quiet
