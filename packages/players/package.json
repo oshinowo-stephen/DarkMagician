@@ -10,7 +10,7 @@
     "lint": "eslint src tests --ext ts",
     "pretest": "export TS_NODE_FILES=true",
     "start:dev": "ts-node-dev src/index.ts",
-    "prestart": "npm run build && npm run migrate:run",
+    "prestart": "yarn build && yarn migrate:run",
     "test": "npm run pretest && nyc --reporter lcov ava",
     "swagger:validate": "swagger-cli validate docs/index.yml",
     "swagger:bundle": "swagger-cli bundle -t yaml -o docs.yml docs/index.yml",

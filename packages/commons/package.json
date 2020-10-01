@@ -10,7 +10,7 @@
     "build": "ttsc",
     "lint": "eslint src tests --ext ts",
     "pretest": "export TS_NODE_FILES=true",
-    "test": "npm run pretest && nyc --reporter lcov ava"
+    "test": "yarn pretest && nyc --reporter lcov ava"
   },
   "devDependencies": {
     "@overnightjs/core": "^1.7.4",

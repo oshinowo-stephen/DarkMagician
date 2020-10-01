@@ -15,8 +15,8 @@
     "migrate:gen": "lerna run migrate:gen --no-bail",
     "migrate:make": "lerna run migrate:create --no-bail",
     "bootstrap": "lerna bootstrap",
-    "reinstall": "npm run clean && npm i",
-    "postinstall": "npm run bootstrap",
+    "reinstall": "yarn clean && yarn",
+    "postinstall": "yarn bootstrap",
     "clean": "lerna clean --yes && rm -rf ./node_modules"
   },
   "license": "MIT",
@@ -44,7 +44,8 @@
     "swagger-cli": "^4.0.4",
     "tsconfig-paths": "^3.9.0",
     "ttypescript": "^1.5.10",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "yarn": "^1.22.10"
   },
   "ava": {
     "extensions": [
