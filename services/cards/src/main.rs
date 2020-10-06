@@ -8,10 +8,10 @@ extern crate serde;
 extern crate serde_json;
 
 pub mod fetch;
-pub mod parser;
+// pub mod parser;
 mod server;
 
-fn main() {
+pub fn main() {
   let context = zmq::Context::new();
 
   knil::construct().expect("cannot construct logger");
@@ -24,9 +24,7 @@ fn main() {
   let mut message = zmq::Message::new();
 
   loop {
-    if let Err(error) = server::process(&socket, &mut message) {
-      error!("The server ran into an error: {:#?}", error);
-    }
+    server::process(&socket, &mut message);
   }
 }
 
@@ -35,3 +33,6 @@ pub use fetch::tests;
 
 #[cfg(tests)]
 pub use parser::tests;
+
+#[cfg(tests)]
+pub use server::tests;

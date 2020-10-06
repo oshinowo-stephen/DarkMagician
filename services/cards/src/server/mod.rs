@@ -1,80 +1,179 @@
-use crate::fetch as cards;
-use std::io;
+#[macro_use]
+mod macros;
 
-pub type Weights = Vec<RequestWeights>;
+pub mod tests;
+
+use crate::fetch as cards;
+use cards::SearchWeight;
 
 pub type Cards = Vec<cards::RawCard>;
 
-#[derive(Debug, Deserialize)]
+pub type Weights = Vec<RequestWeights>;
+
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Request {
   pub query: String,
   pub action: String,
   pub weights: Option<Weights>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct RequestWeights {
   pub atk: Option<usize>,
   pub def: Option<usize>,
   pub attr: Option<String>,
-  pub level: Option<String>,
+  pub level: Option<usize>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ProcessError {
-  pub error: String,
-  pub status: String,
+  pub status: usize,
+  pub message: String,
 }
 
 pub fn process (
   socket: &zmq::Socket,
-  mut msg: &mut zmq::Message,
-) -> io::Result<()> {
-  match socket.recv(&mut msg, 0) {
-    Ok(_) => {
-      let message = msg.as_str().unwrap();
-      let request = serde_json::from_str::<Request>(&message)
-        .expect("cannot parse this message");
-
-      match handle_request(request) {
-        Ok(cards) => {
-          if let Ok(result) = serde_json::to_string::<Cards>(&cards) {
-            socket.send(result.as_bytes(), 0).expect("cannot send");
-          } else {
-            socket.send("cannot parse".as_bytes(), 0).expect("");
-          }
-        },
-        Err(error) => {
-          socket.send("ran into an error".as_bytes(), 0)
-            .expect("cannot send")
-        }
-      }
+  mut message: &mut zmq::Message
+) {
+  match process_message(socket, &mut message) {
+    Ok(request) => match process_request(&request) {
+      Ok(result) => match process_response::<Cards>(&result) {
+        Ok(resp) => send_buffer!(
+          socket,
+          &resp
+        ),
+        Err(error) => send_buffer!(
+          socket,
+          &process_response::<ProcessError>(&error)
+            .expect("cannot generate response.")
+        )
+      },
+      Err(error) => send_buffer!(
+        socket,
+        &process_response::<ProcessError>(&error)
+          .expect("cannot generate response.")
+      ),
     },
-    Err(error) => {},
+    Err(error) => if error.status != 5000 {
+      send_buffer!(
+        socket,
+        &process_response::<ProcessError>(&error)
+          .expect("cannot generate response.")
+      )
+    }
   }
-
-  Ok(())
 }
 
-fn handle_request (req: Request) -> Result<Cards, ProcessError> {
-  match &*req.action.to_lowercase() {
-    "fetch" => match cards::get(&req.query) {
+fn process_message (
+  socket: &zmq::Socket,
+  mut message: &mut zmq::Message
+) -> Result<Request, ProcessError> {
+  if let Ok(_) = socket.recv(&mut message, 0) {
+    let msg = message.as_str().unwrap_or_else(|| "");
+
+    match serde_json::from_str::<Request>(&msg) {
+      Ok(request) => Ok(request),
+      Err(error) => match error {
+        _ => Err(gen_error("Invalid Request", 1000))
+      },
+    }
+  } else {
+    Err(gen_error("No Message Sent", 5000))
+  }
+}
+
+fn process_request (
+  req: &Request,
+) -> Result<Cards, ProcessError> {
+  use cards::FetchError;
+
+  match req.get_action().as_ref() {
+    "fetch" => match cards::get(&req.get_query()) {
       Ok(card) => Ok(vec![card]),
-      Err(error) => Err(ProcessError {
-        error: String::from("idk"),
-        status: String::from("idk"),
-      })
+      Err(error) => match error {
+        FetchError::NoSuchCard => Err(
+          gen_error(
+            &format!("Card: {}, not found", req.get_query()),
+            1100,
+          ),
+        ),
+        _ => Err(
+          gen_error(
+            "Invalid Error",
+            4000,
+          )
+        ),
+      }
     },
-    "search" => match cards::search(&req.query, vec![]) {
+    "search" => match cards::search(&req.get_action(), req.get_weights()) {
       Ok(cards) => Ok(cards),
-      Err(error) => Err(ProcessError {
-        error: String::from("id"),
-        status: String::from("idk"),
-      })
-    },
-    _ => Err(ProcessError {
-      error: String::from("unknown request action"),
-      status: String::from("N/A"),
-    })
+      Err(error) => match error {
+        _ => Err(
+          gen_error(
+            "Invalid Error",
+            4000,
+          )
+        ),
+      }
+    }
+    _ => Err(gen_error("Invalid Request.", 1050))
+  }
+}
+
+
+fn process_response<T> (resp: &T) -> Result<String, ProcessError>
+  where T: serde::Serialize
+{
+  use serde_json::to_string as as_string;
+
+  if let Ok(res) = as_string::<T>(resp) {
+    Ok(res)
+  } else {
+    Err(gen_error("Unable to parse response.", 1250))
+  }
+}
+
+fn gen_error (error: &str, status: u32) -> ProcessError {
+  ProcessError {
+    status: status as usize,
+    message: error.to_string(),
+  }
+}
+
+impl Request {
+  pub fn get_query (&self) -> String {
+    self.query.to_lowercase()
+  }
+
+  pub fn get_action (&self) -> String {
+    self.action.to_lowercase()
+  }
+
+  pub fn get_weights (&self) -> Vec<SearchWeight> {
+    let mut search_weights = vec![];
+
+    if let Some (weights) = &self.weights {
+      for wght in weights {
+        if let Some (atk) = &wght.atk {
+          search_weights.push(
+            SearchWeight::Atk(*atk)
+          )
+        } else if let Some (def) = &wght.def {
+          search_weights.push(
+            SearchWeight::Def(*def)
+          )
+        } else if let Some (attr) = &wght.attr {
+          search_weights.push(
+            SearchWeight::Attribute(
+              attr.to_owned()
+            )
+          )
+        } else if let Some (level) = &wght.level {
+          search_weights.push(SearchWeight::Level(*level))
+        }
+      }
+    }
+
+    search_weights
   }
 }

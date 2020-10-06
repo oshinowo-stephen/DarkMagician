@@ -1,6 +1,7 @@
 use crate::fetch::RawCard;
 
 use std::error::Error;
+use std::fmt::{self, Display};
 
 #[derive(Debug)]
 pub enum ParseError {}
@@ -20,10 +21,18 @@ pub enum CardRequirement {
   Tribute(String),
 }
 
-pub type ParseResult = (Vec<RawCard>, Vec<ParsedCard>);
-
 pub type Parsed = Result<ParseResult, ParseError>;
 
-pub fn parse (card: RawCard) -> Parsed {
-  Ok((vec![card], vec![]))
+pub type ParseResult = (Vec<RawCard>, Vec<ParsedCard>);
+
+pub fn parse (card: RawCard) -> Parsed {}
+
+impl Display for ParseError {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    match self {
+      _ => write!(f, "An unknown error has occurred")
+    }
+  }
 }
+
+impl Error for ParseError {}
