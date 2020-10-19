@@ -1,0 +1,104 @@
+{
+  "name": "Rise of The Duelist",
+  "price": "2500",
+  "content": [
+    {
+      "secret_rare": {
+        "weight": "0.12",
+        "cards": [
+          "dogmatika fleudelis, the knighted",
+          "dogmatika maximus", "fallen of albaz",
+          "titaniklad the ash dragon",
+          "chaos ruler, the chaotic magical dragon",
+          "nadir servent", "adamancipator friends",
+          "triple tactics talent", "forbidden droplet",
+          "odd-eyes revolution dragon", "d.d. crow"
+        ]
+      },
+      "ultra_rare": {
+        "weight": "0.6",
+        "cards": [
+          "artillery catapult turtle",
+          "soldier gaia the fierce knight",
+          "dogmatika ecclesia, the virtuous",
+          "koa'ki meiru supplier",
+          "gizmek okami, the dreaded deluge dragon",
+          "lifeless leaffish",
+          "infernoble knight emperor charles",
+          "melffy of the forest",
+          "rikka queen strenna",
+          "\"infernoble arms - durendal\"",
+          "shaddoll schism", "ice dragon's prison",
+          "wynn the wind channeler", "seleglare the luminous lunar dragon",
+          "speedroid carturbo"
+        ]
+      },
+      "super_rare": {
+        "weight": "1",
+        "cards": [
+          "gaia the fierce knight origin",
+          "gaia the magicial knight",
+          "dogmatika adin, the enlightened",
+          "infernoble knight ogier",
+          "infernoble knight oliver",
+          "melffy catty",
+          "melffy puppy",
+          "nemeses keystone",
+          "gaia the magical knight of dragons",
+          "the first darklord",
+          "ancient warriors oath - double dragon lords",
+          "\"infernoble arms - joyeuse\"",
+          "magellanica, the deep sea city",
+          "blizzard", "dragonmaid tidying", "redeemable jar",
+          "ret-time revivier emit-ter", "speedroid block-n-roll",
+          "d/d dog", "performapal odd-eyes metal claw",
+          "rampaging smashtank rhynosaber", "raidraptor - arsenal falcon",
+          "raidraptor - revolution falcon - air raid",
+          "yaminable party", "revenge rally"
+        ]
+      },
+      "common": {
+        "cards": [
+          "curse of dragon, the cursed dragon",
+          "dogmatika theo, the iron punch",
+          "dogmatika nexus",
+          "infernoble knight astolfo",
+          "infernoble knight maugis",
+          "melffy rabby",
+          "melffy pony",
+          "fluffal dolphin",
+          "edge imp scythe",
+          "capricious darklord",
+          "indulged darklord",
+          "darklord nergal",
+          "machina resavenger",
+          "unauthorized bootup device",
+          "mathmech diameter",
+          "thunder hand",
+          "red potan",
+          "dracoon lamp",
+          "megalith phul",
+          "frightfur cruel whale",
+          "infernoble knight captain roland",
+          "melffy mommy",
+          "drill driver vespenato",
+          "ancient warriors",
+          "galloping gaia",
+          "spiral fusion",
+          "dogmatika nation",
+          "\"inferoble arms - hauteclere\"",
+          "melffy tag",
+          "melffy hide-and-seek",
+          "frightfur repair",
+          "ancient warriors saga - east-by-south winds",
+          "fury of kairyu-shin", "heavenly dragon circle",
+          "diced dice", "spiral discharge", "spiral reborn",
+          "dogmatika punishment", "dogmatika encounter", "horn of olifant",
+          "melffy playhouse", "frightfur jar", "darklord uprising", "junk sheep",
+          "abyss actor - twinkle little star", "performapal card gardna", "d/d ark",
+          "d/d evil", "linkerbell", "superheavy samurai scarecrow"
+        ]
+      }
+    }
+  ]
+}

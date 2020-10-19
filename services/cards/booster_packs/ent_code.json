@@ -1,0 +1,28 @@
+{
+  "price": "2500",
+  "name": "Eternity Code",
+  "content": {
+    "ultra_rare": [
+      "archnemeses protos",
+      "archnemeses eschatos",
+      ""
+    ],
+    "super_rare": [
+      "nemeses flag",
+      "nemeses umbrealla",
+      "nemeses corridor",
+      "ancient warriors - ambitious cao de",
+      "ancient warriors - ingenious zhuge kong"
+    ],
+    "common": [
+      "piwraithe the ghost pirate",
+      "parallel exceed", "codebreaker zero day",
+      "salamangreat zebroid x", "gouki iron claw",
+      "gouki guts", "marincess basilalima", "noctovsion dragon",
+      "deep sea artisan", "deep sea sentry", "deep sea minstrel",
+      "red familiar", "crimson resonator", "latern shark", "buzzsaw shark",
+      "ancient warriors - fearsome zhang yuan", "ancient warriors - deceptive ja wen",
+      ""
+    ]
+  }
+}
