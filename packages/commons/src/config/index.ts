@@ -38,6 +38,7 @@ export interface ORMCLI {
 }
 
 export interface Config {
+  token?: string
   database: ORMConfig
   server: ServerConfig
   services?: Services
@@ -63,5 +64,6 @@ export const getConfig = (path?: string): Config => {
       ...config.database,
     },
     services: config.services,
+    token: config.token ?? undefined,
   }
 }

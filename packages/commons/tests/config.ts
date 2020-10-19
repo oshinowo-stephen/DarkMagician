@@ -7,6 +7,7 @@ import { ServiceInfo } from '../src/config'
 test('commons/config | valid config', (t) => {
   const conf = getConfig(join(__dirname, 'data', 'base.yml'))
   const services = conf.services
+    // eslint-disable-next-line dot-notation
     ? conf.services['test']
     : {}
 
