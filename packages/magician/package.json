@@ -1,0 +1,21 @@
+{
+  "name": "@darkmagician/magician",
+  "version": "0.1.0",
+  "description": "The Official Bot souce for DarkMagician",
+  "repository": "https://github.com/whoastonic/DarkMagician",
+  "author": "whoastonic <kingstonicthe1@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node build/index.js",
+    "start:dev": "ts-node-dev src/index.ts"
+  },
+  "dependencies": {
+    "eris": "^0.13.3",
+    "eris-boiler": "^3.0.0",
+    "got": "^11.7.0"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.63"
+  }
+}
