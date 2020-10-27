@@ -51,6 +51,7 @@
   "dependencies": {
     "http-status-codes": "^1.4.0",
     "openapi-validator-middleware": "^3.0.1",
-    "yaml": "^1.10.0"
+    "yaml": "^1.10.0",
+    "zeromq": "6.0.0-beta.5"
   }
 }
