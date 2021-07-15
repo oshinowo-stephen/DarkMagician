@@ -1,5 +1,0 @@
-description: Bad Request
-content:
-  application/json:
-    schema:
-      $ref: ../../index.yml#/components/schemas/Error
