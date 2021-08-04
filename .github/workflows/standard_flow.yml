@@ -1,20 +1,27 @@
-name: Dark Magician StandardCI
+name: DarkMagician StandardCI
 
 on:
 	push:
 		branches: [ main ]
-	pull_requests:
+	pull_request:
 		branches: [ main ]
 
 jobs:
-	stable:
+	standard:
+
 		runs-on: ubuntu-latest
+
+		strategy:
+			matrix:
+				node-version: [ 10.x, 12.x, 14.x, 15.x ]
 
 		steps:
 			- uses: actions/checkout@v2
 			- uses: actions/setup-node@v2
-				with:
-					cache: 'npm'
-					node_version: 14
-			- name: standard process
-				run: npm i && npm run build
+				with: ${{ matrix.node-version }}
+			- name: Install deps
+				run: npm ci
+			- name: Build pacakges
+				run: npm run build
+			- name: Test pacakges
+				run: npm run test
