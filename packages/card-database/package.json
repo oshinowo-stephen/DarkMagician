@@ -1,0 +1,36 @@
+{
+  "name": "@magician/card-database",
+  "version": "0.1.0",
+  "description": "api databaase",
+  "types": "@types/index.d.ts",
+  "main": "./dist/src/index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "nyc --reporter lcov ava",
+    "pretest": "export TS_NODE_FILES=true"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@magician/cache": "^0.1.0",
+    "@magician/core": "^0.1.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.8",
+    "@types/node-fetch": "^2.5.12"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "!lib",
+      "!dist"
+    ],
+    "require": [
+      "tsconfig-paths/register",
+      "ts-node/register"
+    ]
+  }
+}
