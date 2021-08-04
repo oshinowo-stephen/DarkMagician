@@ -1,0 +1,19 @@
+name: dark_magician_standard
+
+on:
+	push:
+		branches: [ main ]
+	pull_requests:
+		branches: [ main ]
+
+jobs:
+	stable:
+		runs-on: ubuntu-latest
+
+		steps:
+			- uses: actions/checkout@v2
+			- uses: actions/setup-node@v2
+				with:
+					node_version: 14
+			- name: standard process
+				run: npm i && npm run build
