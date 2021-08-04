@@ -1,0 +1,9 @@
+{
+	"stream": true,
+  "version": "independent",
+	"npmClient": "npm",
+  "packages": [
+		"packages/*",
+		"apps/*"
+	]
+}
