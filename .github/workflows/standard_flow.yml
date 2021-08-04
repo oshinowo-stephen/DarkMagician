@@ -3,8 +3,6 @@ name: DarkMagician StandardCI
 on:
 	push:
 		branches: [ main ]
-	pull_request:
-		branches: [ main ]
 
 jobs:
 	standard:
@@ -17,7 +15,8 @@ jobs:
 
 		steps:
 			- uses: actions/checkout@v2
-			- uses: actions/setup-node@v2
+			- name: 'using node'
+				uses: actions/setup-node@v2
 				with: ${{ matrix.node-version }}
 			- name: Install deps
 				run: npm ci
