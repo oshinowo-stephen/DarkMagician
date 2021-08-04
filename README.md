@@ -13,23 +13,23 @@ matters or even send your regards.
 
 Version `0.1.x`:
 
-[ ] - Deck Building
-[ ] - Card Collecting
-[ ] - Card Shop
-[ ] - Card Trading (with players)
-[ ] - Card Trading (with DMG)
-[ ] - Player Currency
-[ ] - Global Trading Market
-[ ] - Player Questing
-[ ] - Card Info
-[ ] - Org Updates (YGOrginization)
+- [ ] - Deck Building
+- [ ] - Card Collecting
+- [ ] - Card Shop
+- [ ] - Card Trading (with players)
+- [ ] - Card Trading (with DMG)
+- [ ] - Player Currency
+- [ ] - Global Trading Market
+- [ ] - Player Questing
+- [ ] - Card Info
+- [ ] - Org Updates (YGOrginization)
 
 Version `0.2.x`:
 
-[ ] - Deck Building (web platform)
-[ ] - A.I Auto Deck Building
-[ ] - A.I Generated Stratergies
-[ ] - Player Stratergies
+- [ ] - Deck Building (web platform)
+- [ ] - A.I Auto Deck Building
+- [ ] - A.I Generated Stratergies
+- [ ] - Player Stratergies
 
 ## Contributing
 
