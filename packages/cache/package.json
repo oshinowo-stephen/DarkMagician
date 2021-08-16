@@ -13,10 +13,25 @@
   "license": "ISC",
   "dependencies": {
     "@magician/core": "^0.1.0",
-    "redis": "^3.1.2"
+    "redis": "^3.1.2",
+    "sinon": "^11.1.2"
   },
   "devDependencies": {
     "@types/node": "^16.4.8",
     "@types/redis": "^2.8.31"
-  }
+  },
+	"ava": {
+		"extensions": [
+      "ts"
+    ],
+    "files": [
+      "!lib",
+      "!dist",
+      "!__tests__/data"
+    ],
+    "require": [
+      "tsconfig-paths/register",
+      "ts-node/register"
+    ]
+	}
 }

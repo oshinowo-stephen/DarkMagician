@@ -13,7 +13,7 @@ const parsePort = (): number => process.env.REDIS_PORT !== undefined
 
 export const client: RedisClient = createClient({
 	port: parsePort(),
-	db: process.env.REDIS_DATBASE ?? 'magician_cache'
+	db: process.env.REDIS_DATBASE ?? 1
 })
 
 export async function store<V>(key: string, v: V): Promise<void> {
@@ -31,11 +31,12 @@ export async function store<V>(key: string, v: V): Promise<void> {
 export async function fetch<V>(key: string): Promise<V> {
 	return new Promise((resolve, reject) => {
 		client.get(key, (err, reply) => {
-			if (err && !reply) {
+			if (err) {
 				reject(err)
+			} else if (reply === null) {
+				reject('Invalid Key.')
 			} else {
-				const stringedReply = reply as string
-				resolve(JSON.parse(stringedReply) as V)
+				resolve(JSON.parse(reply as string) as V)
 			}
 		})
 	})

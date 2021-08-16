@@ -2,7 +2,7 @@
   "name": "@magician/card-database",
   "version": "0.1.0",
   "description": "api databaase",
-  "types": "@types/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "main": "./dist/src/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
@@ -13,12 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@magician/cache": "^0.1.0",
+    "got": "^11.8.2",
     "@magician/core": "^0.1.0",
-    "node-fetch": "^2.6.1"
+    "sinon": "^11.1.2"
   },
   "devDependencies": {
-    "@types/node": "^16.4.8",
-    "@types/node-fetch": "^2.5.12"
+    "@types/got": "^9.6.12",
+    "@types/node": "^16.4.8"
   },
   "ava": {
     "extensions": [

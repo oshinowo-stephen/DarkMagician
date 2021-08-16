@@ -1,0 +1,3 @@
+[submodule ".bin/bot_scripts"]
+	path = .bin/bot_scripts
+	url = https://github.com/whoastonic/bot-config.git

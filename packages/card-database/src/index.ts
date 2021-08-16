@@ -1,34 +1,30 @@
 import {
 	get as http,
-} from './http'
-
-import {
 	CardOptions,
 	IncomingCard
-} from '@magician/card-database'
+} from './http'
 
-import {
-	fetch as get,
-	store as set,
-} from '@magician/cache'
+import { fetch, store } from '@magician/cache'
 
 export { get as http } from './http'
 
-export const fetch = async (
+export const retrieve = async (
 	name: string,
 	opts?: CardOptions,
 ): Promise<IncomingCard> => {
-	let response: IncomingCard
+	let response: IncomingCard = {} as IncomingCard
 
 	try {
-		response = await get<IncomingCard>(name)
-	} catch (_) {
+		response = await fetch<IncomingCard>(name)
+	} catch (error) {
 		try {
 			response = await http(name, opts)
 
-			await set<IncomingCard>(name, response)
+			await store<IncomingCard>(name, response)
 		} catch (error) {
-			throw new Error('Invalid Request.')
+			console.error(`Invalid Request | Error: ${error}.`)
+
+			throw new Error(`Invalid Request | Error: ${error}.`)
 		}
 	}
 

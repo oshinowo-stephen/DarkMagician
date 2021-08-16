@@ -1,39 +1,43 @@
 import sinon from 'sinon'
-import cache from '@magician/cache'
+import * as database from '../src'
+import * as cache from '@magician/cache'
 import avaTest, { TestInterface } from 'ava'
-import database, { CardOptions } from '@magician/card-database'
 
-const test = avaTest as TestInterface<{ name: string }>
+const test = avaTest as TestInterface<{
+	name: string,
+	fetch: sinon.SinonSpy,
+	store: sinon.SinonSpy
+}>
 
 test.before((t) => {
-	t.context.name = 'black rose draon'
+	t.context.fetch = sinon.spy(cache, 'fetch')
+	t.context.store = sinon.spy(cache, 'store')
 
-	cache.client.del(t.context.name)
+	cache.client.del('black rose dragon')
+})
+
+test.afterEach((t) => {
+	t.context.fetch.restore()
+	t.context.store.restore()
 })
 
 test('fetching [ from HTTP ]', async (t) => {
-	const calledCacheFetch = sinon.spy(cache, 'fetch')
-	const calledCacheStore = sinon.spy(cache, 'store')
-	const calledHttpFetch = sinon.spy(database, 'http')
+	let response
+	const { fetch, store } = t.context
 
-	const response = await database.fetch(t.context.name, {} as CardOptions)
+	response = await database.retrieve('black rose dragon', {} as any)
 
+	t.true(store.calledOnce)
+	t.true(fetch.exceptions.length > 0)
 	t.is(response.name, 'Black Rose Dragon')
-	t.true(calledCacheFetch.exceptions.length !== 0)
-	t.true(calledCacheFetch.calledOnceWithExactly(t.context.name))
-	t.true(calledCacheStore.calledOnceWithExactly(t.context.name, JSON.stringify(response)))
-	t.true(calledHttpFetch.calledOnceWithExactly(t.context.name, {} as CardOptions))
 })
 
 test('fetching [ from CACHE ]', async (t) => {
-	const calledCacheFetch = sinon.spy(cache, 'fetch')
-	const calledCacheStore = sinon.spy(cache, 'store')
-	const calledHttpFetch = sinon.spy(database, 'http')
+	const { store, fetch } = t.context
 
-	const response = await database.fetch(t.context.name, {} as CardOptions)
+	const response = await database.retrieve('black rose dragon', {} as any)
 
-	t.true(calledHttpFetch.callCount === 0)
-	t.true(calledCacheStore.callCount === 0)
+	t.true(fetch.calledOnce)
+	t.true(store.exceptions.length > 0)
 	t.is(response.name, 'Black Rose Dragon')
-	t.true(calledCacheFetch.calledOnceWithExactly(t.context.name))
 })

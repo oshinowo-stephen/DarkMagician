@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ $PWD != "/home/$USER/DarkMagician" ]; then
+	echo "please use `git` commands in the project's root."
+
+	exit 1
+fi
+
+echo "Pre-linting..."
+
+npm run lint
+if [ $? -eq 0 ]; then
+	exit 0
+else
+	echo "A problem on lint! try to fix it!"
+
+	exit 1
+fi

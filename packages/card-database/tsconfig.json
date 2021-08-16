@@ -3,7 +3,13 @@
 	"compilerOptions": {
 		"rootDir": "./",
 		"outDir": "./dist",
-		"baseUrl": "./src"
+		"baseUrl": "./src",
+		"declaration": true
+	},
+	"paths": {
+		"@magician/storage": [
+			"@types/index.d.ts"
+		]
 	},
 	"exclude": [
 		"node_modules"
