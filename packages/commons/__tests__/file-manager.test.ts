@@ -3,7 +3,6 @@ import { join } from 'path'
 import { FileManager } from '../lib'
 
 
-
 test('file manager test - create', async (t) => {
 	const manager = new FileManager()
 

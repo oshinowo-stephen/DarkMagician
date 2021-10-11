@@ -1,25 +1,20 @@
 {
-  "name": "@magician/card-database",
-  "version": "0.1.0",
-  "description": "api databaase",
-  "types": "./dist/src/index.d.ts",
-  "main": "./dist/src/index.js",
+  "name": "@dmg/cdb",
+  "version": "1.0.0",
+  "description": "The card-database for dark magician",
+  "main": "lib/index.ts",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "test": "nyc --reporter lcov ava",
-    "pretest": "export TS_NODE_FILES=true"
+    "test": "nyc --reporter lcov ava"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@magician/cache": "^0.1.0",
-    "got": "^11.8.2",
-    "@magician/core": "^0.1.0",
-    "sinon": "^11.1.2"
-  },
-  "devDependencies": {
-    "@types/got": "^9.6.12",
-    "@types/node": "^16.4.8"
+    "config": "^3.3.6",
+    "ioredis": "^4.27.9",
+    "needle": "^3.0.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   },
   "ava": {
     "extensions": [
@@ -27,11 +22,15 @@
     ],
     "files": [
       "!lib",
-      "!dist"
+      "!dist",
+      "!__tests__/data"
     ],
     "require": [
       "tsconfig-paths/register",
       "ts-node/register"
     ]
+  },
+  "devDependencies": {
+    "@types/needle": "^2.5.2"
   }
 }

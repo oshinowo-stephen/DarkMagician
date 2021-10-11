@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+		"build": "rm -rf dist && tsc",
     "test": "nyc --reporter lcov ava"
   },
   "author": "",
