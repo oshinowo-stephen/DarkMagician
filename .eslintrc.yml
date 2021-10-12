@@ -1,2 +1,4 @@
 extends:
 	- '@alex-taxiera/eslint-config-ts'
+project:
+	- tsconfig.json

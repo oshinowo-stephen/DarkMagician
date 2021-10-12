@@ -1,9 +1,10 @@
 {
 	"stream": true,
-  "version": "independent",
+	"version": "independent",
 	"npmClient": "npm",
-  "packages": [
+	"packages": [
 		"packages/*",
-		"apps/*"
+		"apps/*",
+		"apis/*"
 	]
 }
