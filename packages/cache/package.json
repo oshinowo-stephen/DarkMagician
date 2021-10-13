@@ -1,27 +1,21 @@
 {
-  "name": "@magician/cache",
-  "version": "0.1.0",
-  "description": "",
-  "types": "./dist/src/index.d.ts",
-  "main": "./dist/src/index.js",
+  "name": "@dmg/cache",
+  "version": "1.0.0",
+  "description": "A simple overrall cache for DarkMagician",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc",
-    "test": "nyc --reporter lcov ava",
-    "pretest": "export TS_NODE_FILES=true"
+		"build": "tsc",
+    "test": "nyc --reporter lcov ava"
   },
-  "author": "",
+  "author": "whoastonic <kingstonicthe1@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@magician/core": "^0.1.0",
-    "redis": "^3.1.2",
-    "sinon": "^11.1.2"
+    "ioredis": "^4.27.11"
   },
   "devDependencies": {
-    "@types/node": "^16.4.8",
-    "@types/redis": "^2.8.31"
-  },
-	"ava": {
-		"extensions": [
+    "@types/ioredis": "^4.27.6"
+  }, "ava": {
+    "extensions": [
       "ts"
     ],
     "files": [
@@ -33,5 +27,5 @@
       "tsconfig-paths/register",
       "ts-node/register"
     ]
-	}
+  }
 }
