@@ -1,0 +1,32 @@
+{
+  "name": "@dmg/cdb",
+  "version": "1.0.0",
+  "description": "The card-database for dark magician",
+  "main": "lib/index.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "nyc --reporter lcov ava"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "needle": "^3.0.0"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "!lib",
+      "!dist",
+      "!__tests__/data"
+    ],
+    "require": [
+      "tsconfig-paths/register",
+      "ts-node/register"
+    ]
+  },
+  "devDependencies": {
+    "@types/needle": "^2.5.2"
+  }
+}
