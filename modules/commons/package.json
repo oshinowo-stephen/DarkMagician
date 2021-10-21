@@ -1,6 +1,6 @@
 {
   "name": "@dmg/commons",
-	"private": "false",
+	"private": false,
   "version": "1.0.0-alpha.1",
   "description": "",
   "types": "dist/lib/index.d.ts",
