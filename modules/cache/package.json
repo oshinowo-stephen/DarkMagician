@@ -1,10 +1,10 @@
 {
   "name": "@dmg/cache",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.0",
   "description": "A simple overrall cache for DarkMagician",
   "main": "src/index.ts",
   "scripts": {
-		"build": "tsc",
+    "build": "tsc",
     "test": "nyc --reporter lcov ava"
   },
   "author": "whoastonic <kingstonicthe1@gmail.com>",
@@ -14,7 +14,8 @@
   },
   "devDependencies": {
     "@types/ioredis": "^4.27.6"
-  }, "ava": {
+  },
+  "ava": {
     "extensions": [
       "ts"
     ],
