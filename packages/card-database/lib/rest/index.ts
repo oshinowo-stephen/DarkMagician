@@ -20,8 +20,6 @@ export const forgeRequest = async (name: string, opts?: YGOProRestOptions): Prom
 
 		reqURL += attachRequestParams(opts)
 
-		console.log(reqURL)
-
 		const incomingResponse = await needle('get', reqURL)
 
 		const response: IncomingResponse = incomingResponse.body
