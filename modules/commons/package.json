@@ -1,5 +1,6 @@
 {
   "name": "@dmg/commons",
+	"private": "false",
   "version": "1.0.0-alpha.1",
   "description": "",
   "types": "dist/lib/index.d.ts",
@@ -30,5 +31,6 @@
       "tsconfig-paths/register",
       "ts-node/register"
     ]
-  }
+  },
+  "gitHead": "e2c0f8def6e59f64a93026e8984a2c954d46f2b3"
 }
