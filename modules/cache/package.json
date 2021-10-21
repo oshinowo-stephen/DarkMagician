@@ -1,7 +1,7 @@
 {
   "name": "@dmg/cache",
   "private": false,
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0",
   "description": "A simple overrall cache for DarkMagician",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
@@ -31,5 +31,5 @@
       "ts-node/register"
     ]
   },
-  "gitHead": "e2c0f8def6e59f64a93026e8984a2c954d46f2b3"
+  "gitHead": "0237d30aa86da939f78826354c173df5524169b4"
 }
