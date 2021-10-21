@@ -1,7 +1,7 @@
 {
   "name": "@dmg/cdb",
   "private": false,
-  "version": "1.0.1-alpha.1+b0bd0c6",
+  "version": "1.0.1",
   "description": "The card-database for DMG",
   "types": "lib/index.d.ts",
   "main": "lib/index.ts",
@@ -31,5 +31,5 @@
   "devDependencies": {
     "@types/needle": "^2.5.2"
   },
-  "gitHead": "b0bd0c6ba9f7d04333c672663fe68cb2c0756138"
+  "gitHead": "89d77cc3a864f02e02d5bee9b68f682edcb83401"
 }
