@@ -1,7 +1,7 @@
 {
   "name": "@dmg/cache",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.0+d86cbc2",
   "description": "A simple overrall cache for DMG",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
@@ -31,5 +31,5 @@
       "ts-node/register"
     ]
   },
-  "gitHead": "2e0ce45bec61befd8fd25071194693f7f799b8c1"
+  "gitHead": "d86cbc264f8b59df26b8d1b84e077dafb2037d38"
 }
