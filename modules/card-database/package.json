@@ -1,7 +1,7 @@
 {
   "name": "@dmg/cdb",
-	"private": false,
-  "version": "1.0.0-alpha.1",
+  "private": false,
+  "version": "1.0.0-alpha.2",
   "description": "The card-database for dark magician",
   "types": "lib/index.d.ts",
   "main": "lib/index.ts",
