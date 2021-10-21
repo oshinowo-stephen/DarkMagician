@@ -1,8 +1,8 @@
 {
   "name": "@dmg/commons",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "",
-	"types": "dist/lib/index.d.ts",
+  "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
