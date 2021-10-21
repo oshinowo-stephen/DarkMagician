@@ -2,7 +2,7 @@
   "name": "@dmg/cdb",
   "private": false,
   "version": "1.0.0",
-  "description": "The card-database for dark magician",
+  "description": "The card-database for DMG",
   "types": "lib/index.d.ts",
   "main": "lib/index.ts",
   "scripts": {
@@ -31,5 +31,5 @@
   "devDependencies": {
     "@types/needle": "^2.5.2"
   },
-  "gitHead": "0237d30aa86da939f78826354c173df5524169b4"
+  "gitHead": "2e0ce45bec61befd8fd25071194693f7f799b8c1"
 }

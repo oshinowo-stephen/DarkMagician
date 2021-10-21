@@ -2,7 +2,7 @@
   "name": "@dmg/commons",
   "private": false,
   "version": "1.0.0",
-  "description": "",
+  "description": "The common modules for DMG",
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
   "scripts": {
@@ -32,5 +32,5 @@
       "ts-node/register"
     ]
   },
-  "gitHead": "0237d30aa86da939f78826354c173df5524169b4"
+  "gitHead": "2e0ce45bec61befd8fd25071194693f7f799b8c1"
 }
