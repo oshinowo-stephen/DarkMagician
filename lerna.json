@@ -2,5 +2,8 @@
 	"stream": true,
 	"version": "independent",
 	"npmClient": "npm",
-	"packages": [ "modules/*" ]
+	"packages": [ "modules/*" ],
+	"publishConfig": {
+    "access": "public"
+  }
 }
