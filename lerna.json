@@ -2,9 +2,5 @@
 	"stream": true,
 	"version": "independent",
 	"npmClient": "npm",
-	"packages": [
-		"modules/*",
-		"apps/*",
-		"apis/*"
-	]
+	"packages": [ "modules/*" ]
 }
