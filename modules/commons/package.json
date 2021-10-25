@@ -1,10 +1,10 @@
 {
   "name": "@dmg/commons",
   "private": false,
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.1-alpha.0",
   "publishConfig": {
     "access": "public",
-		"registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/"
   },
   "description": "The common modules for DMG",
   "types": "dist/lib/index.d.ts",
