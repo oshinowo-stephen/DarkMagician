@@ -1,7 +1,7 @@
 {
   "name": "@dmg/cdb",
   "private": false,
-  "version": "1.3.1-alpha.0",
+  "version": "0.1.1-alpha.0",
   "description": "The card-database for DMG",
   "types": "lib/index.d.ts",
   "main": "lib/index.ts",
