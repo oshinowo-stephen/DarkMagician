@@ -1,6 +1,7 @@
 {
   "name": "magician",
   "version": "1.0.0",
+  "private": false,
   "description": "Another YGO Discord Bot.",
   "scripts": {
     "postinstall": "lerna bootstrap",
