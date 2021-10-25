@@ -1,7 +1,7 @@
 {
-  "name": "@dmg/commons",
+  "name": "@darkmagician/commons",
   "private": false,
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -36,5 +36,5 @@
       "ts-node/register"
     ]
   },
-  "gitHead": "e0880ce9b7954a9602ede2abc4fae951dd57ee2b"
+  "gitHead": "d984775ccea139ff9b1d3e28584b3e617b3e0e15"
 }
