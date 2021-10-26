@@ -10,7 +10,7 @@
   "types": "dist/lib/index.d.ts",
   "main": "dist/lib/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "nyc --reporter lcov ava"
   },
   "author": "whoastonic <kingstonicthe1@gmail.com>",
