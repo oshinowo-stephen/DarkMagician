@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"rootDir": "./",
+		"baseUrl": "./lib",
+		"outDir": "./dist",
+		"declaration": true,
+		"esModuleInterop": true
+	},
+	"exclude": [
+		"node_modules",
+		"__tests__"
+	]
+}

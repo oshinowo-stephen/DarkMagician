@@ -1,9 +1,9 @@
 {
 	"stream": true,
-  "version": "independent",
+	"version": "independent",
 	"npmClient": "npm",
-  "packages": [
-		"packages/*",
-		"apps/*"
-	]
+	"packages": [ "modules/*" ],
+	"publishConfig": {
+    "access": "public"
+  }
 }

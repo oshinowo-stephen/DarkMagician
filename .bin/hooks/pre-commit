@@ -8,7 +8,7 @@ fi
 
 echo "Installing packages..."
 
-npm run ci
+npm ci
 if [ $? -eq 0 ]; then
 	npm run build
 	if [ $? -eq 0 ]; then
