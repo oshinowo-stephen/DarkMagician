@@ -1,0 +1,9 @@
+oratorOptions:
+  defaultPrefix: '?'
+
+statusManagerOptions:
+  defaultStatus:
+    name: Duel Links
+    type: 0
+
+NODE_ENV: development
