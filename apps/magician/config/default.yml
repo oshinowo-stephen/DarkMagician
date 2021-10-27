@@ -1,9 +1,9 @@
-oratorOptions:
+oratorOpts:
   defaultPrefix: '?'
 
-statusManagerOptions:
+statusManagerOpts:
   defaultStatus:
-    name: Duel Links
+    name: Yu-Gi-Oh! Duel Links
     type: 0
 
 NODE_ENV: development
