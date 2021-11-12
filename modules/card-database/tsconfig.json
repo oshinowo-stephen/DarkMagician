@@ -4,7 +4,6 @@
 		"rootDir": "./",
 		"baseUrl": "./lib",
 		"outDir": "./dist",
-		"declaration": true,
 		"esModuleInterop": true
 	},
 	"exclude": [
