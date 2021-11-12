@@ -7,7 +7,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "description": "The card-database for DMG",
-  "types": "lib/index.d.ts",
+  "types": "@types/index.d.ts",
   "main": "lib/index.ts",
   "scripts": {
     "build": "rm -rf dist && tsc",
@@ -16,11 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@darkmagician/cache": "^1.0.0-alpha.0",
     "needle": "^3.0.0"
   },
   "ava": {
     "extensions": [
-      "ts"
+      "ts",
+			"js"
     ],
     "files": [
       "!lib",

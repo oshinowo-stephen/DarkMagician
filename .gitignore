@@ -76,6 +76,7 @@ web_modules/
 # testing environment
 **/__tests__/**
 !**/__tests__/*.test.ts
+!**/__tests__/*.test.js
 
 # dotenv environment variables file
 .env
