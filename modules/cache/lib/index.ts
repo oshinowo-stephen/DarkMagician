@@ -73,5 +73,17 @@ export class BasicCache {
 		this.timers.push({ keyToDelete: k, deleteIn: after + Date.now() })
 	}
 
+	async remove(k: string): Promise<void> {
+		try {
+			await this.client.del(k)
+
+			const keys = this.timers.filter((v) => v.keyToDelete === k)
+			const index = this.timers.indexOf(keys[0])
+			this.timers.splice(index, 1)
+		} catch (error) {
+			throw new Error(`Unable to remove this key: ${error}`)
+		}
+	}
+
 }
 

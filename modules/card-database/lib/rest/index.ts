@@ -1,10 +1,7 @@
 // Raw YGO Card Info
 
 import needle from 'needle'
-import {
-	IncomingRawCardInfo,
-	IncomingResponse,
-} from './types'
+import { IncomingRawCardInfo, IncomingResponse } from 'cdb.types'
 
 const BASE_URL: string = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 
