@@ -1,8 +1,8 @@
-const test = require('ava')
-const sinon = require('sinon')
-const { fetch } = require('../lib')
-const { cache } = require('../lib/utils')
-const request = require('../lib/rest')
+import test from 'ava'
+import sinon from 'sinon'
+import { fetch } from '../lib'
+import { cache } from '../lib/utils'
+import * as request from '../lib/rest'
 
 test('fetch [ black rose dragon ] from org', async ({ truthy }) => {
 	const requestSpy = sinon.spy(request, 'forgeRequest')

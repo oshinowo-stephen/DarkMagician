@@ -21,8 +21,7 @@
   },
   "ava": {
     "extensions": [
-      "ts",
-			"js"
+      "ts"
     ],
     "files": [
       "!lib",
