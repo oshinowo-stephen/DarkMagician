@@ -14,17 +14,13 @@ if [ $? -eq 0 ]; then
 	if [ $? -eq 0 ]; then
 		npm run test
 		if [ $? -eq 0 ]; then
-			echo "App looks good, ready for a push!"
 			exit 0
 		else
-			echo "Tests failed, exiting application"
 			exit 1
 		fi
 	else
-		echo "Failed to build application, exiting..."
 		exit 1
 	fi
 else
-	echo "Failed to install packages! Exiting application..."
 	exit 1
 fi

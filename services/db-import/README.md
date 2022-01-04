@@ -1,0 +1,3 @@
+# DBImport
+
+A rough python script attended to import all incoming YGOAPI cards into a selected base of choice...
