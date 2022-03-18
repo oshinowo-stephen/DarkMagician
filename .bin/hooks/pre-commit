@@ -1,26 +1,23 @@
 #!/bin/bash
 
-if [ $PWD != "/home/$USER/DarkMagician" ]; then
+## NODE
+
+PROJECT_DIR="/home/$USER/DarkMagician"
+
+if [ $PWD != PROJECT_DIR ]; then
 	echo "please use `git` commands in the project's root."
 
 	exit 1
 fi
 
-echo "Installing packages..."
-
 npm ci
-if [ $? -eq 0 ]; then
-	npm run build
-	if [ $? -eq 0 ]; then
-		npm run test
-		if [ $? -eq 0 ]; then
-			exit 0
-		else
-			exit 1
-		fi
-	else
-		exit 1
-	fi
-else
-	exit 1
-fi
+	&& npm run build
+	&& npm run test
+
+## RUST
+
+for service in "$PROJECT_DIR"/*
+do
+	cargo test --manifest-path="$service"
+	cargo build --manifest-path="$service"
+done

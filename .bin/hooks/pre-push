@@ -1,16 +1,20 @@
 #!/bin/bash
 
-if [ $PWD != "/home/$USER/DarkMagician" ]; then
+ROOT = "/home/$USER/DarkMagician"
+
+if [ $PWD != ROOT ]; then
 	echo "please use `git` commands in the project's root."
 
 	exit 1
 fi
 
-echo "Pre-linting..."
+## NODE
 
 npm run lint
-if [ $? -eq 0 ]; then
-	exit 0
-else
-	exit 1
-fi
+
+## RUST
+
+for service in "$ROOT"/*
+do
+	cargo clippy --manifest-path="$ROOT" -- -D warningsd 
+done
