@@ -59,7 +59,6 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 	DROP TABLE entry_card_img
 	DROP TABLE entry_card_set
 	DROP TABLE entry_card_price
-	DROP TABLE entry_card_stats
 	DROP TABLE entry_card_format
 EOSQL
 
@@ -68,44 +67,42 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		VARCHAR name NOT NULL PRIMARY KEY,
 		VARCHAR desc NOT NULL,
 		VARCHAR race NOT NULL,
-	)
-
-	CREATE TABLE entry_card_img (
-		VARCHAR card_name NOT NULL PRIMARY KEY,
-		VARCHAR card_art NOT NULL,
-		VARCHAR card_img NOT NULL,
-		VARCHAR card_img_small NOT NULL,
-		VARCHAR card_alt NOT NULL,
-		VARCHAR card_alt_small NOT NULL,
-	)
-
-	CREATE TABLE entry_card_set (
-		VARCHAR card_name NOT NULL PRIMARY KEY,
-		VARCHAR set_name NOT NULL,
-		VARCHAR	set_release NOT NULL,
-		VARCHAR set_market NOT NULL,
-	)
-
-	CREATE TABLE entry_card_price (
-		VARCHAR card_name NOT NULL PRIMARY KEY,
-		VARCHAR market_name NOT NULL,
-		VARCHAR market_uri NOT NULL,
-		VARCHAR market_price NOT NULL,
-	)
-	
-	CREATE TABLE entry_card_stats (
-		VARCHAR card_name NOT NULL PRIMARY KEY,
-		VARCHAR atk NOT NULL,
-		VARCHAR	_level,
-		VARCHAR	_lval,'
-		VARCHAR _scale,
-		VARCHAR	_def,
+		INT _atk,
+		INT _def,
+		INT _lvl,
+		INT _lval,
+		INT _scale,
 		VARCHAR _markers,
 	)
 
+	CREATE TABLE entry_card_img (
+		VARCHAR card_name NOT NULL,
+		VARCHAR card_art NOT NULL,
+		VARCHAR card_img NOT NULL,
+		VARCHAR card_img_small NOT NULL,
+		FOREIGN KEY (card_name) REFERENCES entry_card(name)
+	)
+
+	CREATE TABLE entry_card_set (
+		VARCHAR card_name NOT NULL,
+		VARCHAR set_name NOT NULL,
+		VARCHAR	set_release NOT NULL,
+		VARCHAR set_market NOT NULL,
+		FOREIGN KEY (card_name) REFERENCES entry_card(name)
+	)
+
+	CREATE TABLE entry_card_price (
+		VARCHAR card_name NOT NULL,
+		VARCHAR market_name NOT NULL,
+		VARCHAR market_uri NOT NULL,
+		VARCHAR market_price NOT NULL,
+		FOREIGN KEY (card_name) REFERENCES entry_card(name)
+	)
+	
 	CREATE TABLE entry_card_format (
-		VARCHAR card_name NOT NULL PRIMARY KEY,
+		VARCHAR card_name NOT NULL,
 		VARCHAR format NOT NULL,
 		VARCHAR limited NOT NULL DEFAULT '0'
+		FOREIGN KEY (card_name) REFERENCES entry_card(name)
 	)
 EOSQL
