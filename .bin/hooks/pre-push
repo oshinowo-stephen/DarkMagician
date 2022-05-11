@@ -1,8 +1,8 @@
 #!/bin/bash
 
-ROOT = "/home/$USER/DarkMagician"
+PROJECT_DIR = "/home/$USER/DarkMagician"
 
-if [ $PWD != ROOT ]; then
+if [ $PWD != PROJECT_DIR ]; then
 	echo "please use `git` commands in the project's root."
 
 	exit 1
@@ -14,7 +14,7 @@ npm run lint
 
 ## RUST
 
-for service in "$ROOT"/*
+for service in "$PROJECT_DIR/services"/*
 do
-	cargo clippy --manifest-path="$ROOT" -- -D warningsd 
+	cargo clippy --manifest-path="$service" -- -D warnings 
 done

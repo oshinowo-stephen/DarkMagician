@@ -17,9 +17,5 @@ else
 fi
 
 # Setting up the database...
-
-chmod +x .bin/scripts/db/perms.sh
-chmod +x .bin/scripts/db/tables.sh
-
 ./.bin/scripts/db/perms.sh
 ./.bin/scripts/db/tables.sh

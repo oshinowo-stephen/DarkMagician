@@ -16,8 +16,9 @@ npm ci
 
 ## RUST
 
-for service in "$PROJECT_DIR"/*
+for service in "$PROJECT_DIR/services"/*
 do
+	cargo fmt --manifest-path="$service"
 	cargo test --manifest-path="$service"
 	cargo build --manifest-path="$service"
 done
