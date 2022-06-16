@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-		"@dmg/cdb": "^0.1.0",
     "eris": "^0.16.0-dev",
     "eris-boiler": "^3.0.0",
     "slash-create": "^4.3.0"
