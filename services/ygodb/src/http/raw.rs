@@ -1,25 +1,33 @@
 #[derive(Debug, Deserialize)]
 pub struct IncomingResponse {
-	pub data: Vec<RawCard>
+	pub data: Vec<RawCard>,
+	pub error: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct RawCard {
-
 	pub name: String,
 	pub desc: String,
 	pub r#type: String,
-	pub atk: Option<usize>,
-	pub def: Option<usize>,
-	pub level: Option<usize>,
-	pub	race: String,
+	pub atk: Option<i32>,
+	pub def: Option<i32>,
+	pub level: Option<i32>,
+	pub race: String,
 	pub attribute: String,
-	pub scale: Option<String>,
-	pub linkval: Option<usize>,
+	pub scale: Option<i32>,
+	pub linkval: Option<i32>,
+	pub banlist_info: Option<BanlistInfo>,
 	pub linkmarkers: Option<Vec<String>>,
 	pub card_sets: Option<Vec<RawCardSet>>,
 	pub card_images: Vec<RawCardImg>,
-	pub misc_info: Vec<MiscInfo>
+	pub misc_info: Vec<MiscInfo>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct BanlistInfo {
+	pub ban_tcg: Option<String>,
+	pub ban_ocg: Option<String>,
+	pub ban_goat: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -45,7 +53,7 @@ pub struct RawCardMarket {
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct MiscInfo {
-	pub has_effect: Option<u8>,
+	pub has_effect: Option<i32>,
 	pub formats: Vec<String>,
 	pub tcg_date: String,
 	pub ocg_date: String,

@@ -41,14 +41,16 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 
 	CREATE TABLE IF NOT EXISTS entry_card_format (
 		card_name VARCHAR NOT NULL PRIMARY KEY,
-		_limit INT NOT NULL,
-		_format VARCHAR NOT NULL,
+		_tcg_limit INT NOT NULL,
+		_ocg_limit INT NOT NULL,
+		_goat_limit INT NOT NULL,
+		_tcg_release VARCHAR NOT NULL,
+		_ocg_release VARCHAR NOT NULL,
 		FOREIGN KEY (card_name) REFERENCES entry_card (name)
 	);
 
 	CREATE TABLE IF NOT EXISTS entry_card_img (
-		card_name VARCHAR NOT NULL PRIMARY KEY,
-		card_alt VARCHAR,
+		card_name VARCHAR NOT NULL,
 		card_img VARCHAR NOT NULL,
 		card_img_small VARCHAR NOT NULL,
 		FOREIGN KEY (card_name) REFERENCES entry_card(name)

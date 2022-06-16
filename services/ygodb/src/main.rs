@@ -1,65 +1,66 @@
-extern crate warp;
 #[macro_use]
 extern crate diesel;
-extern crate reqwest;
-extern crate tokio;
+extern crate async_std;
+extern crate ureq;
 #[macro_use]
 extern crate serde;
+extern crate tide;
+extern crate dotenv;
 
 mod http;
 mod storage;
 mod construct;
 
-use warp::Filter;
-use construct::{RequestCard, ReturningCard};
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let retrieve_card = warp::post()
-        .and(warp::path::end())
-        .and(warp::body::content_length_limit(1024 * 8))
-        .and(warp::body::json())
-        .map(retrieve_card_data);
-
-    Ok(())
+#[derive(Clone)]
+struct AppState {
+	conn: storage::Connection,
 }
 
-fn retrieve_card_data(request: RequestCard) -> ReturningCard {
-    unimplemented!()
+#[async_std::main]
+async fn main() -> tide::Result<()> {
+	dotenv::dotenv().ok();
+	let conn = storage::connect();
+	let state = AppState { conn };
+	let mut app = tide::with_state(state);
+
+	app.at("/").post(|mut req: tide::Request<AppState>| async move {
+		let app_state = req.state();
+		let pooled_conn = app_state.conn.clone();
+		let construct::RequestCard { name, fuzzy: _ } = req.body_json().await?;
+
+		let incoming_entry = construct::fetch_card_entry(pooled_conn, &name)?;
+
+		tide::Body::from_json(&incoming_entry)
+	});
+
+	println!("Listening on http://127.0.0.1:2550");
+	app.listen("127.0.0.1:2550").await?;
+	Ok(())
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::http::*;
+	use crate::http;
 
-    macro_rules! tokio_rt {
-        ($e:expr) => {
-            tokio_test::block_on($e)
-        };
-    }  
+	#[test]
+	fn fetch() {
+		let card = http::get_card("Dark Magician").unwrap();
 
-    #[test]
-    fn fetch() {
-        let card = tokio_rt!(get_card("Dark Magician"))
-            .expect("Failed to fetch card");
-            
-        assert_eq!(card.name, "Dark Magician");
-    }
+		assert_eq!(card.name, "Dark Magician");
+	}
 
-    #[test]
-    fn search() {
-        let cards = tokio_rt!(search_card("Dark Magician"))
-            .expect("Failed to search card");
+	// #[test]
+	// fn search() {
+	// 	let cards = http::search_card("Dark Magician").expect("Failed to search card");
 
-        assert_eq!(cards.len() > 1, true);
-        assert_eq!(cards[0].name, "Dark Magician");
-        assert_eq!(cards[1].name, "Dark Magician Girl");
-    }
+	// 	assert_eq!(cards.len() > 1, true);
+	// 	assert_eq!(cards[0].name, "Dark Magician");
+	// 	assert_eq!(cards[1].name, "Dark Magician Girl");
+	// }
 
-    #[test]
-    #[should_panic]
-    fn fetch_card_not_found() {
-	    tokio_rt!(get_card("sdasdsadasdasd"))
-            .expect("Failed to fetch card");
-    }
+	#[test]
+	#[should_panic]
+	fn fetch_card_not_found() {
+		http::get_card("sdasdsadasdasd").expect("Failed to fetch card");
+	}
 }

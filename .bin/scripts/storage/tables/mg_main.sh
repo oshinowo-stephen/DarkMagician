@@ -29,10 +29,11 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		id VARCHAR NOT NULL PRIMARY KEY
 	);
 
-	CREATE TABLE IF NOT EXISTS cards (
+	CREATE TABLE IF NOT EXISTS player_card (
 		name VARCHAR NOT NULL PRIMARY KEY,
 		rarity VARCHAR NOT NULL,
 		holder VARCHAR NOT NULL,
+		amount INT NOT NULL DEFAULT '0',	
 		CONSTRAINT fk_holder FOREIGN KEY (holder) REFERENCES player(id)
 	);
 
@@ -47,7 +48,7 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		deck_name VARCHAR NOT NULL,
 		owner VARCHAR NOT NULL PRIMARY KEY,
 		FOREIGN KEY (owner) REFERENCES player(id),
-		FOREIGN KEY (card_name) REFERENCES cards(name),
+		FOREIGN KEY (card_name) REFERENCES player_card(name),
 		FOREIGN KEY (deck_name) REFERENCES decks(name)
 	)
 EOSQL
