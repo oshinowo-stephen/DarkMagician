@@ -92,7 +92,7 @@ async fn main() -> tide::Result<()> {
             pcard = None
         }; 
 
-        match storage::insert_player_card(player_id, pcard.unwrap(), conn) {
+        match storage::insert_player_card(pcard.unwrap(), conn) {
             Ok(_) => 
                 response_body = construct::get_response_body(Some(()), String::new()),
             Err(_err) =>

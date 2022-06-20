@@ -39,11 +39,11 @@ pub fn fetch_player_card(pid: &str, cname: &str, conn: Connection) -> Result<mod
         .first::<models::PlayerCard>(&c)
     {
         Ok(incoming_card) => Ok(incoming_card),
-        Err(error) => Err(DbError::Invalid)
+        Err(_error) => Err(DbError::Invalid)
     }
 }
 
-pub fn insert_player_card(pid: &str, cinfo: models::PlayerCard, conn: Connection) -> Result<(), DbError> {
+pub fn insert_player_card(cinfo: models::PlayerCard, conn: Connection) -> Result<(), DbError> {
     use schema::player_card::dsl::*;
 
     let c = conn.get().expect("failed to retrieve connection");
