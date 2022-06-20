@@ -49,14 +49,14 @@ mod tests {
 		assert_eq!(card.name, "Dark Magician");
 	}
 
-	// #[test]
-	// fn search() {
-	// 	let cards = http::search_card("Dark Magician").expect("Failed to search card");
-
-	// 	assert_eq!(cards.len() > 1, true);
-	// 	assert_eq!(cards[0].name, "Dark Magician");
-	// 	assert_eq!(cards[1].name, "Dark Magician Girl");
-	// }
+	#[test]
+	fn search() {
+		let incoming_cards = http::search_cards("lil-la")
+			.expect("failed to find query");
+		
+		assert_eq!(incoming_cards.len() > 1, true);
+		assert_eq!(incoming_cards[0].name, "Evil★Twin Lil-la");
+	}
 
 	#[test]
 	#[should_panic]
