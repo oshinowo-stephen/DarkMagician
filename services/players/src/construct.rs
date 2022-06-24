@@ -42,22 +42,22 @@ pub struct AppState {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ReturningResponse<T> {
-    pub package: Option<T>,
+    pub p: Option<T>,
     pub status: u32,
     pub clause: Option<String>,
 }
 
-pub fn get_response_body<T>(p: Option<T>, clause: String) -> ReturningResponse<T> {
+pub fn get_response_body<T>(p: Option<T>, clause: String, status: u32) -> ReturningResponse<T> {
     if clause.is_empty() {
         ReturningResponse {
-            package: p,
-            status: 200,
+            p,
+            status,
             clause: None
         }
     } else {
         ReturningResponse {
-            package: None,
-            status: 404,
+            p: None,
+            status,
             clause: Some(clause)
         }
     }
