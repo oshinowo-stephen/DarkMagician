@@ -9,8 +9,6 @@ pub enum HttpError {
 	InvalidInput,
 }
 
-pub type RawCards = Vec<RawCard>;
-
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 const BASE_URL: &str = "https://db.ygoprodeck.com/api/v7/cardinfo.php?misc=yes";
@@ -35,24 +33,25 @@ pub fn get_card(name: &str) -> Result<RawCard> {
 	}
 }
 
-// pub async fn search_card(name: &str) -> Result<RawCards> {
-// 	if name.is_empty() {
-// 		return Err(Box::new(HttpError::InvalidInput));
-// 	}
+pub fn search_cards(name: &str) -> Result<Vec<RawCard>> {
+	if name.is_empty() {
+		return Err(Box::new(HttpError::InvalidInput));
+	}
 
-// 	let url = format!("{}&fname={}", BASE_URL, name);
-
-// 	let resp = reqwest::get(url)
-// 		.await?
-// 		.json::<IncomingResponse>()
-// 		.await?;
-
-// 	if resp.data.is_empty() {
-// 		Err(Box::new(HttpError::NotFound))
-// 	} else {
-// 		Ok(resp.data)
-// 	}
-// }
+	let url = format!("{}&fname={}", BASE_URL, name);
+	
+	let resp: IncomingResponse = ureq::get(&url)
+		.call()
+		.expect("cannot call this request")
+		.into_json()
+		.expect("cannot parse json");
+	
+	if resp.data.is_empty() {
+		return Err(Box::new(HttpError::NotFound));
+	} else {
+		Ok(resp.data)
+	}
+}
 
 impl Error for HttpError {}
 
