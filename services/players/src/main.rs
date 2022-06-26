@@ -20,7 +20,7 @@ fn load_env() {
 
     let app_env = env::var("RUST_ENV").unwrap_or(String::from("dev"));
 
-    if app_env != "prod" || app_env != "production" {
+    if app_env.is_empty() {
         dotenv::dotenv().ok();
     } else {
         docker_secrets::load().ok();
