@@ -4,63 +4,90 @@ extern crate async_std;
 extern crate ureq;
 #[macro_use]
 extern crate serde;
-extern crate tide;
 extern crate dotenv;
+extern crate secrets_to_env as secrets;
+extern crate tide;
 
+mod construct;
 mod http;
 mod storage;
-mod construct;
 
-#[derive(Clone)]
-struct AppState {
-	conn: storage::Connection,
+use construct::AppState;
+
+use std::default::Default;
+
+#[derive(Debug, Deserialize)]
+#[serde(default)]
+struct RequestParams {
+	n: String,
+	fuzz: bool,
+}
+
+fn load_env() {
+	use std::env;
+
+	let app_env = env::var("RUST_ENV").unwrap_or_default();
+
+	if app_env.is_empty() || app_env != "prod" {
+		dotenv::dotenv().ok();
+	} else {
+		secrets::load().ok();
+	}
 }
 
 #[async_std::main]
 async fn main() -> tide::Result<()> {
-	dotenv::dotenv().ok();
-	let conn = storage::connect();
+	load_env();
+	let conn = storage::create_connection();
 	let state = AppState { conn };
 	let mut app = tide::with_state(state);
 
-	app.at("/").post(|mut req: tide::Request<AppState>| async move {
-		let app_state = req.state();
-		let pooled_conn = app_state.conn.clone();
-		let construct::RequestCard { name, fuzzy: _ } = req.body_json().await?;
+	app
+		.at("/cards")
+		.get(|req: tide::Request<AppState>| async move {
+			println!("Endpoint hit!");
 
-		let incoming_entry = construct::fetch_card_entry(pooled_conn, &name)?;
+			let app_state = req.state();
+			let pooled_conn = app_state.conn.clone();
 
-		tide::Body::from_json(&incoming_entry)
-	});
+			let _params: RequestParams = req.query()?;
 
-	println!("Listening on http://127.0.0.1:2550");
-	app.listen("127.0.0.1:2550").await?;
+			dbg!(&_params);
+
+			let response_body;
+
+			let request_data = construct::RequestCardData {
+				name: _params.n,
+				opts: None,
+			};
+
+			dbg!(&request_data);
+
+			if let Ok(incoming_card) = construct::get_requested_card(request_data, pooled_conn) {
+				dbg!(&incoming_card);
+
+				response_body = construct::get_response_body(Some(incoming_card), String::new(), 200);
+			} else {
+				response_body = construct::get_response_body(None, String::from("Invalid Card."), 404);
+			}
+
+			tide::Body::from_json(&response_body)
+		});
+
+	println!("Listening on http://127.0.0.1:2552");
+	app
+		.listen("127.0.0.1:2552")
+		.await?;
 	Ok(())
 }
 
-#[cfg(test)]
-mod tests {
-	use crate::http;
-
-	#[test]
-	fn fetch() {
-		let card = http::get_card("Dark Magician").unwrap();
-
-		assert_eq!(card.name, "Dark Magician");
-	}
-
-	#[test]
-	fn search() {
-		let incoming_cards = http::search_cards("lil-la")
-			.expect("failed to find query");
-		
-		assert_eq!(incoming_cards.len() > 1, true);
-		assert_eq!(incoming_cards[0].name, "Evil★Twin Lil-la");
-	}
-
-	#[test]
-	#[should_panic]
-	fn fetch_card_not_found() {
-		http::get_card("sdasdsadasdasd").expect("Failed to fetch card");
+impl Default for RequestParams {
+	fn default() -> Self {
+		Self {
+			n: String::new(),
+			fuzz: false,
+		}
 	}
 }
+
+// TODO: RE-WRITE TESTS!!!

@@ -13,7 +13,7 @@ pub struct RawCard {
 	pub def: Option<i32>,
 	pub level: Option<i32>,
 	pub race: String,
-	pub attribute: String,
+	pub attribute: Option<String>,
 	pub scale: Option<i32>,
 	pub linkval: Option<i32>,
 	pub banlist_info: Option<BanlistInfo>,
@@ -55,6 +55,6 @@ pub struct RawCardMarket {
 pub struct MiscInfo {
 	pub has_effect: Option<i32>,
 	pub formats: Vec<String>,
-	pub tcg_date: String,
+	pub tcg_date: Option<String>,
 	pub ocg_date: String,
 }

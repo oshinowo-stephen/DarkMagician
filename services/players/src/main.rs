@@ -18,9 +18,9 @@ use construct::ReturningResponse;
 fn load_env() {
     use std::env;
 
-    let app_env = env::var("RUST_ENV").unwrap_or(String::from("dev"));
+    let app_env = env::var("RUST_ENV").unwrap_or_default();
 
-    if app_env.is_empty() {
+    if app_env.is_empty() || app_env != "prod" {
         dotenv::dotenv().ok();
     } else {
         docker_secrets::load().ok();
@@ -128,7 +128,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    app.at("/players/id:/cards/:name").get(|req: tide::Request<AppState>| async move {
+    app.at("/players/:id/cards/:cname").get(|req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let player_id = req.param("id").unwrap();
@@ -145,7 +145,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    println!("Listening on http://127.0.0.1:2500");   
-    app.listen("127.0.0.1:2500").await?;
+    println!("Listening on http://127.0.0.1:2551");   
+    app.listen("127.0.0.1:2551").await?;
     Ok(())
 }
