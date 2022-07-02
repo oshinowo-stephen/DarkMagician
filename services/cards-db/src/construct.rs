@@ -61,8 +61,8 @@ pub fn get_requested_card(
 	conn: storage::Connection,
 ) -> Result<ReturningCardEntry> {
 	let card_data: storage::models::EntryCard;
-	let mut card_img_data: Vec<storage::models::EntryCardImg> = Vec::new();
-	let mut card_set_data: Vec<storage::models::EntryCardSet> = Vec::new();
+	let card_img_data: Vec<storage::models::EntryCardImg>;
+	let card_set_data: Vec<storage::models::EntryCardSet>;
 	// let card_market_data: storage::models::EntryCardPrice;
 	let mut card_format_data: storage::models::EntryCardFormat;
 
