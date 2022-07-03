@@ -4,7 +4,7 @@
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -17,8 +17,18 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  },
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@*": [
+        "modules/*",
+      ]
+    },
+    "plugins": [
+      {
+        "transform": "@ovos-media/ts-transform-paths"
+      }
+    ]
+  },  
   "exclude": [
     "node_modules"
   ]
