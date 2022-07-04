@@ -1,16 +1,24 @@
 import { Forge } from '@hephaestus/eris'
 import { logger } from '@hephaestus/utils'
 import config from 'config'
-import { join as _join } from 'path'
+import { join } from 'path'
 
 const main = async (): Promise<void> => {
     if (config.get('NODE_ENV') !== 'prod') {
-        import('dotenv').then(({ config }) => config())
+        await import('dotenv').then(({ config }) => config())
     } else {
-        import('docker-secret-env').then(({ load }) => load())
+        await import('docker-secret-env').then(({ load }) => load())
     }
 
-    const magician = new Forge(config.get('BOT_TOKEN'))
+    const magician = new Forge(config.get('BOT_TOKEN'), {
+        intents: [
+            'guilds',
+            'guildEmojis',
+            'guildMessages',
+            'guildIntegrations',
+            'guildEmojisAndStickers',
+        ]
+    })
 
     magician.client.on('ready', () => {
         const { user } = magician.client
@@ -18,10 +26,10 @@ const main = async (): Promise<void> => {
         logger.info(`${user.username} is now connected, and ready to-go!`)
     })
 
-    magician.commands.add(_join(__dirname, 'test-cmds'))
+    magician.commands.add(join(__dirname, 'commands'))
 
-    await magician.connect()
+    await magician.connect().catch(logger.error)
     logger.info('App connecting to DiscordAPI') 
 }
 
-main().catch(console.error)
+main().then(() => undefined)

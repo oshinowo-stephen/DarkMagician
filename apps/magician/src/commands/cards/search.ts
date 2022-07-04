@@ -12,14 +12,21 @@ export const search: SubCommand = {
             description: 'card info\'s name'
         }
     ],
-    action: async ({ createMessage, data }) => {
-        const incomingParam = data.options
-            ?.find(({ name }) => name === 'name')
+    action: async (interaction) => {
+        const parentCommand = interaction.data.options
+            ?.find(({ name }) => name === 'search')
 
-        if (incomingParam?.type !== 3) {
-            await createMessage('Missing input!')
+        if (parentCommand.type !== 1) {
+            return
+        }
+
+        const commandParam = parentCommand?.options
+            ?.find(({ name }) => name === 'name')
+        
+        if (commandParam?.type !== 3) {
+            await interaction.createMessage('Missing input!')
         } else {
-            await createMessage(`Got it! Searching for ${incomingParam?.value}...`)
+            await interaction.createMessage(`Got it! Searching for ${commandParam?.value}...`)
         }
     }
 }

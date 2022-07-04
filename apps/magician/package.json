@@ -19,7 +19,7 @@
     "ttypescript": "^1.5.13"
   },
   "dependencies": {
-    "@hephaestus/eris": "^1.0.0-alpha.9",
+    "@hephaestus/eris": "^1.0.0-alpha.13",
     "config": "^3.3.7",
     "docker-secret-env": "^0.2.1",
     "node-fetch": "^3.2.6"
