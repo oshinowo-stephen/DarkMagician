@@ -34,7 +34,7 @@ async fn main() -> tide::Result<()> {
     let app_state = AppState { conn };
     let mut app = tide::with_state(app_state);
 
-    app.at("/players").post(|mut req: tide::Request<AppState>| async move {
+    app.at("/").post(|mut req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let GatewayRequest { player_info, .. } = req.body_json().await?;
@@ -62,7 +62,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    app.at("/players/:id").get(|req: tide::Request<AppState>| async move {
+    app.at("/:id").get(|req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let player_id = req.param("id").unwrap();
@@ -78,7 +78,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    app.at("/players/:id/cards").post(|mut req: tide::Request<AppState>| async move {
+    app.at("/:id/cards").post(|mut req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let GatewayRequest { player_card_info, .. } = req.body_json().await?;
@@ -108,7 +108,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    app.at("/players/:id/cards").get(|req: tide::Request<AppState>| async move {
+    app.at("/:id/cards").get(|req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let player_id = req.param("id").unwrap();
@@ -128,7 +128,7 @@ async fn main() -> tide::Result<()> {
         tide::Body::from_json(&response_body)
     });
 
-    app.at("/players/:id/cards/:cname").get(|req: tide::Request<AppState>| async move {
+    app.at("/:id/cards/:cname").get(|req: tide::Request<AppState>| async move {
         let app_state = req.state();
         let conn = app_state.conn.clone();
         let player_id = req.param("id").unwrap();

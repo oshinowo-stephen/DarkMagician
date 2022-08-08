@@ -1,13 +1,10 @@
-import { TopLevelCommand } from '@hephaestus/eris'
+import { createCommand } from '@hephaestus/eris'
 
-import { search } from './search'
+import { info } from './search'
 
-const command: TopLevelCommand = {
+export default createCommand({
     type: 1,
     name: 'cards',
-//    guildId: '706565700923162706',
-    description: 'View your card collection, search for card information!',
-    options: [ search ]       
-}
-
-export default command
+    description: 'grabs info on cards...',
+    options: [ info ]
+}) 

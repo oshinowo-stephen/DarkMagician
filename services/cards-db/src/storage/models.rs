@@ -13,12 +13,14 @@ pub struct EntryCard {
 	pub _lval: Option<i32>,
 	pub _scale: Option<i32>,
 	pub _markers: Option<String>,
+	pub _attribute: Option<String>,
 	pub _has_effect: Option<String>,
 }
 
 #[derive(Debug, Insertable, Queryable, Serialize, Deserialize, Clone)]
 #[table_name = "entry_card_img"]
 pub struct EntryCardImg {
+	pub id: String,
 	pub card_name: String,
 	pub card_img: String,
 	pub card_img_small: String,
@@ -27,20 +29,21 @@ pub struct EntryCardImg {
 #[derive(Debug, Insertable, Serialize, Queryable, Deserialize, Clone)]
 #[table_name = "entry_card_set"]
 pub struct EntryCardSet {
+	pub id: String,
 	pub card_name: String,
 	pub set_name: String,
 	pub set_release: String,
 	pub set_market: String,
 }
 
-// #[derive(Debug, Insertable, Queryable, Deserialize, Clone)]
-// #[table_name = "entry_card_price"]
-// pub struct EntryCardPrice {
-// 	pub card_name: String,
-// 	pub market_name: String,
-// 	pub market_uri: String,
-// 	pub market_price: String,
-// }
+#[derive(Debug, Insertable, Queryable, Deserialize, Clone)]
+#[table_name = "entry_card_price"]
+pub struct EntryCardPrice {
+	pub card_name: String,
+	pub market_name: String,
+	pub market_uri: String,
+	pub market_price: String,
+}
 
 #[derive(Debug, Insertable, Serialize, Queryable, Deserialize, Clone)]
 #[table_name = "entry_card_format"]

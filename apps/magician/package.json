@@ -2,11 +2,10 @@
   "name": "magician",
   "version": "1.0.0",
   "scripts": {
-    "build": "ttsc",
     "lint": "eslint .",
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node-dev ./src/index.ts",
+    "clean": "rm -rf dist node_modules"
   },
-  "type": "commonjs",
   "devDependencies": {
     "@types/config": "^0.0.41",
     "@types/dotenv": "^8.2.0",
@@ -15,13 +14,12 @@
     "dotenv": "^16.0.1",
     "ts-node": "^10.8.2",
     "ts-node-dev": "^2.0.0",
-    "tsconfig-paths": "^4.0.0",
-    "ttypescript": "^1.5.13"
+    "tsconfig-paths": "^4.0.0"
   },
   "dependencies": {
-    "@hephaestus/eris": "^1.0.0-alpha.9",
+    "@hephaestus/eris": "^1.0.0-alpha.22",
     "config": "^3.3.7",
     "docker-secret-env": "^0.2.1",
-    "node-fetch": "^3.2.6"
+    "node-fetch": "^2.6.7"
   }
 }

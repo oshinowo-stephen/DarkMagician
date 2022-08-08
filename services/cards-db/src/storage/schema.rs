@@ -10,6 +10,7 @@ table! {
 				_lval -> Nullable<Int4>,
 				_scale -> Nullable<Int4>,
 				_markers -> Nullable<Varchar>,
+				_attribute -> Nullable<Varchar>,
 				_has_effect -> Nullable<Bpchar>,
 		}
 }
@@ -26,7 +27,8 @@ table! {
 }
 
 table! {
-		entry_card_img (card_name) {
+		entry_card_img (id) {
+				id -> Varchar,
 				card_name -> Varchar,
 				card_img -> Varchar,
 				card_img_small -> Varchar,
@@ -43,7 +45,8 @@ table! {
 }
 
 table! {
-		entry_card_set (card_name) {
+		entry_card_set (id) {
+				id -> Varchar,
 				card_name -> Varchar,
 				set_name -> Varchar,
 				set_release -> Varchar,

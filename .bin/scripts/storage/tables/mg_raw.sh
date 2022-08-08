@@ -2,9 +2,11 @@
 set -e
 
 USER="magician"
-DATABASE="mg_raw"
+DATABASE="${DATABASE}"
 DATABASE_USER="${DATABASE}_user"
 READONLY=${READONLY_ROLE}
+
+echo "tables for database: ${DATABASE} is getting built"
 
 if [ -e /run/secrets/PG_DMG_PASSWORD ];
 	then
@@ -36,6 +38,7 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		_lval INT,
 		_scale INT,
 		_markers VARCHAR,
+		_attribute VARCHAR,
 		_has_effect CHAR DEFAULT 'Y'
 	);
 
@@ -50,6 +53,7 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 	);
 
 	CREATE TABLE IF NOT EXISTS entry_card_img (
+		id VARCHAR PRIMARY KEY NOT NULL,
 		card_name VARCHAR NOT NULL,
 		card_img VARCHAR NOT NULL,
 		card_img_small VARCHAR NOT NULL,
@@ -57,7 +61,8 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 	);
 
 	CREATE TABLE IF NOT EXISTS entry_card_set (
-		card_name VARCHAR NOT NULL PRIMARY KEY,
+		id VARCHAR PRIMARY KEY NOT NULL,
+		card_name VARCHAR NOT NULL,
 		set_name VARCHAR NOT NULL,
 		set_release VARCHAR NOT NULL,
 		set_market VARCHAR NOT NULL,

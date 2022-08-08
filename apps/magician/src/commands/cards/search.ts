@@ -1,25 +1,50 @@
-import { SubCommand } from '@hephaestus/eris'
+import { createCommand } from '@hephaestus/eris'
 
-export const search: SubCommand = {
+import { getCardInfo } from '../../services/parsed-cards'
+import { toPascel } from '../../services/endpoint'
+
+export const info = createCommand({
     type: 1,
-    name: 'search',
-    description: 'Look-up card info!',
+    name: 'info',
+    description: 'relay back card info for the inputed card.',
     options: [
         {
             type: 3,
             required: true,
-            name: 'name',
-            description: 'card info\'s name'
+            name: 'cards-name',
+            description: 'The desired card.',
         }
-    ],
-    action: async ({ createMessage, data }) => {
-        const incomingParam = data.options
-            ?.find(({ name }) => name === 'name')
+    ] as const,
+    action: async (interaction, args): Promise<void> => {
+        const incomingCardInfo = await getCardInfo(args['cards-name'].value)
 
-        if (incomingParam?.type !== 3) {
-            await createMessage('Missing input!')
-        } else {
-            await createMessage(`Got it! Searching for ${incomingParam?.value}...`)
-        }
+        const cardData = incomingCardInfo['card_data']
+        const cardImgs = incomingCardInfo['card_imgs']
+        const cardFormat = incomingCardInfo['card_format']
+        const monsterInfo = cardData['monster_info']
+
+        console.log(cardFormat)
+
+        interaction.createMessage({
+            embeds: [
+                {
+                    title: toPascel(cardData.name),
+                    description: cardData.desc,
+                    image: {
+                        url: cardImgs[0].image
+                    },
+                    fields: monsterInfo
+                        ? [
+                            {
+                                name: `ATK / ${monsterInfo.lval ? 'LINK VAL' : 'DEF'}`,
+                                value: `${monsterInfo.atk} / ${ monsterInfo.lval ? monsterInfo.lval : monsterInfo.def }`,
+                                inline: true
+                            }
+                        ]
+                        : undefined
+                }
+            ]
+        })
     }
-}
+})
+

@@ -17,5 +17,12 @@ else
 fi
 
 # Setting up the database...
-./.bin/scripts/db/perms.sh
-./.bin/scripts/db/tables.sh
+
+# ignoring this for now...
+# ./.bin/scripts/storage/perms.sh
+
+./.bin/scripts/storage/init.sh
+./.bin/scripts/storage/tables/mg_raw.sh
+./.bin/scripts/storage/tables/mg_main.sh
+
+
