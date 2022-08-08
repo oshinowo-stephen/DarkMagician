@@ -64,11 +64,10 @@ async fn main() -> tide::Result<()> {
 
           response.set_body(tide::Body::empty());
 
-          if _err.to_string() == "..." {
-            response.set_status(404);
+          if _err.to_string().contains("not found") {
+            response.set_status(404)
           }
 
-          dbg!(&response);
 					Ok(response)
 				}
 			}

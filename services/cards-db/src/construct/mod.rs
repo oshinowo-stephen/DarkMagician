@@ -16,19 +16,18 @@ pub struct Payload {
 }
 
 #[derive(Debug)]
-pub struct FetchError(String);
-
-impl FetchError {
-	pub fn new(e: &str) -> Self {
-		FetchError(e.to_owned())
-	}
+pub enum ResponseError {
+    NotFound
 }
 
-impl std::error::Error for FetchError {}
+impl std::error::Error for ResponseError {}
 
-impl std::fmt::Display for FetchError {
+impl std::fmt::Display for ResponseError {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-		write!(f, "An error has occurred: {:#?}", self.0)
+    match self {
+        ResponseError::NotFound =>
+            write!(f, "Invalid Request: result not found.")
+    }
 	}
 }
 
@@ -69,7 +68,7 @@ pub async fn fetch_card_data(
 	};
 
 	if card_data.is_none() {
-		return Err(Box::new(FetchError::new("...")));
+		return Err(Box::new(ResponseError::NotFound));
 	}
 
 	let card_imgs: Option<Vec<MappedEntryImg>> = match storage::fetch_card_image_data(n, c.clone()) {
