@@ -2,9 +2,11 @@
 set -e
 
 USER="magician"
-DATABASE="mg_main"
+DATABASE="${DATABASE}"
 DATABASE_USER="${DATABASE}_user"
 READONLY=${READONLY_ROLE}
+
+echo "tables for database: ${DATABASE} is getting built"
 
 if [ -e /run/secrets/PG_DMG_PASSWORD ];
 	then

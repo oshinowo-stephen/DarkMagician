@@ -40,7 +40,13 @@ pub fn fetch_card_image_data(cname: &str, conn: Connection) -> Result<Vec<models
 		.filter(card_name.eq(cname))
 		.get_results(&c)
 	{
-		Ok(incoming_images) => Ok(incoming_images),
+		Ok(incoming_images) => {
+			if incoming_images.is_empty() {
+				Err(diesel::result::Error::NotFound)
+			} else {
+				Ok(incoming_images)
+			}
+		}
 		Err(_error) => Err(_error),
 	}
 }
@@ -56,26 +62,16 @@ pub fn fetch_card_set_data(cname: &str, conn: Connection) -> Result<Vec<models::
 		.filter(card_name.eq(cname))
 		.get_results(&c)
 	{
-		Ok(incoming_sets) => Ok(incoming_sets),
+		Ok(incoming_sets) => {
+			if incoming_sets.is_empty() {
+				Err(diesel::result::Error::NotFound)
+			} else {
+				Ok(incoming_sets)
+			}
+		}
 		Err(_error) => Err(_error),
 	}
 }
-
-// pub fn fetch_card_market_data(cname: &str, conn: Connection) -> Result<models::EntryCardPrice> {
-// 	use schema::entry_card_price::dsl::*;
-//
-// 	let c = conn
-// 		.get()
-// 		.expect("failed to retrieve connection");
-//
-// 	match entry_card_price
-// 		.filter(card_name.eq(cname))
-// 		.execute(&c)
-// 	{
-// 		Ok(incoming_card) => Ok(incoming_card),
-// 		Err(_error) => Err(_error),
-// 	}
-// }
 
 pub fn fetch_card_format_data(cname: &str, conn: Connection) -> Result<models::EntryCardFormat> {
 	use schema::entry_card_format::dsl::*;
@@ -140,22 +136,6 @@ pub fn insert_card_set_data(data: &models::EntryCardSet, conn: Connection) -> Re
 		Err(_error) => Err(_error),
 	}
 }
-
-// pub fn insert_card_market_data(data: models::EntryCardPrice, conn: Connection) -> Result<()> {
-// 	use schema::entry_card_price::dsl::*;
-//
-// 	let c = conn
-// 		.get()
-// 		.expect("failed to retrieve connection");
-//
-// 	match diesel::insert_into(entry_card_price)
-// 		.values(&data)
-// 		.execute(&c)
-// 	{
-// 		Ok(_) => Ok(()),
-// 		Err(_error) => Err(_error),
-// 	}
-// }
 
 pub fn insert_card_format_data(data: &models::EntryCardFormat, conn: Connection) -> Result<()> {
 	use schema::entry_card_format::dsl::*;
