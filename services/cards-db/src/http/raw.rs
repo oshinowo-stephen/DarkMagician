@@ -13,6 +13,7 @@ pub struct RawCard {
 	pub def: Option<i32>,
 	pub level: Option<i32>,
 	pub race: String,
+  pub archetype: Option<String>,
 	pub attribute: Option<String>,
 	pub scale: Option<i32>,
 	pub linkval: Option<i32>,
@@ -43,12 +44,6 @@ pub struct RawCardSet {
 pub struct RawCardImg {
 	pub image_url: String,
 	pub image_url_small: String,
-}
-
-#[derive(Debug, Deserialize, Clone)]
-pub struct RawCardMarket {
-	pub tcgplayer_price: String,
-	pub amazon_price: String,
 }
 
 #[derive(Debug, Deserialize, Clone)]

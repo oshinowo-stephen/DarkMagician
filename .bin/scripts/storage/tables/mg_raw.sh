@@ -20,8 +20,8 @@ then
 	PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$DATABASE" <<-EOSQL
 		DROP TABLE IF EXISTS entry_card CASCADE;
 		DROP TABLE IF EXISTS entry_card_img CASCADE;
-		DROP TABLE IF EXISTS entry_card_set CASCADE;
 		DROP TABLE IF EXISTS entry_card_price CASCADE;
+		DROP TABLE IF EXISTS entry_card_set CASCADE;
 		DROP TABLE IF EXISTS entry_card_format CASCADE;
 	EOSQL
 fi
@@ -39,16 +39,19 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		_scale INT,
 		_markers VARCHAR,
 		_attribute VARCHAR,
-		_has_effect CHAR DEFAULT 'Y'
+		_archetype VARCHAR,
+		_has_effect CHAR DEFAULT 'Y',
+		_market_url VARCHAR
 	);
 
 	CREATE TABLE IF NOT EXISTS entry_card_format (
 		card_name VARCHAR NOT NULL PRIMARY KEY,
+		_goat_limit INT,
 		_tcg_limit INT NOT NULL,
 		_ocg_limit INT NOT NULL,
-		_goat_limit INT NOT NULL,
 		_tcg_release VARCHAR NOT NULL,
 		_ocg_release VARCHAR NOT NULL,
+		_allowed_formats VARCHAR NOT NULL,
 		FOREIGN KEY (card_name) REFERENCES entry_card (name)
 	);
 
@@ -64,16 +67,7 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_US
 		id VARCHAR PRIMARY KEY NOT NULL,
 		card_name VARCHAR NOT NULL,
 		set_name VARCHAR NOT NULL,
-		set_release VARCHAR NOT NULL,
 		set_market VARCHAR NOT NULL,
-		FOREIGN KEY (card_name) REFERENCES entry_card(name)
-	);
-
-	CREATE TABLE IF NOT EXISTS entry_card_price (
-		card_name VARCHAR NOT NULL PRIMARY KEY,
-		market_name VARCHAR NOT NULL,
-		market_uri VARCHAR NOT NULL,
-		market_price VARCHAR NOT NULL,
 		FOREIGN KEY (card_name) REFERENCES entry_card(name)
 	)
 EOSQL

@@ -19,6 +19,7 @@ export interface ParsedCardData {
     race: string
     attribute: string
     card_type: string
+    archetype?: string
     monster_info?: MonsterCardInfo 
 }
 
@@ -33,6 +34,7 @@ export interface ParsedCardFormat {
     goat_limit: number,
     tcg_release: string,
     ocg_release: string
+    allowed_formats: string[]
 }
 
 export interface MonsterCardInfo {

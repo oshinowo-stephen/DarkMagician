@@ -37,6 +37,7 @@ pub async fn fetch_card_data(
 	o: Option<constants::ReqOptions>,
 ) -> Result<Payload, Box<dyn std::error::Error>> {
 	let n = &name.to_lowercase();
+  dbg!(&n);
 
 	let card_data: Option<MappedEntryCard> = match storage::fetch_card_data(n, c.clone()) {
 		Ok(incoming_card_data) => Some(service::get_card_data(&incoming_card_data)),
@@ -137,9 +138,10 @@ pub async fn fetch_card_data(
 					card_name: n.to_owned().clone(),
 					_tcg_limit: 0,
 					_ocg_limit: 0,
-					_goat_limit: 0,
+					_goat_limit: None,
 					_tcg_release: String::new(),
 					_ocg_release: String::new(),
+          _allowed_formats: String::new(),
 				};
 
 				if let Some(banlist_info) = r_cards[0]
@@ -170,13 +172,13 @@ pub async fn fetch_card_data(
 
           format_info._goat_limit = match banlist_info.clone().ban_goat {
             Some(b) => if b.to_lowercase().as_str() == "banned" {
-                3
+                Some(3)
             } else if b.to_lowercase().as_str() == "limited" {
-                2
+                Some(2)
             } else {
-                1
+                Some(1)
             },
-            None => 0,
+            None => Some(0),
           };
 				}
 
@@ -189,6 +191,9 @@ pub async fn fetch_card_data(
 					.ocg_date
 					.clone();
 
+        format_info._allowed_formats = r_cards[0].misc_info[0]
+            .formats.join(",");
+
 				if let Err(_err) = storage::insert_card_format_data(&format_info, c.clone()) {
 					eprintln!("ran into an error while storing format_data, {:#?}", _err);
 
@@ -197,7 +202,11 @@ pub async fn fetch_card_data(
 					Some(service::get_set_format(&format_info))
 				}
 			}
-			Err(_) => None,
+			Err(_err) => {
+        eprintln!("ran intio an error while fetching: {:#?}", _err);
+
+        None
+      },
 		},
 	};
 
@@ -211,15 +220,19 @@ pub async fn fetch_card_data(
 
 impl http::RawCardSet {
 	fn convert(&self, card_name: &str) -> models::EntryCardSet {
+    let mut valid_set_name = self.set_name.to_lowercase();
+    valid_set_name = valid_set_name.replace(": ", "-");
+    valid_set_name = valid_set_name.replace(" ", "-");
+
 		models::EntryCardSet {
 			id: uuid::Uuid::new_v4().to_string(),
 			card_name: card_name.to_owned(),
 			set_name: self.set_name.clone(),
-			set_release: String::new(),
 			set_market: format!(
-				"{}&setName={}",
+				"{}/{}?productLineName=yugioh&setName={}",
 				constants::TCG_PLAYER_YUGIOH,
-				&self.set_name
+        valid_set_name,
+        valid_set_name
 			),
 		}
 	}
@@ -252,6 +265,8 @@ impl http::RawCard {
 			_lval: self.linkval,
 			_scale: self.scale,
 			_attribute: self.attribute.clone(),
+      _archetype: self.archetype.clone(), 
+      _market_url: None,
 			_markers: if let Some(markers) = self.linkmarkers.clone() {
 				Some(markers.join("."))
 			} else {

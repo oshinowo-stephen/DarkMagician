@@ -9,6 +9,7 @@ use std::fmt::{self, Display};
 #[derive(Debug)]
 enum HttpError {
 	NotFound,
+  InvalidJson,
 	InvalidInput,
 }
 
@@ -25,9 +26,17 @@ pub fn fetch_cards(name: &str, opts: Option<constants::ReqOptions>) -> Result {
 		match ureq::get(&url).call() {
 			Ok(incoming_call) => match incoming_call.into_json::<IncomingResponse>() {
 				Ok(resp) => Ok(resp.data),
-				Err(_e) => Err(Box::new(HttpError::NotFound)),
+				Err(_e) => {
+            eprintln!("Err on URL: {}, reason: {:#?}", &url, _e);
+
+            Err(Box::new(HttpError::InvalidJson))
+        },
 			},
-			Err(_e) => Err(Box::new(HttpError::NotFound)),
+			Err(_e) => {
+          eprintln!("Err on URL: {}, reason: {:#?}", &url, _e);
+
+          Err(Box::new(HttpError::NotFound))
+      },
 		}
 	} else {
 		Err(Box::new(HttpError::InvalidInput))
@@ -41,6 +50,7 @@ impl Display for HttpError {
 		match self {
 			HttpError::NotFound => write!(f, "Card not found"),
 			HttpError::InvalidInput => write!(f, "Invalid input"),
+      HttpError::InvalidJson => write!(f, "Invalid Json")
 		}
 	}
 }

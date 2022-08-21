@@ -14,7 +14,9 @@ pub struct EntryCard {
 	pub _scale: Option<i32>,
 	pub _markers: Option<String>,
 	pub _attribute: Option<String>,
+  pub _archetype: Option<String>,
 	pub _has_effect: Option<String>,
+  pub _market_url: Option<String>
 }
 
 #[derive(Debug, Insertable, Queryable, Serialize, Deserialize, Clone)]
@@ -32,26 +34,17 @@ pub struct EntryCardSet {
 	pub id: String,
 	pub card_name: String,
 	pub set_name: String,
-	pub set_release: String,
 	pub set_market: String,
-}
-
-#[derive(Debug, Insertable, Queryable, Deserialize, Clone)]
-#[table_name = "entry_card_price"]
-pub struct EntryCardPrice {
-	pub card_name: String,
-	pub market_name: String,
-	pub market_uri: String,
-	pub market_price: String,
 }
 
 #[derive(Debug, Insertable, Serialize, Queryable, Deserialize, Clone)]
 #[table_name = "entry_card_format"]
 pub struct EntryCardFormat {
 	pub card_name: String,
+	pub _goat_limit: Option<i32>,
 	pub _tcg_limit: i32,
 	pub _ocg_limit: i32,
-	pub _goat_limit: i32,
 	pub _tcg_release: String,
 	pub _ocg_release: String,
+  pub _allowed_formats: String,
 }

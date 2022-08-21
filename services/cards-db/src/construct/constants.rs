@@ -17,6 +17,5 @@ pub struct ReqOptions {
 	pub set_name: Option<String>,
 }
 
-pub const TCG_PLAYER_YUGIOH: &'static str =
-	"https://www.tcgplayer.com/search/yugioh/productLineName=yugioh";
+pub const TCG_PLAYER_YUGIOH: &'static str = "https://www.tcgplayer.com/search/yugioh";
 pub const RAW_API_ENDPOINT: &'static str = "https://db.ygoprodeck.com/api/v7/cardinfo.php?misc=yes";

@@ -7,6 +7,7 @@ pub struct MappedEntryCard {
 	pub race: String,
 	pub attribute: String,
 	pub card_type: String,
+  pub market: Option<String>,
 	pub monster_info: Option<MonsterCardInfo>,
 }
 
@@ -30,7 +31,6 @@ pub struct MappedEntryImg {
 #[derive(Debug, Serialize)]
 pub struct MappedEntrySet {
 	pub name: String,
-	pub release: String,
 	pub market_url: String,
 }
 
@@ -38,9 +38,10 @@ pub struct MappedEntrySet {
 pub struct MappedEntryFormat {
 	pub tcg_limit: i8,
 	pub ocg_limit: i8,
-	pub goat_limit: i8,
+	pub goat_limit: Option<i8>,
 	pub tcg_release: String,
 	pub ocg_release: String,
+  pub allowed_formats: Vec<String>,
 }
 
 pub fn get_card_data(m: &models::EntryCard) -> MappedEntryCard {
@@ -75,6 +76,7 @@ pub fn get_card_data(m: &models::EntryCard) -> MappedEntryCard {
 		name: m.name.clone(),
 		desc: m.card_desc.clone(),
 		race: m.card_race.clone(),
+    market: m._market_url.clone(),
 		attribute: if m._attribute.is_none() {
 			if m
 				.card_type
@@ -114,7 +116,6 @@ pub fn get_set_data(m: Vec<models::EntryCardSet>) -> Vec<MappedEntrySet> {
 	for data_set in m {
 		mapped_sets.push(MappedEntrySet {
 			name: data_set.set_name.clone(),
-			release: data_set.set_release.clone(),
 			market_url: data_set.set_market.clone(),
 		});
 	}
@@ -123,11 +124,26 @@ pub fn get_set_data(m: Vec<models::EntryCardSet>) -> Vec<MappedEntrySet> {
 }
 
 pub fn get_set_format(m: &models::EntryCardFormat) -> MappedEntryFormat {
-	MappedEntryFormat {
+  let mut allowed_formats: Vec<String> = Vec::new();
+  dbg!(&m._allowed_formats);
+
+  for format in m._allowed_formats
+    .split(",")
+    .collect::<Vec<&str>>()
+  {
+    allowed_formats.push(format.to_owned()) 
+  }
+
+  MappedEntryFormat {
 		tcg_limit: m._tcg_limit as i8,
 		ocg_limit: m._ocg_limit as i8,
-		goat_limit: m._goat_limit as i8,
+		goat_limit: if let Some(goat_limit) = m._goat_limit {
+        Some(goat_limit as i8)
+    } else {
+        None
+    },
 		tcg_release: m._tcg_release.clone(),
 		ocg_release: m._ocg_release.clone(),
+    allowed_formats,
 	}
 }
