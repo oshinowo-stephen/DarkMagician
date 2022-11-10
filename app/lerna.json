@@ -1,0 +1,7 @@
+{
+  "access": "public",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "stream": true,
+  "useWorkspaces": true,
+  "version": "independent"
+}

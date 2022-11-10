@@ -1,8 +1,0 @@
-{
-	"stream": true,
-	"version": "independent",
-	"packages": [ "modules/*" ],
-	"publishConfig": {
-    	"access": "public"
-  	}
-}
