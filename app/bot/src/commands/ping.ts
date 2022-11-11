@@ -5,6 +5,6 @@ export default createCommand({
    name: 'ping', 
    description: 'some ping command',
    action: async (ctx): Promise<void> => {
-    ctx.createMessage('Pong!')
+        ctx.createMessage('Pong!')
    }
 })

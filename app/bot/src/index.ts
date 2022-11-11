@@ -21,4 +21,4 @@ const main = async (): Promise<void> => {
     logger.info('App connecting to the DiscordAPI...')
 }
 
-main().catch((error) => logger.error(error))
+main().catch(console.error)
