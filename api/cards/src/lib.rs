@@ -3,9 +3,9 @@ mod storage;
 mod construct;
 pub mod payload;
 
-use storage::*;
+use construct::*;
 use construct::workers;
-use http::IncomingRequest;
+pub use http::IncomingRequest;
 
 pub use http::OutgoingError;
 pub use http::OutgoingResponse;
@@ -36,7 +36,7 @@ pub fn get(req: IncomingRequest, conn: Connection) -> OutgoingResponse<Payload> 
                     Ok(sets) => sets
                         .into_iter()
                         .map(|set| payload::SetData {
-                            name: set.card_name.clone(),
+                            name: set.set_name.clone(),
                             market: set.set_market_url
                         })
                         .collect::<Vec<payload::SetData>>(),
@@ -74,51 +74,51 @@ pub fn get(req: IncomingRequest, conn: Connection) -> OutgoingResponse<Payload> 
                     None
                 },
             }),
-            None => Err(OutgoingError::NotFound)
+            None => {
+                eprintln!("cannot find this card from the entries...");
+
+                Err(OutgoingError::NotFound)
+            }
         },
         Err(_) => match http::fetch_card(&req.card_name) {
             Ok(raw_cards) => {
                 let borrowed_conn = conn.clone();
 
                 for card in raw_cards {
-                    if let Err(error) = storage::ine_store_entry_card(EntryCard {
-                        name: card.name.clone(),
-                        atk: card.atk,
-                        def: card.def,
-                        lvl: card.level,
-                        lval: card.linkval,
-                        scale: card.scale,
-                        card_race: card.race,
-                        card_desc: card.desc,
-                        card_type: card.r#type,
-                        markers: if !card.linkmarkers.is_empty() {
-                            Some(card.linkmarkers.join(","))
-                        } else {
-                            None
-                        },
-                        attribute: card.attribute,
-                        archetype: card.archetype,
-                        market_url: None,
-                        effect: if let Some(misc) = card.misc_info {
-                            if misc.has_effect.is_some() {
-                                Some(0)
-                            } else {
-                                None
-                            }
-                        } else {
-                            None
-                        },
-                    }, borrowed_conn.clone()) {
+                    if let Err(error) = storage::store_entry_card(card.into_card_entry(), borrowed_conn.clone()) {
                         eprintln!("Fail to store card: {}, reason: {:?}. Exiting operation...",
                             &card.name, &error);
                         
                         break
+                    } else {
+                        for img in card.into_card_imgs() {
+                            if let Err(error) = storage::store_card_image(img, borrowed_conn.clone()) {
+                                eprintln!("Fail to store img for: {}, reason: {:?}. Skipping operation...",
+                                    &card.name, &error);
+                            }
+                        }
+
+                        for set in card.into_card_sets() {
+                            if let Err(error) = storage::store_card_sets(set, borrowed_conn.clone()) {
+                                eprintln!("Fail to stor set for: {}, reason: {:?}. Skipping operation...",
+                                    &card.name, &error);       
+                            }
+                        }
+
+                        if let Err(error) = storage::store_card_format(card.into_card_format(), borrowed_conn.clone()) {
+                            eprintln!("Fail to store format for: {}, reason: {:?}. Skipping operation...",
+                                &card.name, &error);       
+                        }
                     }
                 }
 
                 get(req, borrowed_conn)
             },
-            Err(_err) => Err(OutgoingError::NotFound)
+            Err(_err) => {
+                eprintln!("Unable to fetch card from source: {:?}", &_err);
+
+                Err(OutgoingError::NotFound)
+            }
         } 
     }
 }

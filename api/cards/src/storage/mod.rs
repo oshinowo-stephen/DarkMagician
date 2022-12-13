@@ -31,7 +31,11 @@ pub fn fetch_all_cards(conn: Connection) -> Result<Vec<EntryCard>> {
     match card_info
         .load::<EntryCard>(&mut connection)
     {
-        Ok(entries) => Ok(entries),
+        Ok(entries) => if !entries.is_empty() {
+            Ok(entries)
+        } else {
+            Err(StorageError::FETCH)
+        },
         Err(_) => Err(StorageError::INVALID)
     }
 }
@@ -56,6 +60,7 @@ pub fn fetch_card_data(q: &str, conn: Connection) -> Result<EntryCard> {
 
 pub fn fetch_card_imgs(q: &str, conn: Connection) -> Result<Vec<EntryCardImg>> {
     use schema::card_img_info::dsl::*;
+    dbg!(&q);
 
     let mut connection = conn
         .get()
@@ -65,8 +70,14 @@ pub fn fetch_card_imgs(q: &str, conn: Connection) -> Result<Vec<EntryCardImg>> {
         .filter(card_name.eq(q))
         .get_results(&mut connection)
     {
-        Ok(results) => Ok(results),
+        Ok(imgs) => if !imgs.is_empty() {
+            Ok(imgs)
+        } else {
+            Err(StorageError::FETCH)
+        },
         Err(_error) => {
+            eprintln!("Failed to grab card imgs from storage: {:#?}", &_error);
+            
             Err(StorageError::FETCH)
         } 
     }   
@@ -83,8 +94,14 @@ pub fn fetch_card_sets(q: &str, conn: Connection) -> Result<Vec<EntryCardSet>> {
         .filter(card_name.eq(q))
         .get_results(&mut connection)
     {
-        Ok(results) => Ok(results),
+        Ok(sets) => if !sets.is_empty() {
+            Ok(sets)
+        } else {
+            Err(StorageError::FETCH)
+        },
         Err(_error) => {
+            eprintln!("Failed to grab card sets from storage: {:#?}", &_error);
+            
             Err(StorageError::FETCH)
         } 
     }
@@ -104,52 +121,54 @@ pub fn fetch_card_format(q: &str, conn: Connection) -> Result<EntryCardFormat> {
     {
         Ok(results) => Ok(results),
         Err(_error) => {
-            Err(StorageError::FETCH)
+          eprintln!("Failed to grab card format from storage: {:#?}", &_error); 
+          
+          Err(StorageError::FETCH)
         } 
     }
 }
 
-pub fn ine_store_entry_card(entry: models::EntryCard, conn: Connection) -> Result<()> {
-    let bound_conn = conn.clone();
+// pub fn ine_store_entry_card(entry: models::EntryCard, conn: Connection) -> Result<()> {
+//     let bound_conn = conn.clone();
 
-    if let Err(_) = fetch_card_data(&entry.name, bound_conn) {
-        store_entry_card(entry, conn)
-    } else {
-        Err(StorageError::INVALID)
-    }
-}
+//     if let Err(_) = fetch_card_data(&entry.name, bound_conn) {
+//         store_entry_card(entry, conn)
+//     } else {
+//         Err(StorageError::INVALID)
+//     }
+// }
 
-pub fn ine_store_card_image(entry: models::EntryCardImg, conn: Connection) -> Result<()> {
-    let bound_conn = conn.clone();
+// pub fn ine_store_card_image(entry: models::EntryCardImg, conn: Connection) -> Result<()> {
+//     let bound_conn = conn.clone();
 
-    if let Err(_) = fetch_card_imgs(&entry.card_name, bound_conn) {
-        store_card_image(entry, conn)
-    } else {
-        Err(StorageError::INVALID)
-    }
-}
+//     if let Err(_) = fetch_card_imgs(&entry.card_name, bound_conn) {
+//         store_card_image(entry, conn)
+//     } else {
+//         Err(StorageError::INVALID)
+//     }
+// }
 
-pub fn ine_store_card_sets(entry: models::EntryCardSet, conn: Connection) -> Result<()> {
-    let bound_conn = conn.clone();
+// pub fn ine_store_card_sets(entry: models::EntryCardSet, conn: Connection) -> Result<()> {
+//     let bound_conn = conn.clone();
 
-    if let Err(_) = fetch_card_sets(&entry.card_name, bound_conn) {
-        store_card_sets(entry, conn)
-    } else {
-        Err(StorageError::INVALID)
-    }
-}
+//     if let Err(_) = fetch_card_sets(&entry.card_name, bound_conn) {
+//         store_card_sets(entry, conn)
+//     } else {
+//         Err(StorageError::INVALID)
+//     }
+// }
 
-pub fn ine_store_card_format(entry: models::EntryCardFormat, conn: Connection) -> Result<()> {
-    let bound_conn = conn.clone();
+// pub fn ine_store_card_format(entry: models::EntryCardFormat, conn: Connection) -> Result<()> {
+//     let bound_conn = conn.clone();
 
-    if let Err(_) = fetch_card_sets(&entry.card_name, bound_conn) {
-        store_card_format(entry, conn)
-    } else {
-        Err(StorageError::INVALID)
-    }
-}
+//     if let Err(_) = fetch_card_format(&entry.card_name, bound_conn) {
+//         store_card_format(entry, conn)
+//     } else {
+//         Err(StorageError::INVALID)
+//     }
+// }
 
-fn store_entry_card(entry: models::EntryCard, conn: Connection) -> Result<()> {
+pub fn store_entry_card(entry: models::EntryCard, conn: Connection) -> Result<()> {
     use schema::card_info::dsl::*;   
     
     let mut connection = conn
@@ -160,13 +179,15 @@ fn store_entry_card(entry: models::EntryCard, conn: Connection) -> Result<()> {
         .values(entry)
         .execute(&mut connection) 
     {
+        eprintln!("Unable to store card_info: {:#?}", &error);
+
         return Err(StorageError::INSERT)
     }
 
     Ok(())
 }
 
-fn store_card_image(entry: models::EntryCardImg, conn: Connection) -> Result<()> {
+pub fn store_card_image(entry: models::EntryCardImg, conn: Connection) -> Result<()> {
     use schema::card_img_info::dsl::*;   
     
     let mut connection = conn
@@ -178,13 +199,15 @@ fn store_card_image(entry: models::EntryCardImg, conn: Connection) -> Result<()>
         .values(entry)
         .execute(&mut connection) 
     {
+        eprintln!("Unable to store card_img: {:#?}", &error);
+
         return Err(StorageError::INSERT)
     }
 
     Ok(())
 }
 
-fn store_card_sets(entry: models::EntryCardSet, conn: Connection) -> Result<()> {
+pub fn store_card_sets(entry: models::EntryCardSet, conn: Connection) -> Result<()> {
     use schema::card_set_info::dsl::*;   
     
     let mut connection = conn
@@ -195,13 +218,15 @@ fn store_card_sets(entry: models::EntryCardSet, conn: Connection) -> Result<()> 
         .values(entry)
         .execute(&mut connection) 
     {
+        eprintln!("Unable to store card_set: {:#?}", &error);
+        
         return Err(StorageError::INSERT)
     }
 
     Ok(())
 }
 
-fn store_card_format(entry: models::EntryCardFormat, conn: Connection) -> Result<()> {
+pub fn store_card_format(entry: models::EntryCardFormat, conn: Connection) -> Result<()> {
     use schema::card_format_info::dsl::*;   
     
     let mut connection = conn
@@ -212,6 +237,8 @@ fn store_card_format(entry: models::EntryCardFormat, conn: Connection) -> Result
         .values(entry)
         .execute(&mut connection) 
     {
+        eprintln!("Unable to store card_format: {:#?}", &error);
+        
         return Err(StorageError::INSERT)
     }
 

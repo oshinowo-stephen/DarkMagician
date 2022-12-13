@@ -1,6 +1,6 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Payload {
     pub name: String,
     pub desc: String,
@@ -14,7 +14,7 @@ pub struct Payload {
     pub monster_info: Option<MonsterInfo>   
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct MonsterInfo {
     pub atk: i32,
     pub has_effect: bool,
@@ -25,19 +25,19 @@ pub struct MonsterInfo {
     pub markers: Vec<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ImageData {
     pub url: String,    
     pub url_small: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct SetData {
     pub name: String,
     pub market: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct FormatData {
     pub ocg_limit: Option<String>,
     pub tcg_limit: Option<String>,

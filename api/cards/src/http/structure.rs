@@ -3,7 +3,7 @@ use std::fmt::Display;
 
 use serde::{Deserialize, Serialize};
 
-pub const YUG_API_URL: &'static str = "https://db.ygoprodeck.com/api/v7/cardinfo.php?banlist=yes&misc=yes";
+pub const YUG_API_URL: &'static str = "https://db.ygoprodeck.com/api/v7/cardinfo.php?&banlist_info=yes&misc=yes";
 
 pub type OutgoingResponse<T> = std::result::Result<T, ResponseError>;
 
@@ -21,21 +21,21 @@ pub struct IncomingRequest {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct IncomingCardInfo {
     pub name: String,
-    pub desc: String,
-    pub race: String,
     pub r#type: String,
     pub atk: Option<i32>,
     pub def: Option<i32>,
+    pub desc: String,
     pub level: Option<i32>,
+    pub race: String,
     pub scale: Option<i32>,
     pub linkval: Option<i32>,
-    pub linkmarkers: Vec<String>,
-    pub archetype: Option<String>,
+    pub linkmarkers: Option<Vec<String>>,
     pub attribute: Option<String>,
+    pub archetype: Option<String>,
     pub card_sets: Vec<IncomingCardSet>,
     pub card_images: Vec<IncomingCardImg>,
+    pub misc_info: Vec<IncomingCardMiscInfo>,
     pub banlist_info: Option<BanlistInfo>,
-    pub misc_info: Option<IncomingCardMiscInfo>
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

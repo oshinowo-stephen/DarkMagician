@@ -13,7 +13,8 @@ diesel::table! {
 }
 
 diesel::table! {
-    card_img_info (card_name) {
+    card_img_info (id) {
+        id -> Varchar,
         img_url_small -> Nullable<Varchar>,
         img_url -> Varchar,
         card_name -> Varchar,
@@ -40,7 +41,8 @@ diesel::table! {
 }
 
 diesel::table! {
-    card_set_info (card_name) {
+    card_set_info (id) {
+        id -> Varchar,
         set_market_url -> Nullable<Varchar>,
         set_name -> Varchar,
         card_name -> Varchar,

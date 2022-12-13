@@ -25,6 +25,7 @@ pub struct EntryCard {
 #[derive(Debug, Insertable, Queryable, Serialize, Deserialize, Clone)]
 #[diesel(table_name = card_img_info)]
 pub struct EntryCardImg {
+    pub id: String,
     pub img_url_small: Option<String>,
     pub img_url: String,
     pub card_name: String,
@@ -33,6 +34,7 @@ pub struct EntryCardImg {
 #[derive(Debug, Insertable, Queryable, Serialize, Deserialize, Clone)]
 #[diesel(table_name = card_set_info)]
 pub struct EntryCardSet {
+    pub id: String,
     pub set_market_url: Option<String>,
     pub set_name: String,
     pub card_name: String,

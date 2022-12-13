@@ -5,33 +5,37 @@ pub mod workers {
     use super::storage;
 
     pub fn fe_fetch_card_entry(entries: Vec<storage::EntryCard>, query: &str) -> Option<storage::EntryCard> {
-        let mut correct_entry = None;
+        let mut returning_entry: Option<storage::EntryCard> = None;
 
         for entry in entries.into_iter() {
-            if entry.name == query {
-                correct_entry = Some(entry)
+            if entry.name.to_lowercase() == query.to_lowercase() {
+                returning_entry = Some(entry);
+
+                break
             } else {
+                dbg!(&returning_entry);
+
                 continue
             }
         }
 
-        correct_entry
+        returning_entry
     }
 }
 
-trait IntoCardEntry {
+pub trait IntoCardEntry {
     fn into_card_entry(&self) -> storage::EntryCard;    
 }
 
-trait IntoEntryCardImg {
+pub trait IntoEntryCardImg {
     fn into_card_imgs(&self) -> Vec<storage::EntryCardImg>;
 }
 
-trait IntoEntryCardSet {
+pub trait IntoEntryCardSet {
     fn into_card_sets(&self) -> Vec<storage::EntryCardSet>;
 } 
 
-trait IntoEntryCardFormat {
+pub trait IntoEntryCardFormat {
     fn into_card_format(&self) -> storage::EntryCardFormat;
 }
 
@@ -47,16 +51,16 @@ impl IntoCardEntry for http::IncomingCardInfo {
             scale: self.scale,
             attribute: self.attribute.clone(),
             market_url: None,
-            markers: if !self.linkmarkers.is_empty() {
-                Some(self.linkmarkers.join(","))
+            markers: if let Some(markers) = &self.linkmarkers {
+                Some(markers.join(","))
             } else {
                 None
             },
             archetype: self.archetype.clone(),
             atk: self.atk,
             def: self.def,
-            effect: if let Some(misc) = &self.misc_info {
-                if misc.has_effect.is_some() {
+            effect: if !self.misc_info.is_empty() {
+                if self.misc_info[0].has_effect.is_some() {
                     Some(1)
                 } else {
                     None
@@ -75,6 +79,8 @@ impl IntoEntryCardImg for http::IncomingCardInfo {
         if !self.card_images.is_empty() {
             for imgs in &self.card_images {
                 images.push(storage::EntryCardImg {
+                    id: uuid::Uuid::new_v4()
+                        .to_string(),
                     card_name: self.name.clone(),
                     img_url: imgs.image_url.clone(),
                     img_url_small: Some(imgs.image_url_small.clone()),
@@ -93,6 +99,8 @@ impl IntoEntryCardSet for http::IncomingCardInfo {
         if !self.card_sets.is_empty() {
             for s in &self.card_sets {
                 sets.push(storage::EntryCardSet {
+                    id: uuid::Uuid::new_v4()
+                        .to_string(),
                     set_market_url: None,
                     set_name: s.set_name.clone(),
                     card_name: self.name.clone(),
@@ -110,17 +118,16 @@ impl IntoEntryCardFormat for http::IncomingCardInfo {
             .clone()
             .unwrap_or_default();
         let misc_info = self.misc_info
-            .clone()
-            .unwrap_or_default();
+            .clone();
         
         storage::EntryCardFormat {
             tcg_limit: banlist_info.ban_tcg,
             ocg_limit: banlist_info.ban_ocg,
             goat_limit: banlist_info.ban_goat,
-            tcg_release: misc_info.tcg_date,
-            ocg_release: misc_info.ocg_date,
-            allowed_formats: if !misc_info.formats.is_empty() {
-                Some(misc_info.formats.join(","))
+            tcg_release: misc_info[0].tcg_date.clone(),
+            ocg_release: misc_info[0].ocg_date.clone(),
+            allowed_formats: if !misc_info[0].formats.is_empty() {
+                Some(misc_info[0].formats.join(","))
             } else {
                 None
             },
