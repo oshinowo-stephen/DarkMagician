@@ -1,6 +1,6 @@
 {
   "name": "@darkmagician/baton",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "The relay's baton",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
