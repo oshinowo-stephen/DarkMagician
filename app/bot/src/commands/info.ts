@@ -7,7 +7,7 @@ export default createCommand({
     name: 'info',
     description: 'Search card info for query',
     action: async (ctx): Promise<void> => {
-        const incomingCard = get({
+        const incomingCard = await get({
             name: 'dark magician'
         } as CardRequest)
 

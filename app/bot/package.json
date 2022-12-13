@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@darkmagician/baton": "^1.0.0-beta.1",
+    "@darkmagician/baton": "^1.0.0-beta.2",
     "@hephaestus/eris": "^1.0.0-alpha.22"
   },
   "devDependencies": {
