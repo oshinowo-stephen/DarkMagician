@@ -1,24 +1,30 @@
-import { Request } from 'zeromq'
+import zmq from 'zeromq'
 
 const { CARD_SOCKET_ADDR } = process.env
 
 export const get = async (requestBody: CardRequest): Promise<IncomingCardInfo> => {
-  const socket = new Request()
-  socket.connect(CARD_SOCKET_ADDR)
+  return new Promise((res, rej) => {
+    const socket = zmq.socket('req')
+    socket.connect(CARD_SOCKET_ADDR)
 
-  const request: CardRequest = requestBody
+    socket.send(JSON.stringify(requestBody), 0, (sock_err) => {
+      if (sock_err) rej(sock_err)
+    })
 
-  await socket.send(JSON.stringify(request))
-
-  const [resp] = await socket.receive()
-
-  const data = JSON.parse(resp.toString())
-
-  return data as IncomingCardInfo
+    socket.on('message', (payload) => {
+      if (payload.toString() === '404 | Not Found') {
+        rej('Invalid Card.')
+      } else {
+        res(
+          JSON.parse(payload.toString()) as IncomingCardInfo
+        )
+      }
+    })
+  })
 }
 
 export interface CardRequest {
-  name: string,
+  card_name: string,
   opts: CardOptions | undefined 
 }
 

@@ -4,14 +4,11 @@
   "description": "The relay's baton",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "author": "oshinowo-stephen <kingstonicthe1@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "test": "jest --no-cache"
-  },
-  "author": "oshinowo-stephen <kingstonicthe1@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "zeromq": "^6.0.0-beta.6"
   },
   "repository": {
     "type": "git",
@@ -20,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/oshinowo-stephen/DarkMagician/issues"
   },
-  "homepage": "https://github.com/oshinowo-stephen/DarkMagician#readme"
+  "homepage": "https://github.com/oshinowo-stephen/DarkMagician#readme",
+  "dependencies": {
+    "zeromq": "^5.3.1"
+  },
+  "devDependencies": {
+    "@types/zeromq": "^5.2.1"
+  }
 }
