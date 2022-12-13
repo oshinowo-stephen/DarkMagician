@@ -7,7 +7,7 @@
   "author": "oshinowo-stephen <kingstonicthe1@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "jest --no-cache"
   },
   "repository": {
