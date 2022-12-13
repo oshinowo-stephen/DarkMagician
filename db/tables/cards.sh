@@ -33,16 +33,18 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username="$POSTGRES_US
     );
 
     CREATE TABLE card_img_info (
+        id VARCHAR NOT NULL PRIMARY KEY,
         img_url_small VARCHAR,
         img_url VARCHAR NOT NULL,        
-        card_name VARCHAR NOT NULL PRIMARY KEY,
+        card_name VARCHAR NOT NULL,
         FOREIGN KEY (card_name) REFERENCES card_info (name)
     );
 
     CREATE TABLE card_set_info (
+        id VARCHAR NOT NULL PRIMARY KEY,
         set_market_url VARCHAR, 
         set_name VARCHAR NOT NULL,
-        card_name VARCHAR NOT NULL PRIMARY KEY,
+        card_name VARCHAR NOT NULL,
         FOREIGN KEY (card_name) REFERENCES card_info (name)
     );
 
