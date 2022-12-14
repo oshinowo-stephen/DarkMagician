@@ -4,15 +4,39 @@ import { get, CardRequest } from '@darkmagician/baton'
 
 export default createCommand({
     type: 1,
+    options: [
+        {
+            type: 3,
+            required: true,
+            name: 'query',
+            description: 'Grabs card info of given query'
+        }
+    ],
     name: 'info',
     description: 'Search card info for query',
-    action: async (ctx): Promise<void> => {
-        const incomingCard = await get({
-            name: 'dark magician'
-        } as CardRequest)
+    action: async (interaction, args): Promise<void> => {
+        try {
+            const info = await get({
+                card_name: args['query'].value,
+                opts: undefined
+            })
 
-        console.log(incomingCard)
-
-        ctx.createMessage('Invalid Message')        
+            interaction.createMessage({
+                embeds: [
+                    {
+                        title: info.name,
+                        description: `
+${info.desc}
+                        `,
+                        image: info.card_imgs[0].url
+                    }
+                ]
+            })
+        } catch (_error) {
+            interaction.createMessage({
+                content: `<@${interaction.member.id}>, I'm sorry ${_error}...`,
+                flags: 64
+            })
+        }
     }
 })
