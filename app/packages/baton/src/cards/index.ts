@@ -43,11 +43,23 @@ export interface IncomingCardInfo {
   card_imgs: IncomingCardImgs[]
 }
 
-export interface IncomingCardSets {}
+export interface IncomingCardSets {
+  name: string
+  market?: string
+}
 
-export interface IncomingCardImgs {}
+export interface IncomingCardImgs {
+  url: string
+  url_small: string
+}
 
-export interface IncomingCardFormat {}
+export interface IncomingCardFormat {
+  ocg_limit?: number
+  tcg_limit?: number
+  goat_limit?: number
+  tcg_release?: string
+  ocg_release?: string
+}
 
 export interface IncomingMonsterInfo {
   atk: number
