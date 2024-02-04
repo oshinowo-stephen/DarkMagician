@@ -8,6 +8,11 @@ edition = "2021"
 [dependencies]
 secrets-to-env = "0.1.0"
 diesel = { version = "2.0.*", features = ["postgres", "r2d2"] }
+log = "0.4"
+knil = "0.1"
+rand = "0.8"
+uuid = { version = "1.2.2", features = ["v4", "fast-rng"] }
+serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
 dotenv = "0.15.0"

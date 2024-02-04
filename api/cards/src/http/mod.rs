@@ -7,13 +7,13 @@ pub use structure::IncomingCardInfo;
 pub use structure::ResponseError as OutgoingError;
 pub use structure::{IncomingRequest, OutgoingResponse};
 
-pub type Response = std::result::Result<Vec<IncomingCardInfo>, ResponseError>;
+type ResponseInfo = std::result::Result<Vec<IncomingCardInfo>, ResponseError>;
 
-#[derive(Debug)]
-pub enum ResponseError {
-    OTHER,
-    PARSE,
-    NOT_FOUND,
+#[derive(Debug, Deserialize)]
+pub struct ResponseError {
+    message: String,
+    cause: String,
+    code: i16,
 }
 
 #[derive(Debug, Deserialize)]
@@ -22,27 +22,42 @@ struct IncomingResponse {
     data: Vec<IncomingCardInfo>
 }
 
-pub fn fetch_card(name: &str) -> Response {
-    match ureq::get(&format!("{}&fname={}", YUG_API_URL, name)).call() {
-        Ok(resp) => {
-            match resp.into_json::<IncomingResponse>() {
-                Ok(incoming_resp) => if !incoming_resp.data.is_empty() {
-                    Ok(incoming_resp.data)
-                } else {
-                    Err(ResponseError::NOT_FOUND)
+pub fn fetch_card(name: &str) -> ResponseInfo {
+    match ureq::get(&format!("{}&name={}", YUG_API_URL, name)).call() {
+        Ok(response) => {
+            match response.status() {
+                200 => match response.into_json::<IncomingResponse>() {
+                    Ok(r) => Ok(r.data),
+                    Err(_error) => Err(ResponseError {
+                        message: "unable to parse incoming response.".to_string(),
+                        cause: _error.to_string(),
+                        code: 500
+                    })
+                },
+                404 => match response.into_json::<IncomingResponse>() {
+                    Ok(r) => Err(ResponseError {
+                        message: "invalid card.".to_string(),
+                        cause: r.error.unwrap(),
+                        code: 404
+                    }),
+                    Err(_error) => Err(ResponseError {
+                        message: "unable to parse incoming response.".to_string(),
+                        cause: _error.to_string(),
+                        code: 500
+                    })
                 }
-                Err(_error) => {
-                    println!("Failed to parse: {:#?}", _error);
-
-                    Err(ResponseError::PARSE)
-                }
+                _ => Err(ResponseError {
+                    message: format!("invalid code: {}", response.status()),
+                    cause: "unable to decern endpoint".to_owned(),
+                    code: 500,
+                }) 
             }
         }
         ,
-        Err(_error) => {
-            println!("Not Found, reason: {:#?}", _error);
-
-            Err(ResponseError::NOT_FOUND)
-        }
+        Err(_error) => Err(ResponseError {
+            message: "invalid card input.".to_string(),
+            cause: _error.to_string(),
+            code: 500
+        }) 
     }
 }

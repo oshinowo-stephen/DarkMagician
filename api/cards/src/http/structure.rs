@@ -15,7 +15,10 @@ pub enum ResponseError {
 
 #[derive(Debug)]
 pub struct IncomingRequest {
-    pub card_name: String
+    pub card_name: String,
+    pub card_atk: Option<u64>,
+    pub card_def: Option<u64>,
+    pub card_attr: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -71,6 +74,17 @@ impl Default for BanlistInfo {
             ban_goat: None,
             ban_tcg: None,
             ban_ocg: None
+        }
+    }
+}
+
+impl Default for IncomingRequest {
+    fn default() -> Self {
+        Self {
+            card_name: String::new(),
+            card_atk: None,
+            card_def: None,
+            card_attr: None,
         }
     }
 }

@@ -1,9 +1,13 @@
 #!/bin/bash
 set -e
 
+echo "Setting up card_tables | environment"
+
 USER="$USER"
 DATABASE="${USER}_cards"
 DATABASE_USER="${DATABASE}_user"
+
+echo "Setting up card_tables | generating tables"
 
 if [ "$RUST_ENV" != "prod" ]; then
 	PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$DATABASE" <<-EOSQL
@@ -16,6 +20,7 @@ fi
 
 PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username="$POSTGRES_USER" --dbname="$DATABASE" <<-EOSQL
     CREATE TABLE card_info (
+        id INT NOT NULL PRIMARY KEY,
         atk INT,
         def INT,
         lvl INT,
@@ -29,7 +34,7 @@ PGPASSWORD="$POSTGRES_PASSWORD" psql -v ON_ERROR_STOP=1 --username="$POSTGRES_US
         card_type VARCHAR NOT NULL,
         card_race VARCHAR NOT NULL,
         card_desc VARCHAR NOT NULL,
-        name VARCHAR NOT NULL PRIMARY KEY
+        name VARCHAR NOT NULL UNIQUE
     );
 
     CREATE TABLE card_img_info (

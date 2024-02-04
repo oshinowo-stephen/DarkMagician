@@ -6,6 +6,7 @@ use super::schema::*;
 #[derive(Debug, Insertable, Queryable, Serialize, Deserialize, Clone)]
 #[diesel(table_name = card_info)]
 pub struct EntryCard {
+    pub id: i32,
     pub atk: Option<i32>,
     pub def: Option<i32>,
     pub lvl: Option<i32>,

@@ -22,7 +22,8 @@ diesel::table! {
 }
 
 diesel::table! {
-    card_info (name) {
+    card_info (id) {
+        id -> Int4,
         atk -> Nullable<Int4>,
         def -> Nullable<Int4>,
         lvl -> Nullable<Int4>,
@@ -48,10 +49,6 @@ diesel::table! {
         card_name -> Varchar,
     }
 }
-
-diesel::joinable!(card_format_info -> card_info (card_name));
-diesel::joinable!(card_img_info -> card_info (card_name));
-diesel::joinable!(card_set_info -> card_info (card_name));
 
 diesel::allow_tables_to_appear_in_same_query!(
     card_format_info,

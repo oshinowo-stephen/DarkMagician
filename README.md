@@ -2,34 +2,15 @@
 
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
-## About
-
-[Dark Magician](https://github.com/whoastonic/DarkMagician) or the bot's name: [Dark Magician Girl](https://discord.com/oauth2/authorize?client_id=494643169091387402&scope=bot&permissions=2147863616) is a discord bot aimed to be the best when it comes down to the [Yu-Gi-Oh!](https://www.yugioh.com/) experince. Bringing
-features such as: card collecting/trading, deck building/analyzing and upcoming news on [YGOrginization](https://ygorganization.com). I plan to make this bot public, responsive, and very
-fun to use! If there's anything that you'll like to see added/changed or even removed from the bot you can **ALWAYS** contact me on my [Discord](https://discord.gg/PjRbWMH) server for those
-matters or even send your regards.
-
-## Current/Upcoming Features
-
 Version `0.1.x`:
 
-- [ ] - Deck Building
-- [ ] - Card Collecting
-- [ ] - Card Shop
-- [ ] - Card Trading (with players)
-- [ ] - Card Trading (with DMG)
-- [ ] - Player Currency
-- [ ] - Global Trading Market
-- [ ] - Player Questing
 - [ ] - Card Info
+- [ ] - Deck Building (web platform)
 - [ ] - Org Updates (YGOrginization)
 
 Version `0.2.x`:
 
-- [ ] - Deck Building (web platform)
-- [ ] - A.I Auto Deck Building
-- [ ] - A.I Generated Stratergies
-- [ ] - Player Stratergies
+- [ ] - Player Stratergies (web platform)
 
 ## Contributing
 

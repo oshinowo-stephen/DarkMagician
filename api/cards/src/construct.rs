@@ -1,3 +1,5 @@
+use crate::utils;
+
 use super::http;
 use super::storage;
 
@@ -68,6 +70,7 @@ impl IntoCardEntry for http::IncomingCardInfo {
             } else {
                 None
             },
+            id: utils::generate_number() as i32,
         }
     }
 }

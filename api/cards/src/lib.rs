@@ -1,4 +1,5 @@
 mod http;
+mod utils;
 mod storage;
 mod construct;
 pub mod payload;
@@ -75,8 +76,6 @@ pub fn get(req: IncomingRequest, conn: Connection) -> OutgoingResponse<Payload> 
                 },
             }),
             None => {
-                eprintln!("this card isn't in the entries, going to ");
-
                 http_fetch_card(req, conn)
             }
         },
