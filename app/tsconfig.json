@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "alwaysStrict": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true 
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

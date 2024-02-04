@@ -1,0 +1,16 @@
+[package]
+name = "gateway"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = "*"
+log = "0.4"
+zmq = "0.9"
+knil = "0.1"
+dotenv = "0.15"
+serde_json = "1.0.87"
+secrets-to-env = "0.1"
+cards = { path = "../cards" }
